@@ -8,6 +8,7 @@
 - 可編輯簡報：`output/簡報/hamanosato_fire_lesson_analysis.pptx`
 - 離線 HTML 簡報：`output/簡報/hamanosato_fire_lesson_analysis.html`
 - 投影片 PNG：`output/圖片/投影片圖片/`
+- GPT Image 2 插圖：`output/圖片/GPT插圖/`
 
 ## 影片與分析素材
 
@@ -26,11 +27,11 @@
 - 已確認影片與音訊可下載。
 - 已完成本機日文轉錄，產生 541 個時間段。
 - 已確認 HTML 簡報包含 12 張投影片。
-- 已確認 HTML 簡報具備上一頁、下一頁、ArrowLeft、ArrowRight 與 Space 操作。
-- 已抽查第 1、7、12 張投影片 PNG，確認非空白且文字可讀。
+- 已確認 HTML 簡報具備上一頁、下一頁、ArrowLeft、ArrowRight 與 Space 操作，且列印/完整頁面輸出時控制列不會覆蓋投影片。
+- 已抽查第 1、7、12 張投影片 PNG，確認非空白、文字可讀，插圖未蓋住文字。
 
 ## 限制
 
 - YouTube 未提供可直接下載字幕；逐字稿由本機 `faster-whisper-small` 產生，日文人名與少數詞彙可能需人工校對。
-- 本次交付使用課堂截圖作為證據圖像，未進行逐張 AI 水彩重繪。
+- 本次簡報插圖已改用 GPT Image 2 生成；課堂截圖保留為證據圖像與風格參考。
 - GitHub 遠端尚未連接；目前未 commit / push。

@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "slc-die-mode"
+  },
+  "targets": {
+    "slc-die-mode": {
+      "hosting": {
+        "fire-lesson-analysis": [
+          "hebeijixing-fire-lesson"
+        ]
+      }
+    }
+  }
+}

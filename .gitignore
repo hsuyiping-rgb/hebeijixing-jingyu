@@ -12,6 +12,9 @@ secrets.*
 
 .claude/
 .codex/
+.firebase/
+__pycache__/
+*.pyc
 
 node_modules/
 dist/

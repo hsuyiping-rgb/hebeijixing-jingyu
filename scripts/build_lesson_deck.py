@@ -6,15 +6,17 @@ import textwrap
 from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN
+from pptx.enum.shapes import MSO_AUTO_SHAPE_TYPE
+from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PRESENTATION_DIR = ROOT / "output" / "簡報"
 IMAGE_DIR = ROOT / "output" / "圖片"
+ILLUSTRATION_DIR = IMAGE_DIR / "GPT插圖"
 SLIDES_DIR = IMAGE_DIR / "投影片圖片"
-PPTX = PRESENTATION_DIR / "hamanosato_fire_lesson_analysis.pptx"
+PPTX = PRESENTATION_DIR / "hamanosato_fire_lesson_analysis_editable.pptx"
 HTML = PRESENTATION_DIR / "hamanosato_fire_lesson_analysis.html"
 
 W, H = 1920, 1080
@@ -40,7 +42,7 @@ def font(size, bold=False):
 F_TITLE = font(58, True)
 F_SUB = font(34, False)
 F_HEAD = font(37, True)
-F_BODY = font(31, False)
+F_BODY = font(32, False)
 F_SMALL = font(24, False)
 
 
@@ -190,24 +192,49 @@ slides = [
     },
 ]
 
+# Each claim is deliberately edited into two complete, presentation-sized lines.
+# This avoids orphaned punctuation and accidental phrase splits in both outputs.
+CLAIM_LINES = [
+    ("消防不只是制度知識，", "更是誰承擔地域安全的公共問題。"),
+    ("消防單元放進地域公共性，", "而非只介紹機關。"),
+    ("孩子面對的不是知識不足，", "而是責任與家庭情感的衝突。"),
+    ("學生不是憑印象說，", "而是回看消防團資料與訪談。"),
+    ("孩子知道消防團重要，", "但受邀時未必願意加入。"),
+    ("家長拒絕不是自私，", "而是時間、工作與照顧的現實。"),
+    ("極端命題讓學生重新", "檢視自己的立場。"),
+    ("缺員與再成立的故事，", "讓加入問題回到地域安全。"),
+    ("學生尚未說清楚答案，", "正顯示問題進入生活世界。"),
+    ("本課讓學生彼此聽見矛盾，", "而非被教師快速說服。"),
+    ("公共性教育可從孩子", "真實的家庭感受開始。"),
+    ("下一輪可細看同儕聽取", "如何改變學生的語言。"),
+]
+
+
+def claim_lines_for(idx):
+    lines = CLAIM_LINES[idx - 1]
+    if len(lines) != 2 or any(len(line) > 15 for line in lines):
+        raise ValueError(f"Invalid two-line claim for slide {idx}: {lines}")
+    return lines
+
 
 def paste_image(canvas, rel, box):
-    path = IMAGE_DIR / rel
+    path = Path(rel)
+    if not path.is_absolute():
+        path = IMAGE_DIR / rel
     img = Image.open(path).convert("RGB")
     x, y, w, h = box
     ratio = img.width / img.height
     box_ratio = w / h
     if ratio > box_ratio:
-        new_h = h
-        new_w = int(h * ratio)
-    else:
         new_w = w
         new_h = int(w / ratio)
+    else:
+        new_h = h
+        new_w = int(h * ratio)
     img = img.resize((new_w, new_h), Image.LANCZOS)
-    left = (new_w - w) // 2
-    top = (new_h - h) // 2
-    img = img.crop((left, top, left + w, top + h))
-    canvas.paste(img, (x, y))
+    left = x + (w - new_w) // 2
+    top = y + (h - new_h) // 2
+    canvas.paste(img, (left, top))
 
 
 def draw_slide(data, idx):
@@ -218,20 +245,22 @@ def draw_slide(data, idx):
     d.text((72, 24), f"{idx:02d}", fill=(226, 234, 220), font=F_SUB)
     if data.get("kicker"):
         d.text((170, 31), data["kicker"], fill=(226, 234, 220), font=F_SMALL)
-    d.text((72, 132), data["title"], fill=GREEN, font=F_TITLE)
-    d.rounded_rectangle((74, 236, 880, 392), radius=18, fill=WHITE, outline=(211, 222, 207), width=2)
-    d.text((112, 270), "\n".join(wrap(data["claim"], 23)), fill=INK, font=F_HEAD, spacing=8)
-    y = 450
+    d.text((72, 122), data["title"], fill=GREEN, font=F_TITLE)
+    d.rounded_rectangle((74, 210, 940, 398), radius=18, fill=WHITE, outline=(211, 222, 207), width=2)
+    claim_lines = claim_lines_for(idx)
+    d.text((108, 248), "\n".join(claim_lines), fill=INK, font=F_HEAD, spacing=10)
+    y = 440
     for bullet in data["bullets"]:
         d.ellipse((102, y + 15, 120, y + 33), fill=GOLD)
-        for line in wrap(bullet, 27):
+        for line in wrap(bullet, 20):
             d.text((142, y), line, fill=INK, font=F_BODY)
-            y += 42
-        y += 24
-    img_box = (980, 188, 820, 610)
+            y += 44
+        y += 18
+    # Keep a visible gutter between the enlarged text column and illustration.
+    img_box = (1010, 185, 840, 560)
     d.rounded_rectangle((img_box[0] - 10, img_box[1] - 10, img_box[0] + img_box[2] + 10, img_box[1] + img_box[3] + 10), radius=18, fill=WHITE)
-    paste_image(im, data["image"], img_box)
-    d.text((980, 830), f"影片時間：{data['time']}", fill=GREEN, font=F_SUB)
+    paste_image(im, ILLUSTRATION_DIR / f"slide_{idx:02d}.png", img_box)
+    d.text((1010, 778), f"影片時間：{data['time']}", fill=GREEN, font=F_SUB)
     d.text((72, 1015), "和北極星境遇｜學習共同體公開課影片分析", fill=(226, 234, 220), font=F_SMALL)
     return im
 
@@ -240,6 +269,12 @@ def add_ppt_textbox(slide, left, top, width, height, text, size, bold=False, col
     box = slide.shapes.add_textbox(Inches(left), Inches(top), Inches(width), Inches(height))
     tf = box.text_frame
     tf.clear()
+    tf.word_wrap = True
+    tf.vertical_anchor = MSO_ANCHOR.TOP
+    tf.margin_left = Inches(0)
+    tf.margin_right = Inches(0)
+    tf.margin_top = Inches(0)
+    tf.margin_bottom = Inches(0)
     p = tf.paragraphs[0]
     p.text = text
     p.font.size = Pt(size)
@@ -259,21 +294,63 @@ def build_pptx():
         bg = slide.background.fill
         bg.solid()
         bg.fore_color.rgb = RGBColor(*MINT)
-        bar = slide.shapes.add_shape(1, Inches(0), Inches(0), Inches(13.333333), Inches(0.65))
-        bar.fill.solid()
-        bar.fill.fore_color.rgb = RGBColor(*GREEN)
-        bar.line.fill.background()
-        add_ppt_textbox(slide, 0.5, 0.16, 0.6, 0.3, f"{idx:02d}", 20, True, (226, 234, 220))
-        add_ppt_textbox(slide, 0.5, 0.95, 6.0, 0.6, data["title"], 30, True, GREEN)
-        add_ppt_textbox(slide, 0.75, 1.85, 5.25, 1.0, data["claim"], 21, True, INK)
-        y = 3.1
+
+        header = slide.shapes.add_shape(MSO_AUTO_SHAPE_TYPE.RECTANGLE, Inches(0), Inches(0), prs.slide_width, Inches(0.58))
+        header.fill.solid()
+        header.fill.fore_color.rgb = RGBColor(*GREEN)
+        header.line.fill.background()
+        footer = slide.shapes.add_shape(MSO_AUTO_SHAPE_TYPE.RECTANGLE, Inches(0), Inches(7.32), prs.slide_width, Inches(0.18))
+        footer.fill.solid()
+        footer.fill.fore_color.rgb = RGBColor(*GREEN)
+        footer.line.fill.background()
+
+        add_ppt_textbox(slide, 0.48, 0.14, 0.5, 0.28, f"{idx:02d}", 20, False, (226, 234, 220))
+        if data.get("kicker"):
+            add_ppt_textbox(slide, 1.15, 0.17, 5.7, 0.22, data["kicker"], 10, False, (226, 234, 220))
+        # Long Chinese titles are deliberately wrapped before the claim card so
+        # they never intrude into its bordered area.
+        title_lines = wrap(data["title"], 17)
+        title_size = 31 if len(title_lines) == 1 and len(data["title"]) <= 14 else 27
+        if len(title_lines) > 1:
+            title_size = 25
+        title_height = len(title_lines) * (0.42 if len(title_lines) == 1 else 0.37)
+        add_ppt_textbox(slide, 0.5, 0.86, 6.1, title_height, "\n".join(title_lines), title_size, True, GREEN)
+
+        claim_lines = claim_lines_for(idx)
+        # PowerPoint Chinese glyphs need more leading than the nominal point size suggests.
+        claim_height = 0.42 + len(claim_lines) * 0.54
+        claim_top = max(1.5, 0.86 + title_height + 0.22)
+        claim_card = slide.shapes.add_shape(
+            MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE,
+            Inches(0.48),
+            Inches(claim_top),
+            Inches(6.1),
+            Inches(claim_height),
+        )
+        claim_card.fill.solid()
+        claim_card.fill.fore_color.rgb = RGBColor(*WHITE)
+        claim_card.line.color.rgb = RGBColor(211, 222, 207)
+        add_ppt_textbox(slide, 0.72, claim_top + 0.19, 5.62, claim_height - 0.3, "\n".join(claim_lines), 22, True, INK)
+
+        bullet_y = claim_top + claim_height + 0.35
         for bullet in data["bullets"]:
-            add_ppt_textbox(slide, 0.8, y, 0.25, 0.25, "•", 20, True, GOLD)
-            add_ppt_textbox(slide, 1.1, y, 5.1, 0.55, bullet, 17, False, INK)
-            y += 0.72
-        image = IMAGE_DIR / data["image"]
-        slide.shapes.add_picture(str(image), Inches(6.8), Inches(1.32), width=Inches(5.7), height=Inches(4.25))
-        add_ppt_textbox(slide, 6.8, 5.82, 4.4, 0.35, f"影片時間：{data['time']}", 15, True, GREEN)
+            bullet_lines = wrap(bullet, 19)
+            bullet_height = len(bullet_lines) * 0.38
+            dot = slide.shapes.add_shape(MSO_AUTO_SHAPE_TYPE.OVAL, Inches(0.7), Inches(bullet_y + 0.08), Inches(0.13), Inches(0.13))
+            dot.fill.solid()
+            dot.fill.fore_color.rgb = RGBColor(*GOLD)
+            dot.line.fill.background()
+            add_ppt_textbox(slide, 0.98, bullet_y, 5.35, bullet_height + 0.04, "\n".join(bullet_lines), 20, False, INK)
+            bullet_y += bullet_height + 0.18
+
+        image = ILLUSTRATION_DIR / f"slide_{idx:02d}.png"
+        frame = slide.shapes.add_shape(MSO_AUTO_SHAPE_TYPE.ROUNDED_RECTANGLE, Inches(6.85), Inches(1.34), Inches(5.92), Inches(3.52))
+        frame.fill.solid()
+        frame.fill.fore_color.rgb = RGBColor(*WHITE)
+        frame.line.fill.background()
+        slide.shapes.add_picture(str(image), Inches(6.95), Inches(1.44), width=Inches(5.72), height=Inches(3.22))
+        add_ppt_textbox(slide, 6.95, 5.02, 4.6, 0.3, f"影片時間：{data['time']}", 17, False, GREEN)
+        add_ppt_textbox(slide, 0.5, 7.05, 4.0, 0.16, "和北極星境遇｜學習共同體公開課影片分析", 8, False, (226, 234, 220))
     PRESENTATION_DIR.mkdir(parents=True, exist_ok=True)
     prs.save(PPTX)
 
@@ -294,13 +371,23 @@ def build_html():
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>濱之鄉消防課分析</title>
 <style>
-*{{box-sizing:border-box}}html,body{{margin:0;width:100%;height:100%;background:#eef4ec;font-family:"Microsoft JhengHei",sans-serif;overflow:hidden}}body{{display:grid;place-items:center}}.deck{{width:min(96vw,1500px);height:min(94vh,940px);display:grid;grid-template-rows:minmax(0,1fr) 72px;background:#fff;box-shadow:0 16px 44px #1935242e}}.stage{{display:grid;place-items:center;min-height:0;padding:12px}}.slide{{display:none;width:100%;height:100%;align-items:center;justify-content:center}}.slide.active{{display:flex}}.slide img{{max-width:100%;max-height:100%;aspect-ratio:16/9;object-fit:contain}}.controls{{display:grid;grid-template-columns:120px 1fr 120px 70px;gap:18px;align-items:center;padding:10px 24px;border-top:1px solid #dce6da}}button{{height:46px;border:0;background:#23412d;color:#fff;font-size:17px;font-weight:700;cursor:pointer}}button:disabled{{background:#c9d1c6;cursor:not-allowed}}.track{{height:8px;background:#e2e9df}}.bar{{height:100%;background:#c68f39}}.counter{{font-weight:700;color:#23412d;text-align:right}}@media(max-width:720px){{.deck{{width:100vw;height:100vh}}.controls{{grid-template-columns:52px 1fr 52px 58px;gap:10px;padding:8px}}button span{{display:none}}}}
+*{{box-sizing:border-box}}
+html,body{{margin:0;width:100%;height:100%;background:#eef4ec;font-family:"Microsoft JhengHei",sans-serif;overflow:hidden}}
+body{{display:grid;place-items:center;padding:8px}}
+.shell{{display:block;width:fit-content;max-width:98vw}}
+.deck{{height:min(98vh,calc(98vw * 0.5625),888px);aspect-ratio:16/9;background:#fff;box-shadow:0 12px 32px #1935242e}}
+.stage{{width:100%;height:100%;display:grid;place-items:center}}
+.slide{{display:none;width:100%;height:100%;align-items:center;justify-content:center}}
+.slide.active{{display:flex}}
+.slide img{{display:block;width:100%;height:100%;object-fit:contain}}
+@media(max-width:720px){{body{{padding:0}}.shell{{max-width:100vw;width:100vw}}.deck{{height:min(100vh,calc(100vw * 0.5625));width:auto}}}}
+@media print{{html,body{{background:#fff;overflow:visible}}body{{display:block;padding:0}}.shell,.deck{{width:100vw;height:100vh;max-width:none;display:block;box-shadow:none;background:#fff}}.stage,.slide,.slide img{{width:100vw;height:100vh;max-width:none;max-height:none}}}}
 </style>
 </head>
 <body>
-<main class="deck"><div class="stage">{''.join(sections)}</div><nav class="controls"><button id="prev" disabled><span>上一頁</span>‹</button><div class="track"><div class="bar" id="bar"></div></div><button id="next">›<span> 下一頁</span></button><div class="counter" id="counter"></div></nav></main>
+<div class="shell"><main class="deck"><div class="stage">{''.join(sections)}</div></main></div>
 <script>
-const slides=[...document.querySelectorAll('.slide')],prev=document.querySelector('#prev'),next=document.querySelector('#next'),bar=document.querySelector('#bar'),counter=document.querySelector('#counter');let current=0;function render(){{slides.forEach((s,i)=>{{const a=i===current;s.classList.toggle('active',a);s.setAttribute('aria-hidden',String(!a));}});prev.disabled=current===0;next.disabled=current===slides.length-1;counter.textContent=`${{current+1}} / ${{slides.length}}`;bar.style.width=`${{(current+1)/slides.length*100}}%`;}}function move(d){{current=Math.max(0,Math.min(slides.length-1,current+d));render();}}prev.addEventListener('click',()=>move(-1));next.addEventListener('click',()=>move(1));document.addEventListener('keydown',e=>{{if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight'||e.key===' '){{e.preventDefault();move(1);}}}});render();
+const slides=[...document.querySelectorAll('.slide')];let current=0;function render(){{slides.forEach((s,i)=>{{const a=i===current;s.classList.toggle('active',a);s.setAttribute('aria-hidden',String(!a));}});}}function move(d){{current=Math.max(0,Math.min(slides.length-1,current+d));render();}}document.addEventListener('keydown',e=>{{if(e.key==='ArrowLeft')move(-1);if(e.key==='ArrowRight'||e.key===' '){{e.preventDefault();move(1);}}}});render();
 </script>
 </body>
 </html>"""

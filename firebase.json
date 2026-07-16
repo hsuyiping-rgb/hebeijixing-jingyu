@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "target": "fire-lesson-analysis",
+    "public": "output/網站/消防課公開課簡報",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
