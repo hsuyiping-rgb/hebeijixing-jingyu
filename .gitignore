@@ -1,0 +1,22 @@
+desktop.ini
+Thumbs.db
+.DS_Store
+*.tmp
+~$*
+
+.env
+.env.*
+*.key
+credentials.*
+secrets.*
+
+.claude/
+.codex/
+
+node_modules/
+dist/
+build/
+.cache/
+
+# Large generated media stays in Google Drive, not Git.
+output/影音/
