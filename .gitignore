@@ -25,3 +25,14 @@ build/
 # Large generated media stays in Google Drive, not Git.
 output/影音/
 output/課堂檔案/**/影音/*.mp4
+課堂檔案/**/影音/*.mp4
+課堂檔案/**/聲音與影片/**/*.mp4
+課堂檔案/**/output/**/*.mp4
+課堂檔案/**/output/**/*.mp3
+
+# Generated workflow markers.
+*.ok
+
+# Deployment worktrees are kept locally, not as nested Git links.
+課堂檔案/**/deploy_github_pages/
+課堂檔案/**/slides_deploy/
