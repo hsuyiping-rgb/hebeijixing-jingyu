@@ -13,6 +13,7 @@ secrets.*
 .claude/
 .codex/
 .firebase/
+.playwright-cli/
 __pycache__/
 *.pyc
 
@@ -23,3 +24,4 @@ build/
 
 # Large generated media stays in Google Drive, not Git.
 output/影音/
+output/課堂檔案/**/影音/*.mp4
