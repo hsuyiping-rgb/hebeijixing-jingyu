@@ -30,6 +30,14 @@ output/課堂檔案/**/影音/*.mp4
 課堂檔案/**/output/**/*.mp4
 課堂檔案/**/output/**/*.mp3
 
+# 被淘汰的簡報草稿留在 Google Drive；其中有超過 GitHub 100MB 單檔上限的 pptx。
+課堂檔案/**/_archive/
+
+# 生圖過程的中間版本留在本機，只版控採用的成品。
+課堂檔案/**/output/drawings/*_approved.png
+課堂檔案/**/output/drawings/*_clean.png
+課堂檔案/**/output/drawings/*_v2.png
+
 # Generated workflow markers.
 *.ok
 
