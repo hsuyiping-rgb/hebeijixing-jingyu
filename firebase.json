@@ -1,7 +1,7 @@
 {
   "hosting": {
     "target": "fire-lesson-analysis",
-    "public": "output/\u8ab2\u5802\u6a94\u6848/\u6ff1\u4e4b\u9109\u4e09\u5e74\u7d1a\u6d88\u9632\u793e\u6703\u8ab2/\u7c21\u5831",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",

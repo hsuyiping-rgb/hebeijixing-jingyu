@@ -44,3 +44,6 @@ output/課堂檔案/**/影音/*.mp4
 # Deployment worktrees are kept locally, not as nested Git links.
 課堂檔案/**/deploy_github_pages/
 課堂檔案/**/slides_deploy/
+
+# Firebase Hosting 部署產物（由來源檔複製而來，不納入版控）。
+public/
