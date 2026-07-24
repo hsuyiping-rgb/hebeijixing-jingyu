@@ -1,12 +1,24 @@
 {
-  "hosting": {
-    "target": "fire-lesson-analysis",
-    "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-      "**/*.pptx"
-    ]
-  }
+  "hosting": [
+    {
+      "target": "fire-lesson-analysis",
+      "public": "public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "**/*.pptx"
+      ]
+    },
+    {
+      "target": "kanayama-henka",
+      "public": "課堂檔案/SLC-日本-金山老師變化的方式/HTML簡報/firebase_kanayama",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "**/*.pptx"
+      ]
+    }
+  ]
 }
