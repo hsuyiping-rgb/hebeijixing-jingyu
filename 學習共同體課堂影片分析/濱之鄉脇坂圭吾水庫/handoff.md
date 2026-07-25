@@ -3,13 +3,13 @@
 ## 收工狀態
 
 - 🕐 **最後更新**：2026-07-25　更新者：Claude @ DESKTOP-31QBU95
-- ⏯️ **做到哪**：依人工校對後的 `subtitles.srt` 回頭修正 `analysis.txt`，重跑 generate-slides，並將全套產出納入版控（commit `dff4b84`）
-- 🚦 **狀態**：八項工作完成七項，可交付。唯一擱置項是第 6 項 AI 重繪插圖（使用者指示暫不執行）
+- ⏯️ **做到哪**：插圖壓成網頁品質、簡報補回第 21 頁、部署上線
+- 🚦 **狀態**：**八項工作全數完成，可交付**。線上簡報 https://miyagase-lesson.web.app
 - ➡️ **下一步**：
-  1. 決定是否補插圖（要補請先看下方編號位移警告）
-  2. 決定是否處理 repo 其他未追蹤資料夾（`宇津睦台小學/`、`課堂檔案/2026 日本 SLC 國中生物…/`），本次未納入
-- ✅ **Git push**：已推 `3818a5a..5106390` → `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）
-- ⚠️ **待手動處理**：兩個全域技能改動在 `~/.claude/` 底下，不隨本 repo 同步，需 `chezmoi re-add`（詳見文末）
+  1. 人工複查 21 張插圖內容（看 `output/images_review_all_21.jpg`），確認外圍觀課教師都已移除、風格一致——目前只驗證過數量、編號與長寬比
+  2. `screenshots/` 仍是 20 張，比 21 章節少一張（05:29 那段的影格只在 `output/source_frames/`），`screenshots_review.html` 也還是舊的 20 章節版
+- ✅ **Git push**：{{PUSH_STATUS}}
+- ⚠️ **待手動處理**：`~/.claude/` 的全域技能本次又改了兩處（見文末），需 `chezmoi re-add`
 
 ## 專案標的
 - 影片：《脇坂老師社會課(2018)：宮瀨水庫》 https://youtu.be/saHsezdUWxE
@@ -23,8 +23,8 @@
 3. 補產出 SRT 字幕 ✅
 4. 課例分析報告（描述-詮釋-反思）+ 扣連學共概念 ✅
 5. 依 SRT 時間碼與分析概念擷取代表性影格 ✅（使用者已確認 20 張全數通過）
-6. AI 重繪插圖 → **暫時擱置**（不執行 generate_image）
-7. PPTX + HTML 簡報，預留插圖位置 ✅
+6. AI 重繪插圖 ✅（21 張，已壓成 JPEG q90 網頁版；**內容尚未人工複查**）
+7. PPTX + HTML 簡報，插圖已排入 ✅
 8. 社群概念圖 ✅
 
 ## 已完成產出（output/）
@@ -35,8 +35,24 @@
 - `analysis.txt`：21 章節，全部標時間碼，扣連傾聽關係／漣漪效應／言談權力／伸展跳躍／認同建構／潤澤教室
 - `screenshots/`：20 張 jpg（shot_01 ~ shot_20，檔名含時間碼），6.6MB
 - `screenshots_review.html`：擷圖確認頁（含時間碼與對應概念，供人工複查）
-- `slides.pptx` / `slides.html`：21 頁，`learning` 配色
+- `slides.pptx` / `slides.html`：21 頁，`learning` 配色，左文右圖，9.7MB
+- `images/`：21 張 AI 插圖，JPEG q90、1672×941，10.1MB（**版控的是這份**）
+- `images_original/`：同 21 張的未壓縮 PNG，60MB。生圖不可重現，**務必留在本機與 Google Drive**；已 gitignore，不進 Git
+- `illustration_mapping.md`：21 章節版插圖對照表（逐頁來源影格與重繪重點）
+- `validate_illustrations.py`：檢查 21 張齊全與 16:9 比例
+- `source_frames/`：05:29 新擷影格與聯絡表
+- `images_review_all_21.jpg` / `images_review_current.jpg`：人工複查用拼貼
+- `firebase_miyagase/`：部署資料夾（index.html + images/ + 自帶 firebase.json）；已 gitignore
 - `concept.txt` / `concept.png`：1080×1080 社群概念圖
+
+## 線上簡報
+- 網址：https://miyagase-lesson.web.app （**公開**，任何人有連結即可看）
+- 站台 `miyagase-lesson`，Firebase 專案 `slc-die-mode`（與 mochimochi／tazunebito／kanayama-henka 同組）
+- 重新部署：
+```bash
+cd "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉脇坂圭吾水庫/output/firebase_miyagase" && firebase deploy --only hosting:miyagase-lesson --project slc-die-mode
+```
+- ⚠️ 改過 `slides.html` 或 `images/` 後要先把兩者複製進 `firebase_miyagase/`（index.html 是 slides.html 的複本）再部署，否則線上不會更新
 
 ## 2026-07-25 變更紀錄
 
@@ -83,9 +99,41 @@
 
 時間碼校正：21:12→21:17、17:20–18:41→**17:52–18:08**（「我自己也沒想到」十六秒內六次）、伸展跳躍段 29:05→**31:45**、34:42→**34:56–35:45**；補償金章節標題改為「從補償制度到具體數字的揭露」，內文分標 29:05（制度）／31:45（三保）／32:13–32:22（宮瀨）。
 
-⚠️ **章節數 20→21，插圖編號全部位移**：新段落插在原第 4 段之後，原第 4 頁起往後移一格。`screenshots_review.html` 的 20 張擷圖對應的仍是**舊 20 章節**，日後補插圖到 `output/images/slide_{N}.png` 前必須重新對照編號。
+⚠️ **章節數 20→21，插圖編號全部位移**：新段落插在原第 4 段之後，原第 4 頁起往後移一格。插圖已依 21 章節版重新對照完成（見 `illustration_mapping.md`），**但 `screenshots/`（20 張）與 `screenshots_review.html` 仍是舊 20 章節版，尚未補上 05:29 那張、也未重編號**。
 
 已核對無誤、不必再動：05:06 聲音很難過、22:28 先拿補償金、22:53 不像故鄉、28:08 板書箭頭、32:22 五百億／281 戶、42:35 故鄉不能重造、46:25 反思書寫、15:55–16:11 停頓語。
+
+### AI 插圖完成、壓縮，簡報補回第 21 頁並部署
+- 21 張插圖依 `illustration_mapping.md` 產出，對照表已照 21 章節版編號，避開了上次記的位移陷阱
+- **插圖壓縮**：PNG 60.2MB → JPEG q90 10.1MB（減 83%），**解析度不變**（1672×941）。實測比較過 PNG 量化（18MB）、縮圖＋量化（11MB）、WebP q85（6.9MB）；WebP 最小但 PowerPoint 相容性不可靠，PPTX 不賭。原圖留 `images_original/`
+- `slides.pptx` 連帶 58MB → 9.7MB
+- 已部署 https://miyagase-lesson.web.app （線上為壓縮版，舊 PNG 路徑已回 404）
+
+### ⚠️ 全域技能：修掉 generate-slides 靜默掉頁的 bug
+`classroom_analyzer_helper.py` 原有兩行硬上限：
+
+```python
+target_pages = max(15, min(20, len(slides_data)))
+expanded_slides = expanded_slides[:20]
+```
+
+**超過 20 段的分析會無聲掉尾段**——不報錯、不警告，只印「Created slides」成功訊息。本課例 21 段剛好踩中：〈觀課結論〉整頁消失、`slide_21.png` 從頭到尾沒被使用，且產出看起來一切正常。已改成上限跟著實際章節數走（下限 15 的補頁邏輯保留）：
+
+```python
+target_pages = max(15, len(slides_data))
+expanded_slides = expanded_slides[:target_pages]
+```
+
+⚠️ **凡是分析超過 20 段的舊課例，簡報都可能少了尾頁，值得回頭檢查。**
+
+### 全域技能：插圖副檔名不再寫死 png
+原本 PPTX 與 HTML 兩處各自寫死 `slide_{N}.png`。新增模組層級常數，兩端共用同一份順序，避免一邊抓 png、一邊抓 jpg：
+
+```python
+ILLUSTRATION_EXTS = (".png", ".jpg", ".jpeg")
+```
+
+不含 WebP（PowerPoint 相容性不可靠）。
 
 ### 全域技能修改：generate-image 可傳標題與頁尾
 `~/.claude/skills/slc-skill/scripts/classroom_analyzer_helper.py` 原本把頁尾寫死成「光復國小 數學學科公開課 課例研究成果分享」，套到本課例是錯誤資訊。已新增 `--title` / `--footer` 兩個可選參數，預設值維持原樣不影響既有呼叫。本次用的頁尾是「濱之鄉小學 脇坂圭吾老師 社會科 課例研究」。
@@ -123,8 +171,7 @@ Pass B   水が一般的に来ています / もう少しだけで私の家も�
 2. **中文字幕回譯成日文**：時間碼可完全對齊、可立即完成，但必須在字幕檔標明「本日文為中文口譯之翻譯，非課堂原話」，**不得作為逐字稿引用**。
 
 ## 下一步（目前無阻塞待辦）
-- output/ 全部產出目前仍是 git untracked，尚未 commit
-- 插圖若要補：把圖放進 `output/images/slide_{N}.png`，重跑 generate-slides 即可自動排成左文右圖；偵測不到就是滿版文字，不會留空白框。**編號請依 21 章節版重新對照**（見上方位移說明）
+- 插圖已完成（見上）。若要重繪：換掉 `output/images/slide_{N}.jpg` 後重跑 generate-slides，再把 slides.html 與 images/ 複製進 firebase_miyagase/ 重新部署
 ```bash
 uv run --with python-pptx "C:/Users/vm/.claude/skills/slc-skill/scripts/classroom_analyzer_helper.py" generate-slides --analysis output/analysis.txt --output output/slides.pptx --style learning
 ```

@@ -51,6 +51,16 @@ output/課堂檔案/**/影音/*.mp4
 
 # Deployment worktrees are kept locally, not as nested Git links.
 課堂檔案/**/deploy_github_pages/
+
+# Firebase 部署暫存資料夾（含大型投影片 PNG），只留本機／Google Drive，不進 Git。
+# 內容是 slides.html + images/ 的複本，重建成本低，不需版控。
+課堂檔案/**/output/firebase_*/
+學習共同體課堂影片分析/**/output/firebase_*/
+
+# AI 插圖的未壓縮原始 PNG（約 60MB／課例）。版控的是 images/ 底下的
+# JPEG q90 網頁版（同解析度、體積約 1/6）。原圖不可重現，務必留在
+# 本機與 Google Drive，只是不進 Git。
+學習共同體課堂影片分析/**/output/images_original/
 課堂檔案/**/slides_deploy/
 
 # 以下兩個路徑是各自獨立的 git repo（有自己的 GitHub 遠端與備份），
