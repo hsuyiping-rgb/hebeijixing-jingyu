@@ -8,7 +8,7 @@
 - ➡️ **下一步**：
   1. 決定是否補插圖（要補請先看下方編號位移警告）
   2. 決定是否處理 repo 其他未追蹤資料夾（`宇津睦台小學/`、`課堂檔案/2026 日本 SLC 國中生物…/`），本次未納入
-- ⚠️ **Git push**：{{PUSH_STATUS}}
+- ✅ **Git push**：已推 `3818a5a..5106390` → `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）
 - ⚠️ **待手動處理**：兩個全域技能改動在 `~/.claude/` 底下，不隨本 repo 同步，需 `chezmoi re-add`（詳見文末）
 
 ## 專案標的
