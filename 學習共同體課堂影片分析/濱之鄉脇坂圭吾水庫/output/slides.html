@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>脇坂老師社會課(2018)：宮瀨水庫</title>
+  <style>
+    :root {
+      --bg-color: #EEF2EB;
+      --title-color: #23412D;
+      --text-color: #4B504B;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      font-family: 'Microsoft JhengHei', -apple-system, sans-serif;
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .slides-container {
+      position: relative;
+      width: 90vw;
+      max-width: 1200px;
+      height: 70vh;
+      min-height: 500px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      flex: 1;
+      padding: 40px 70px;
+      box-sizing: border-box;
+      position: relative;
+      min-height: 0;
+      --fit-scale: 1;
+    }
+    .slide-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--title-color);
+      color: var(--bg-color);
+      border: none;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 999px;
+      cursor: pointer;
+      opacity: 0.85;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      transition: opacity 0.2s, transform 0.1s;
+      z-index: 5;
+      white-space: nowrap;
+    }
+    .slide-nav-btn:hover { opacity: 1; }
+    .slide-nav-btn:active { transform: translateY(-50%) scale(0.96); }
+    .nav-prev { left: 10px; }
+    .nav-next { right: 10px; }
+    .slide.active {
+      display: flex;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      gap: 40px;
+      align-items: center;
+    }
+    .slide-text {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+      max-height: 100%;
+      overflow: hidden;
+    }
+    .slide-text h2 {
+      color: var(--title-color);
+      margin-top: 0;
+      margin-bottom: calc(24px * var(--fit-scale, 1));
+      font-size: calc(32px * var(--fit-scale, 1));
+      line-height: 1.3;
+      border-left: 5px solid var(--title-color);
+      padding-left: 15px;
+    }
+    .slide-text ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .slide-text li {
+      font-size: calc(20px * var(--fit-scale, 1));
+      line-height: 1.8;
+      margin-bottom: calc(12px * var(--fit-scale, 1));
+      list-style-type: square;
+    }
+    .slide-image {
+      flex: 0.8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .slide-image img {
+      max-width: 100%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      object-fit: contain;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(255, 255, 255, 0.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn {
+      background: var(--title-color);
+      color: var(--bg-color);
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .progress-bar-container {
+      flex: 1;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+      margin: 0 40px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--title-color);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .slide-counter {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text-color);
+      min-width: 60px;
+      text-align: right;
+    }
+    
+    /* Responsive layout overrides */
+    @media (max-width: 992px) {
+      .slides-container {
+        width: 95vw;
+        height: 85vh;
+        min-height: 450px;
+      }
+      .slide-text h2 {
+        font-size: calc(28px * var(--fit-scale, 1));
+      }
+      .slide-text li {
+        font-size: calc(18px * var(--fit-scale, 1));
+        line-height: 1.6;
+      }
+    }
+    @media (max-width: 768px) {
+      body {
+        overflow: auto;
+        justify-content: flex-start;
+        padding: 10px;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+      .slides-container {
+        width: 100%;
+        height: auto;
+        min-height: calc(100vh - 20px);
+        border-radius: 12px;
+      }
+      .slide {
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .slide-layout {
+        flex-direction: column;
+        gap: 20px;
+        align-items: stretch;
+      }
+      .slide-text {
+        flex: none;
+      }
+      .slide-text h2 {
+        font-size: calc(24px * var(--fit-scale, 1));
+        margin-bottom: 16px;
+      }
+      .slide-text li {
+        font-size: calc(16px * var(--fit-scale, 1));
+        margin-bottom: 8px;
+      }
+      .slide-nav-btn {
+        top: auto;
+        bottom: 8px;
+        transform: none;
+      }
+      .slide-nav-btn:active { transform: scale(0.96); }
+      .slide-image {
+        flex: none;
+        height: auto;
+        margin-top: 10px;
+      }
+      .slide-image img {
+        max-width: 100%;
+        max-height: 250px;
+        width: auto;
+        height: auto;
+        aspect-ratio: auto;
+      }
+      .controls {
+        padding: 15px 20px;
+      }
+      .progress-bar-container {
+        margin: 0 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slides-container">
+
+    <section class="slide" id="slide-1">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>脇坂老師社會課(2018)：宮瀨水庫</h2>
+          <ul>
+          <li>課例研究：描述－詮釋－反思三階層分析</li>
+          <li>觀課單元：五年級社會科，水庫建設與補償金的價值思辨（單元第三堂課）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>一句話看懂這堂課</h2>
+          <ul>
+          <li>這是一堂沒有標準答案的社會課：學生透過反覆聆聽水庫遷居者陸和先生的訪談聲音，在「故鄉能否用錢衡量」的辯證中，一次次修正、甚至推翻自己原本的立場。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>課程任務的脈絡設計</h2>
+          <ul>
+          <li>本堂課是單元的第三堂，承接前兩堂已建立的訪談資料基礎（00:38）</li>
+          <li>因故缺席的學生促成教師重播訪談影片，形成全班共同復習的自然契機（01:19、11:19）</li>
+          <li>任務主軸：「若你是宮瀨的住民，你會贊成還是反對建水庫？」貫穿全堂（21:17）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：教師開場的立場宣示（00:00–02:01）</h2>
+          <ul>
+          <li>教師開宗明義：社會課不是「零跟一」的問題，不是對或錯，而是充滿沒有正確解答的模糊地帶</li>
+          <li>這段開場先於任何具體案例出現，等於為全堂課預先鬆動「找到正確答案」的預設心態</li>
+          <li>教師提及自己曾實際走訪當地居民進行採訪，將田野證據帶入課堂</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：學生初次表態時的猶豫語言（03:36–07:00）</h2>
+          <ul>
+          <li>多位學生依序發言，語言中充滿「但是」「不曉得該怎麼想」等猶豫用詞，而非直接的贊成／反對宣告</li>
+          <li>有學生說能感受到受訪者的難受，卻仍認為水庫「還是需要的」，兩種情感同時並存</li>
+          <li>也有學生坦言自己曾經反對，語氣中保留立場轉變的可能性</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：學生聽出訪談聲音裡的情感線索（05:02–05:16）</h2>
+          <ul>
+          <li>一名學生特別指出：聽陸和先生訪談時，「聲音很難過」，且這份難過像是延續到現在還記得當時的痛苦</li>
+          <li>這是學生從語言內容之外，捕捉到語氣、聲調等副語言線索的具體時刻</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-7">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：學生指認自己是他人犧牲的受益者（05:29）</h2>
+          <ul>
+          <li>同一名學生接著說出：「是因為陸和先生他們這些住民的犧牲，讓我們茅崎這邊有水可以用，所以我們也要很感謝他們」</li>
+          <li>學生在此把訪談對象的失去，與自己每天使用的自來水直接接上，遠端的公共建設議題被拉回到自身生活</li>
+          <li>這是全堂唯一由學生主動說出「我是這場犧牲的受益者」的時刻，也是後續價值思辨得以站立的基礎</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-8">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：重播訪談，鋪陳具體生活細節（08:16–13:14）</h2>
+          <ul>
+          <li>教師為缺席學生重播對陸和先生的訪談：社區規模、氣候、颱風淹水經驗、遷居35年後仍不認同新居地為「故鄉」</li>
+          <li>訪談中出現具體且反覆的畫面描述：水位上漲、房屋逐漸被淹沒的親身經歷</li>
+          <li>這些細節讓「贊成或反對」的抽象立場，重新錨定在一個真實個人的生命經驗上</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-9">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：教師板書即時連結學生發言（14:33–18:41）</h2>
+          <ul>
+          <li>教師一邊聆聽學生發言，一邊在黑板上書寫記錄，學生也同步記下同儕發言中自己覺得有意思的論點，而非照抄教師的板書</li>
+          <li>多位學生在小組內重複說出「我自己也沒想到」，呼應前一位發言者的觀點</li>
+          <li>全班的傾聽姿態被觀察者兩度指認出來：「他們好會聽，每個都轉過去聽，大家都想知道互相的意見」（18:37）、「好會聽啊，每個轉過來都聽」（27:05）——轉身面向發言者是學生自發的動作，並非教師當場下的指令</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-10">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：小組深入討論的展開（21:05–24:38）</h2>
+          <ul>
+          <li>教師明確轉換任務形式：「那現在老師要你在小組裡面再去做深入的討論」（21:17）</li>
+          <li>小組內出現分歧路線：有學生說「先拿補償金，之後再看要不要搬家」（22:28），呈現務實策略；也有學生主張故鄉若能用錢買到「那就不像故鄉兩個字了」（22:53），呈現價值堅持</li>
+          <li>另一名學生把兩條路線收攏成一組對比：「我覺得不是錢的問題，我覺得是心的問題」（23:39）</li>
+          <li>教師巡視小組間，適時把個別對話「抓回」全班焦點（24:18）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-11">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>描述：從補償制度到具體數字的揭露（29:05–33:11）</h2>
+          <ul>
+          <li>教師先說明補償的完整內容：不只給錢，還包含職業補償、生活補償、土地補償與新居保障（29:05–30:00）</li>
+          <li>再以鄰近的三保水壩作為對照基準：223戶、227億元，每戶約1億元（31:45）；接著揭露宮瀨的實際金額：281戶、500億元，平均每戶近1億8千萬元（32:13–32:22）</li>
+          <li>學生反應明顯轉為驚訝：「這麼多啊」「一百萬都不到一億耶」</li>
+          <li>這個具體數字的出現，把原本停留在情感層次的討論，推入了更複雜的量化衡量情境</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-12">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>詮釋：傾聽關係——從內容到聲音的深化</h2>
+          <ul>
+          <li>教師的角色從知識權威轉為傾聽的催化者</li>
+          <li>學生捕捉受訪者聲音中的痛苦（05:02），顯示傾聽的對象已超越語意內容本身，進入語氣、停頓、情緒等副語言層次</li>
+          <li>這種傾聽品質並非教師直接教導的技巧，而是在反覆聆聽訪談錄音的過程中逐漸養成的敏感度</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-13">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>詮釋：漣漪效應——「我自己也沒想到」的擴散路徑</h2>
+          <ul>
+          <li>「對話漣漪」在此發生：一句猶豫的發言（而非正確答案）成為漣漪的起點</li>
+          <li>「我自己也沒想到」在十六秒內連續出現六次（17:52–18:08），顯示的不是內容抄襲，而是同一份「未曾設想」的驚訝感在同伴間層層擴散</li>
+          <li>教師的板書箭頭（28:08）將這種擴散具象化，讓原本流動、不可見的對話漣漪變成可見的思考地圖</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-14">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>詮釋：言談權力的重新分配</h2>
+          <ul>
+          <li>教師全堂沒有給出「正確立場」，而是以問題引導（「你贊成嗎」「大家覺得怎麼樣」）不斷把發言權交還學生</li>
+          <li>學生記錄同儕發言而非教師板書內容（14:50），是言談權力從教師往學生水平流動的具體證據</li>
+          <li>教師的角色更接近訪談紀錄的「轉譯者」，而非立場的仲裁者</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-15">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>詮釋：伸展跳躍任務——情感立場到量化衝突的躍升</h2>
+          <ul>
+          <li>補償金數字的揭露（31:45起）製造了一次明確的認知衝突：原本的情感立場（故鄉不能用錢衡量）必須與具體數字（近2億元）正面交鋒</li>
+          <li>這是一個精心佈局的伸展跳躍點：學生被迫在「已建立的價值堅持」與「新出現的現實資訊」之間重新協商</li>
+          <li>學生的反應並非立場崩潰或全面翻轉，而是延伸出更細緻的區辨——「不是錢的問題，是心的問題」（23:39）這組由學生自己提出的錢／心對比，讓討論得以在承認金額之後仍然繼續</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-16">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>詮釋：認同建構——「故鄉不能重造」的辯證</h2>
+          <ul>
+          <li>「學習即認同建構」：學生並非單純記憶水庫遷居的史實，而是在建構自己對「故鄉」這個概念的理解</li>
+          <li>一名學生提出「故鄉不能重造」（42:35）反駁另一派「搬到相似環境重建同樣社群」的樂觀方案，兩種立場在課堂上被公開並置、不急於收斂</li>
+          <li>這種懸置、不強制達成共識的討論方式，呼應「去評價、去建言」的課例研究立場——教師沒有替學生決定哪個答案更正確</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-17">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>詮釋：潤澤的教室——安全承接立場轉變</h2>
+          <ul>
+          <li>教師的核心宣示（34:56–35:45）：社會有很多灰色的模糊地帶，社會科的重點不是教是非，而是要用很多角度的觀點去看同一件事情</li>
+          <li>這句話為整堂課的立場搖擺（贊成→反對→再猶豫）提供了安全感，學生不需要擔心改變想法會被視為「答錯」</li>
+          <li>多次出現「我本來是贊成的，但現在反對了」的發言，顯示教室氛圍容許學生公開修正自己</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-18">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>反思：這堂課的優勢</h2>
+          <ul>
+          <li>將抽象的價值思辨（故鄉、金錢、公共建設）錨定在真實受訪者的具體生命經驗與聲音細節上，避免討論流於空泛的立場表態</li>
+          <li>補償金數字的延遲揭露，是有意識的認知衝突設計，讓討論從情感層次自然過渡到更複雜的多維度思考</li>
+          <li>板書連結與小組任務的交錯安排，讓個人思考、同伴對話、全班共享三個層次緊密銜接</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-19">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>反思：可以再精煉之處</h2>
+          <ul>
+          <li>逐字稿顯示課堂中存在明顯的沉默與遲疑片段（如15:55–16:18的多次停頓語），這些「質性時間」的教育意義值得更深入的分析，而非僅視為對話的空隙</li>
+          <li>部分小組討論片段因收音距離而語意模糊，難以完整還原每位學生的發言脈絡，是這次課例研究資料本身的限制</li>
+          <li>教師在揭露具體數字後的接續提問，可以再更明確地邀請學生說出「立場為何改變／未改變」的後設思考</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-20">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>可移植的教學策略</h2>
+          <ul>
+          <li>為缺席學生重播先前訪談素材，順勢成為全班共同復習的機會，而非額外負擔</li>
+          <li>以真實人物的第一手聲音（而非教科書摘要）作為情感錨點，再延遲揭露關鍵數字製造認知衝突</li>
+          <li>教師以板書箭頭將分散的學生發言可視化連結，讓抽象的「傾聽」轉譯成具體可見的思考地圖</li>
+          <li>課堂尾聲保留明確的個人反思書寫時間，讓40分鐘內反覆搖擺的立場得以沉澱整理（46:25）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Navigation Controls -->
+    <div class="controls">
+      <button class="btn" id="prev-btn" onclick="changeSlide(-1)">上一頁</button>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <button class="btn" id="next-btn" onclick="changeSlide(1)">下一頁</button>
+      <span class="slide-counter" id="slide-counter">1 / 20</span>
+    </div>
+  </div>
+
+  <script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const progressBar = document.getElementById('progress-bar');
+    const slideCounter = document.getElementById('slide-counter');
+
+    // Shrink text step-by-step until it fits inside the slide (no overflow)
+    function fitSlideText(slideEl) {
+      const textEl = slideEl.querySelector('.slide-text');
+      if (!textEl) return;
+      let scale = 1;
+      slideEl.style.setProperty('--fit-scale', scale);
+      // Force reflow, then shrink until content fits or reaches 55%
+      while (scale > 0.55 && textEl.scrollHeight > textEl.clientHeight + 2) {
+        scale = Math.round((scale - 0.05) * 100) / 100;
+        slideEl.style.setProperty('--fit-scale', scale);
+      }
+    }
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      currentSlideIndex = index;
+      fitSlideText(slides[index]);
+      
+      // Update buttons
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === totalSlides - 1;
+      
+      // Update progress bar
+      const progressPercent = ((index + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+      
+      // Update counter
+      slideCounter.innerText = `${index + 1} / ${totalSlides}`;
+    }
+
+    function changeSlide(direction) {
+      let targetIndex = currentSlideIndex + direction;
+      if (targetIndex >= 0 && targetIndex < totalSlides) {
+        showSlide(targetIndex);
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        changeSlide(-1);
+      }
+    });
+
+    // Swipe Gestures for touch devices
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const slidesContainer = document.querySelector('.slides-container');
+
+    slidesContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    slidesContainer.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleGesture();
+    }, { passive: true });
+
+    function handleGesture() {
+      const swipeThreshold = 50; // minimum distance in pixels
+      if (touchEndX < touchStartX - swipeThreshold) {
+        // Swiped left -> Next slide
+        changeSlide(1);
+      }
+      if (touchEndX > touchStartX + swipeThreshold) {
+        // Swiped right -> Previous slide
+        changeSlide(-1);
+      }
+    }
+
+    // Re-fit text when the window is resized
+    window.addEventListener('resize', () => fitSlideText(slides[currentSlideIndex]));
+
+    // Initialize first slide
+    showSlide(0);
+  </script>
+</body>
+</html>
