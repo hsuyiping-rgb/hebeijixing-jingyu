@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>課堂主題與單元背景</title>
+  <style>
+    :root {
+      --bg-color: #EEF2EB;
+      --title-color: #23412D;
+      --text-color: #4B504B;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      font-family: 'Microsoft JhengHei', -apple-system, sans-serif;
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .slides-container {
+      position: relative;
+      width: 90vw;
+      max-width: 1200px;
+      height: 70vh;
+      min-height: 500px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      flex: 1;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    .slide.active {
+      display: flex;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      gap: 40px;
+      align-items: center;
+    }
+    .slide-text {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide-text h2 {
+      color: var(--title-color);
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 32px;
+      line-height: 1.3;
+      border-left: 5px solid var(--title-color);
+      padding-left: 15px;
+    }
+    .slide-text ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .slide-text li {
+      font-size: 20px;
+      line-height: 1.8;
+      margin-bottom: 12px;
+      list-style-type: square;
+    }
+    .slide-image {
+      flex: 0.8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .slide-image img {
+      max-width: 100%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      object-fit: cover;
+      aspect-ratio: 1;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(255, 255, 255, 0.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn {
+      background: var(--title-color);
+      color: var(--bg-color);
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .progress-bar-container {
+      flex: 1;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+      margin: 0 40px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--title-color);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .slide-counter {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text-color);
+      min-width: 60px;
+      text-align: right;
+    }
+    @media (max-width: 768px) {
+      .slide-layout {
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .slide-image {
+        height: auto;
+        margin-top: 20px;
+      }
+      .slide-image img {
+        max-height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slides-container">
+
+    <section class="slide" id="slide-1">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>課堂主題與單元背景</h2>
+          <ul>
+          <li>課例名稱：濱之鄉小學社會課「汽車產業的發展」</li>
+          <li>授業教師：脇坂歸晤老師，為日本學習共同體的重要實踐者</li>
+          <li>課程定位：15課時單元中的第13課，探討產業全球化</li>
+          <li>核心探討：探討國內生產與海外生產在經濟與社會層面上的全球化兩難</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_1.png" alt="Slide 1 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>課前複習與價值引入</h2>
+          <ul>
+          <li>Miyu爸爸（安全氣囊開發業者）的課堂分享回顧</li>
+          <li>核心理念：除了賺取利潤，保障「人的生命安全」是更重要的價值</li>
+          <li>課堂觀察：將學生觀課感想整理成列表，引導學生思考生命價值的優先性</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_2.png" alt="Slide 2 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>衝突情境：國內生產的立場與心聲</h2>
+          <ul>
+          <li>描述：Misaki的父母在國內製造引擎，若生產線移往海外，日本國內的相關工廠將面臨倒閉與失業</li>
+          <li>詮釋：學生將個人家庭故事與課堂主題連結，產生強烈的同理心與代入感</li>
+          <li>反思：透過身邊人的故事打破知識的冰冷性，建立有溫度的學習起點</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_3.png" alt="Slide 3 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>衝突情境：海外生產的經濟邏輯</h2>
+          <ul>
+          <li>描述：海外生產能降低人事與材料成本，讓產品更便宜且具備國際競爭力</li>
+          <li>詮釋：學生從大企業如豐田的存續角度思考，若母公司不賺錢，整體經濟下行將波及更多家庭</li>
+          <li>反思：引導學生理解在資本主義經濟運作中，成本控制與企業生存的客觀規律</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_4.png" alt="Slide 4 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>小組協同學習：傾聽與對話的展開</h2>
+          <ul>
+          <li>描述：教師設計小組交流時間，讓每位學生在小組中發表對生產策略的個人看法</li>
+          <li>詮釋：藉由協同學習避免少數活躍學生壟斷發言的狀況，確保每個孩子都不是學習的「客人」</li>
+          <li>反思：小組中「溫柔地傾聽」比「大聲地發表」更為關鍵，這是學習共同體的哲學基礎</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_5.png" alt="Slide 5 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>個人情感與社會整體的掙扎</h2>
+          <ul>
+          <li>描述：多數學生的想法是「我個人希望留在國內生產以保護工作，但考慮到社會整體，不得不移往海外」</li>
+          <li>詮釋：學生的思維開始分層，理解個人情感與宏觀經濟策略之間的衝突</li>
+          <li>反思：教學設計成功引導學生走出單一視角，看見複雜社會現象背後的「兩難（Dilemma）」</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_6.png" alt="Slide 6 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-7">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>澳洲豐田關廠案：真實案例的衝擊</h2>
+          <ul>
+          <li>描述：教師引入2014年《日本經濟新聞》報導：豐田將於2017年撤退澳洲工廠，導致2500人失業</li>
+          <li>詮釋：真實的新聞事件打破了「海外生產是一勞永逸的解方」之迷思，帶來二度認知衝突</li>
+          <li>反思：利用時事教材（報紙）作為學習的「跳躍（Stretch）」鷹架，引領學生進行更深層的思辨</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_7.png" alt="Slide 7 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-8">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>澳洲豐田案例的小組深入探究</h2>
+          <ul>
+          <li>描述：學生小組探討關廠時間差（2014-2017）的用意，以及失業對當地家庭和日本名聲的影響</li>
+          <li>詮釋：學生自主連結「失業背後代表無數個需要被養活的家庭」，展現對他國勞工的同理心</li>
+          <li>反思：協同學習在此階段發生了「伸展跳躍」，從討論日本國內問題延伸至全球化背景下的企業責任</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_8.png" alt="Slide 8 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-9">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>日本技術傳承與母公司生存之辨</h2>
+          <ul>
+          <li>描述：探討若技術全數外流至海外，日本國內可能無法保全核心競爭力；但若不外移，母公司恐面臨生存危機</li>
+          <li>詮釋：學生理解這是一場「沒有標準答案的掙扎」，豐田社長的決定也是歷經艱難的取捨</li>
+          <li>反思：引導學生體會「兩難處境」是真實世界的常態，學習做出深思熟慮的判斷而非輕率的二分法</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_9.png" alt="Slide 9 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-10">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>聆聽關係的微觀觀察</h2>
+          <ul>
+          <li>描述：在學生發言緩慢或遲疑時，全班與教師都耐心等待，給予足夠的時間讓孩子將想法化為文字</li>
+          <li>詮釋：等待的靜默空間創造了安心的學習氣氛，每個孩子都有發言的生存空間，並得到他人的認可與同理</li>
+          <li>反思：教師的聆聽姿態決定了課堂的品質，以「傾聽」取代「發問」，能促進更平等的對話</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_10.png" alt="Slide 10 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-11">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>人口結構與海外生產的伏筆</h2>
+          <ul>
+          <li>描述：教師在課堂最後展示「日本人口預測圖」，指出勞動力人口（15-59歲）將在2055年大幅減少</li>
+          <li>詮釋：引發學生對於人口老化、少子化如何影響產業全球化佈局的全新問號</li>
+          <li>反思：本堂課不以「標準答案」作結，而是留下懸念，將學生的思考延伸至下一堂課</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_11.png" alt="Slide 11 Illustration">
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-12">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>學習共同體課例實踐總結</h2>
+          <ul>
+          <li>聆聽關係的建立：師生共同營造互相信任、安心發表與相互傾聽的學習場域</li>
+          <li>協同合作的設計：透過生活故事與時事報紙，設計挑戰性的兩難問題，激發協同思維</li>
+          <li>反思與延伸：以大問號結尾，促成自主探究的持續性，展現「主動、協同、深探」的學習品質</li>
+          </ul>
+        </div>
+        <div class="slide-image">
+          <img src="./images/slide_12.png" alt="Slide 12 Illustration">
+        </div>
+      </div>
+    </section>
+    
+    <!-- Navigation Controls -->
+    <div class="controls">
+      <button class="btn" id="prev-btn" onclick="changeSlide(-1)">上一頁</button>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <button class="btn" id="next-btn" onclick="changeSlide(1)">下一頁</button>
+      <span class="slide-counter" id="slide-counter">1 / 12</span>
+    </div>
+  </div>
+
+  <script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const progressBar = document.getElementById('progress-bar');
+    const slideCounter = document.getElementById('slide-counter');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      
+      currentSlideIndex = index;
+      
+      // Update buttons
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === totalSlides - 1;
+      
+      // Update progress bar
+      const progressPercent = ((index + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+      
+      // Update counter
+      slideCounter.innerText = `${index + 1} / ${totalSlides}`;
+    }
+
+    function changeSlide(direction) {
+      let targetIndex = currentSlideIndex + direction;
+      if (targetIndex >= 0 && targetIndex < totalSlides) {
+        showSlide(targetIndex);
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        changeSlide(-1);
+      }
+    });
+
+    // Initialize first slide
+    showSlide(0);
+  </script>
+</body>
+</html>
