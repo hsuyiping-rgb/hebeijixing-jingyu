@@ -4,8 +4,8 @@
 
 - 專案名稱：和北極星境遇
 - 專案目的：整理學習共同體哲學資料與粉絲頁 Logo / 品牌素材，支援後續公開分享、貼文、簡報或網站製作。
-- 工作目錄：`G:\我的雲端硬碟\codex\和北極星境遇`
-- Repository URL：尚未連接
+- 工作目錄：`G:\我的雲端硬碟\和北極星境遇`
+- Repository URL：https://github.com/hsuyiping-rgb/hebeijixing-jingyu（私有）
 - 預設分支：`main`
 
 ## Obsidian
@@ -18,7 +18,20 @@
 
 - 本工作區保存可交付素材、專案文件與後續程式碼。
 - Obsidian 保存專案狀態與工作紀錄，不存放主要產出原始碼。
-- GitHub 尚未連接；建立遠端、提交、推送前需先確認範圍。
+- GitHub 已連接；提交、推送前仍需先確認範圍。
+- 課例分析子專案（`學習共同體課堂影片分析/<課例名>/`）各自有 `handoff.md` 作為跨 session 交接檔，收工時必寫。
+- 大型媒體（`*.mp4`／`*.mp3`／`*.m4a`／`*.wav`）已由根目錄 `.gitignore` 排除，勿 git add。
+
+## 巢狀 repo（勿 git add）
+
+工作目錄底下有兩個路徑是**各自獨立的 git repo**，有自己的 GitHub 遠端與備份，不屬於本 repo 的素材：
+
+| 路徑 | 自己的遠端 |
+|------|-----------|
+| `學習共同體課堂影片分析/宇津睦台小學/` | `slc-mochimochi-lesson-study` |
+| `課堂檔案/2026 日本 SLC 國中生物：未知動物 A／鴨嘴獸探究/` | `2026-japan-slc-presentation` |
+
+對它們執行 `git add` 會產生壞掉的 gitlink：外層只記一個 commit SHA、不含檔案內容，clone 後拿到空資料夾且無從取得。要更新請 `cd` 進去各自 commit / push。兩者已加入根目錄 `.gitignore`，`git status` 不再列出，不必再逐次判斷。
 
 ## 開工規則
 
