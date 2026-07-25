@@ -8,7 +8,7 @@
 - ➡️ **下一步**：
   1. 人工複查 21 張插圖內容（看 `output/images_review_all_21.jpg`），確認外圍觀課教師都已移除、風格一致——目前只驗證過數量、編號與長寬比
   2. `screenshots/` 仍是 20 張，比 21 章節少一張（05:29 那段的影格只在 `output/source_frames/`），`screenshots_review.html` 也還是舊的 20 章節版
-- ✅ **Git push**：{{PUSH_STATUS}}
+- ✅ **Git push**：已推 `e6624d6` → `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）
 - ⚠️ **待手動處理**：`~/.claude/` 的全域技能本次又改了兩處（見文末），需 `chezmoi re-add`
 
 ## 專案標的

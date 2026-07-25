@@ -55,6 +55,22 @@
 
 目前尚未設定開發、測試、建置或部署命令。
 
+## Google Drive 上的 Git 注意事項
+
+本 repo 位於 Google Drive 同步資料夾，git 寫入偶爾會撞到鎖檔：
+
+```
+error: Unable to create '.../.git/packed-refs.lock': File exists.
+```
+
+**這不一定代表操作失敗**。2026-07-25 遇到時 push 其實已成功（`git ls-remote origin main` 與本地 HEAD 一致），只有更新 `packed-refs` 這個本機簿記步驟失敗。處理順序：
+
+1. 先用 `git ls-remote origin <branch>` 比對本地 `git rev-parse <branch>`，確認遠端到底有沒有收到
+2. 用 `Get-Process git` 確認沒有 git 程序還在跑
+3. 才刪除殘留的 0 bytes 鎖檔，並設 `git config windows.appendAtomically false` 降低復發
+
+不要一看到錯誤就重跑 push 或 reset——先確認遠端實際狀態。
+
 ## 安全規則
 
 - 不提交 `.env`、API key、token、cookie、credentials、secrets 或任何私密設定。
