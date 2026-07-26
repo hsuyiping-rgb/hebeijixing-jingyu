@@ -2,13 +2,13 @@
 
 ## 收工狀態
 
-- 🕐 **最後更新**：2026-07-25　更新者：Claude @ DESKTOP-31QBU95
-- ⏯️ **做到哪**：插圖壓成網頁品質、簡報補回第 21 頁、部署上線
+- 🕐 **最後更新**：2026-07-26　更新者：Codex @ DESKTOP-31QBU95
+- ⏯️ **做到哪**：依使用者回饋重繪封面、差異化第 4–6 頁、移除第 15/16/18/20 頁教師眼鏡，並重構第 19–21 頁總結圖；PPTX/HTML 已重跑，本機 Firebase 部署資料夾已同步
 - 🚦 **狀態**：**八項工作全數完成，可交付**。線上簡報 https://miyagase-lesson.web.app
 - ➡️ **下一步**：
-  1. 人工複查 21 張插圖內容（看 `output/images_review_all_21.jpg`），確認外圍觀課教師都已移除、風格一致——目前只驗證過數量、編號與長寬比
+  1. 人工複查最新 21 張插圖內容（看 `output/images_review_all_21.jpg`），特別是本輪 `output/images_review_semantic_revision_20260726.jpg`
   2. `screenshots/` 仍是 20 張，比 21 章節少一張（05:29 那段的影格只在 `output/source_frames/`），`screenshots_review.html` 也還是舊的 20 章節版
-- ✅ **Git push**：已推 `e6624d6` → `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）
+- ✅ **Git push**：本輪語意修圖提交將推送到 `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）
 - ⚠️ **待手動處理**：`~/.claude/` 的全域技能本次又改了兩處（見文末），需 `chezmoi re-add`
 
 ## 專案標的
@@ -108,6 +108,14 @@ cd "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/�
 - **插圖壓縮**：PNG 60.2MB → JPEG q90 10.1MB（減 83%），**解析度不變**（1672×941）。實測比較過 PNG 量化（18MB）、縮圖＋量化（11MB）、WebP q85（6.9MB）；WebP 最小但 PowerPoint 相容性不可靠，PPTX 不賭。原圖留 `images_original/`
 - `slides.pptx` 連帶 58MB → 9.7MB
 - 已部署 https://miyagase-lesson.web.app （線上為壓縮版，舊 PNG 路徑已回 404）
+
+### 2026-07-26 插圖語意修正
+- 依使用者回饋重繪 `slide_1.jpg`：封面改為整體概念場景，避免與內頁課堂實景重複
+- 重繪 `slide_4.jpg`、`slide_5.jpg`、`slide_6.jpg`：分別凸顯教師開場宣示、學生猶豫表態、聽出訪談聲音情感，避免連續三頁構圖近似
+- 修正 `slide_15.jpg`、`slide_16.jpg`、`slide_18.jpg`、`slide_20.jpg`：移除教師眼鏡，保持 35–40 歲男性授課教師造型一致
+- 重繪 `slide_19.jpg`、`slide_20.jpg`、`slide_21.jpg`：對應反思、可移植策略、觀課結論三種總結性內容，並保留對應截圖中的教室位置關係
+- 已重跑 `slides.pptx` / `slides.html`，驗證 21 頁、每頁 1 張圖；本機 `output/firebase_miyagase/` 已同步，待部署後線上更新
+- 舊圖本機備份在 `output/images_before_semantic_revision_20260726/` 與 `output/images_before_camera_fix_20260726/`，已由 `.gitignore` 排除，不進 Git
 
 ### ⚠️ 全域技能：修掉 generate-slides 靜默掉頁的 bug
 `classroom_analyzer_helper.py` 原有兩行硬上限：

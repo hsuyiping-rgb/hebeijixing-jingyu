@@ -61,6 +61,9 @@ output/課堂檔案/**/影音/*.mp4
 # JPEG q90 網頁版（同解析度、體積約 1/6）。原圖不可重現，務必留在
 # 本機與 Google Drive，只是不進 Git。
 學習共同體課堂影片分析/**/output/images_original/
+
+# Revision backup folders are local rollback aids, not deliverables.
+學習共同體課堂影片分析/**/output/images_before_*/
 課堂檔案/**/slides_deploy/
 
 # 以下兩個路徑是各自獨立的 git repo（有自己的 GitHub 遠端與備份），
