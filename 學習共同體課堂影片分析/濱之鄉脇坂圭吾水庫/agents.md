@@ -14,7 +14,7 @@
 - [x] 階段二：課例分析報告（描述-詮釋-反思）與扣連學共概念
 - [x] 階段三：代表性影格擷取（20張）與 AI 繪製插圖（21張）
 - [x] 階段四：自動生成 PPTX/HTML 簡報與 Firebase 線上部署 (https://miyagase-lesson.web.app)
-- [ ] 階段五：人工複查最新 21 張插圖內容、補上第 21 張的 screenshots (05:29 影格) 與更新 `screenshots_review.html`
+- [x] 階段五：補上第 21 張的 screenshots (05:29 影格) 與更新 `screenshots_review.html`（待人工複查最新 21 張插圖內容）
 
 ## 資料夾結構
 ```
