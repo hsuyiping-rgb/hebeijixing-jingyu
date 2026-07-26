@@ -1,0 +1,38 @@
+Create a 30-second vertical 9:16 realistic documentary-style educational video.
+
+Topic: A Japanese fifth-grade social studies lesson about Miyagase Dam, compensation money, hometown loss, public benefit, and moral complexity.
+
+Visual style:
+Warm realistic classroom documentary illustration, natural light, calm and reflective tone. Not cartoonish, not fantasy, not cinematic action. Use consistent characters and classroom layout across the whole video.
+
+Main setting:
+A Japanese elementary school classroom. Green chalkboard at the front, wooden desks, students seated in groups or facing the board. The teacher is a 35-40 year old Japanese male, short black hair, no glasses, wearing a dark plain shirt. Keep him consistent in every classroom scene. Students are fifth graders, consistent clothing and seating positions.
+
+Important restrictions:
+No camera operator. No handheld camera person. No visible filming crew. Teacher must not wear glasses. Do not create readable Japanese or Chinese text on the board. If text is needed, leave clean empty areas for later editing. Avoid exaggerated emotions, crying, or dramatic disaster imagery.
+
+Narrative sequence:
+1. Opening: the classroom and a quiet visual metaphor of Miyagase Dam, water, a lost hometown, and compensation money. Mood: a difficult question is beginning.
+2. The teacher stands beside the chalkboard and opens the lesson. He does not give an answer; he invites students to think beyond yes or no.
+3. Students look at a dam map or projected image, hesitant and thoughtful.
+4. The class listens to an interview recording from a displaced resident. Show soft translucent sound-wave lines moving through the classroom.
+5. One student quietly speaks, noticing sadness in the resident’s voice. Other students turn naturally to listen.
+6. A visual metaphor connects the distant dam to water used in the students’ everyday life, showing that they are beneficiaries of someone else’s sacrifice.
+7. The teacher reveals the compensation system and a very large amount of money using abstract symbols, not readable text. Students react with quiet surprise.
+8. Students pause, take notes, and rethink their positions. The question becomes harder, not easier.
+9. Small-group discussion: students compare “money” and “heart” as values using a chalkboard concept map with arrows, but no readable words.
+10. A restrained memory image of an old mountain village gradually covered by reservoir water appears behind or beside the classroom, symbolizing hometown loss.
+11. Final classroom summary: the teacher stands to the side while students face a concept map on the board. The classroom feels open and thoughtful.
+12. Closing: a desk with student notes, pencil, and small slide-like image cards, leaving clean space for a later URL overlay.
+
+Core message:
+A good social studies lesson is not about quickly choosing yes or no. It helps students listen to real voices, face public benefit and personal loss together, and learn to hold complexity.
+
+Camera and motion:
+Slow gentle camera movement, smooth transitions, no fast cuts. Use close-ups of listening faces, hands writing notes, the teacher’s calm posture, the chalkboard concept map, and the water/hometown metaphor. Keep the classroom location consistent.
+
+Mood:
+Quiet, reflective, humane, educational, emotionally restrained.
+
+End frame:
+Leave clean empty space near the lower third for the URL “miyagase-lesson.web.app” to be added later.
