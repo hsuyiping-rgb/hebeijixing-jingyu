@@ -9,7 +9,7 @@
   1. 人工複查 12 張直式圖與成品影片（`reels_宮瀨水庫_錢與心_30s.mp4`），確認人物一致、無觀課者與攝影機
   2. 發布前跑一次〈短影音〉節的護欄檢查指令，確認幣別與口譯註記都還在
   3. 由你本人上傳 FB / IG / Reels（工具鏈不代為登入或發布）
-- ✅ **Git push**：已推 `3c7252a` 與 `071b62e` 等提交 -> `origin/main` (不包含 .mp4 影音檔)
+- ✅ **Git push**：已推 `6b4be7b` → `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）；.mp4 由 .gitignore 排除
 - ⚠️ **待手動處理**：`~/.claude/` 的全域技能先前改過三處，`18cf1e5` 已同步；若之後再動須 `chezmoi re-add`
 
 ## 專案標的
@@ -34,8 +34,8 @@
 - `subtitles.srt`：408 段，時間碼已驗證 ✅
 - `transcript_from_srt.txt`
 - `analysis.txt`：21 章節，全部標時間碼，扣連傾聽關係／漣漪效應／言談權力／伸展跳躍／認同建構／潤澤教室
-- `screenshots/`：20 張 jpg（shot_01 ~ shot_20，檔名含時間碼），6.6MB
-- `screenshots_review.html`：擷圖確認頁（含時間碼與對應概念，供人工複查）
+- `screenshots/`：21 張 jpg（shot_01 ~ shot_21，檔名含時間碼），已補入 05:29 影格並重新編號
+- `screenshots_review.html`：擷圖確認頁（21 章節版，含時間碼與對應概念）
 - `slides.pptx` / `slides.html`：21 頁，`learning` 配色，左文右圖，9.7MB
 - `images/`：21 張 AI 插圖，JPEG q90、1672×941，10.1MB（**版控的是這份**）
 - `images_original/`：同 21 張的未壓縮 PNG，60MB。生圖不可重現，**務必留在本機與 Google Drive**；已 gitignore，不進 Git
