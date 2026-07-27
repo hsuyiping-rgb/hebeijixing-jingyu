@@ -11,6 +11,7 @@
   3. 由你本人上傳 FB / IG / Reels，影片用 `reels_宮瀨水庫_錢與心_30s_燒錄字幕.mp4`
 - ✅ **Git push**：已推 `275e2f0` → `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）；.mp4 由 .gitignore 排除
 - ⚠️ **待手動處理**：`~/.claude/` 的全域技能先前改過三處，`18cf1e5` 已同步；若之後再動須 `chezmoi re-add`
+- 📌 **工作區唯一未提交項**：根目錄 `.gitignore` 新增兩條排除規則（`直式圖_before_*/`、`reels_preview_*.jpg`），**不是本 session 所做**，已詢問使用者但未裁示，故保留未動。內容合理（與既有 `images_before_*/` 同類的本機備份），要收隨時可 commit——**這不是「沒做完的工作」**，見下方誤判教訓
 
 ## 專案標的
 - 影片：《脇坂老師社會課(2018)：宮瀨水庫》 https://youtu.be/saHsezdUWxE
