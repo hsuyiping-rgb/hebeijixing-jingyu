@@ -9,7 +9,7 @@
   1. 人工複查 12 張直式圖與燒錄字幕版影片
   2. 發布前跑〈短影音〉節的護欄檢查（幣別「日圓」、口譯註記）
   3. 由你本人上傳 FB / IG / Reels，影片用 `reels_宮瀨水庫_錢與心_30s_燒錄字幕.mp4`
-- ✅ **Git push**：{{PUSH_STATUS}}
+- ✅ **Git push**：已推 `275e2f0` → `origin/main`（`hsuyiping-rgb/hebeijixing-jingyu`，私有）；.mp4 由 .gitignore 排除
 - ⚠️ **待手動處理**：`~/.claude/` 的全域技能先前改過三處，`18cf1e5` 已同步；若之後再動須 `chezmoi re-add`
 
 ## 專案標的
