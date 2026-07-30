@@ -64,6 +64,8 @@ output/課堂檔案/**/影音/*.mp4
 
 # Revision backup folders are local rollback aids, not deliverables.
 學習共同體課堂影片分析/**/output/images_before_*/
+學習共同體課堂影片分析/**/直式圖_before_*/
+學習共同體課堂影片分析/**/reels_preview_*.jpg
 課堂檔案/**/slides_deploy/
 
 # 以下兩個路徑是各自獨立的 git repo（有自己的 GitHub 遠端與備份），
@@ -72,8 +74,10 @@ output/課堂檔案/**/影音/*.mp4
 # 要更新它們請 cd 進去各自 commit / push。
 #   宇津睦台小學 → https://github.com/hsuyiping-rgb/slc-mochimochi-lesson-study
 #   鴨嘴獸探究   → https://github.com/hsuyiping-rgb/2026-japan-slc-presentation
+#   學習共同體哲學實踐教師素養 → https://github.com/hsuyiping-rgb/slc-philosophy-teacher-literacy
 學習共同體課堂影片分析/宇津睦台小學/
 課堂檔案/2026 日本 SLC 國中生物：未知動物 A／鴨嘴獸探究/
+學習共同體哲學實踐教師素養/
 
 # Firebase Hosting 部署產物（由來源檔複製而來，不納入版控）。
 public/

@@ -30,6 +30,7 @@
 |------|-----------|
 | `學習共同體課堂影片分析/宇津睦台小學/` | `slc-mochimochi-lesson-study` |
 | `課堂檔案/2026 日本 SLC 國中生物：未知動物 A／鴨嘴獸探究/` | `2026-japan-slc-presentation` |
+| `學習共同體哲學實踐教師素養/` | `slc-philosophy-teacher-literacy` |
 
 對它們執行 `git add` 會產生壞掉的 gitlink：外層只記一個 commit SHA、不含檔案內容，clone 後拿到空資料夾且無從取得。要更新請 `cd` 進去各自 commit / push。兩者已加入根目錄 `.gitignore`，`git status` 不再列出，不必再逐次判斷。
 
