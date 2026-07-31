@@ -28,6 +28,7 @@
   - `自動車生產議課/output/transcript.txt`（中文完整解說逐字稿）
 - 課例研究與分析報告：
   - `自動車生產議課/output/analysis.txt`（學習共同體視角深度分析，共 12 節大綱）
+  - `自動車生產議課/output/discussion_teachers_analysis.md`（基於「描述-詮釋-分析」架構之發言教師觀點剖析報告）
 - 簡報與概念圖產出：
   - `自動車生產議課/output/slides.pptx` 與 `slides.html`（12 頁 `learning` 抹茶綠風格 PPTX 與離線一頁式 HTML 簡報）
   - `自動車生產議課/output/concept.txt` 與 `concept_post.png`（核心概念社群圖檔）
