@@ -7,9 +7,9 @@ import time
 from pathlib import Path
 import google.generativeai as genai
 
-ROOT = Path(__file__).resolve().parents[1]
-SRT_IN = ROOT / "output" / "subtitles_ja.srt"
-SRT_OUT = ROOT / "output" / "subtitles_ja_translated_zh_TW.srt"
+OUT_DIR = Path(r"G:\我的雲端硬碟\和北極星境遇\學習共同體課堂影片分析\濱之鄉小學脇坂歸晤社會課\自動車生產議課\output")
+SRT_IN = OUT_DIR / "subtitles_ja.srt"
+SRT_OUT = OUT_DIR / "subtitles_ja_translated_zh_TW.srt"
 CHUNK_SIZE = 40  # Number of SRT items to translate at once
 
 PROMPT_TEMPLATE = """你是一位精通日中翻譯的專業教育學譯者，特別熟悉佐藤學教授的「學習共同體（Learning Community）」哲學與實踐。
@@ -64,9 +64,9 @@ def parse_srt(srt_path: Path) -> list[dict]:
     return blocks
 
 def main() -> None:
-    api_key = os.environ.get("GOOGLE_API_KEY")
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
-        print("[Error] GOOGLE_API_KEY environment variable is not set. Please configure it first.")
+        print("[Error] GOOGLE_API_KEY or GEMINI_API_KEY environment variable is not set. Please configure it first.")
         sys.exit(1)
     
     if not SRT_IN.exists():
@@ -80,7 +80,7 @@ def main() -> None:
 
     # Configure Gemini
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.5-flash")
 
     translated_blocks = []
     

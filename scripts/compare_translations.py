@@ -5,10 +5,10 @@ import sys
 from pathlib import Path
 import google.generativeai as genai
 
-ROOT = Path(__file__).resolve().parents[1]
-SRT_ZH_INTERPRETED = ROOT / "output" / "subtitles.zh_TW.srt"
-SRT_ZH_DIRECT = ROOT / "output" / "subtitles_ja_translated_zh_TW.srt"
-REPORT_OUT = ROOT / "output" / "translation_comparison_report.md"
+OUT_DIR = Path(r"G:\我的雲端硬碟\和北極星境遇\學習共同體課堂影片分析\濱之鄉小學脇坂歸晤社會課\自動車生產議課\output")
+SRT_ZH_INTERPRETED = OUT_DIR / "subtitles.zh_TW.srt"
+SRT_ZH_DIRECT = OUT_DIR / "subtitles_ja_translated_zh_TW.srt"
+REPORT_OUT = OUT_DIR / "translation_comparison_report.md"
 
 PROMPT_TEMPLATE = """你是一位精通教育學、語言學與日中對譯的專業學者，特別專長於佐藤學教授的「學習共同體（Learning Community）」課例研究方法。
 
@@ -61,9 +61,9 @@ def clean_srt(srt_path: Path) -> str:
     return "\n".join(cleaned_lines)
 
 def main() -> None:
-    api_key = os.environ.get("GOOGLE_API_KEY")
+    api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not api_key:
-        print("[Error] GOOGLE_API_KEY environment variable is not set.")
+        print("[Error] GOOGLE_API_KEY or GEMINI_API_KEY environment variable is not set.")
         sys.exit(1)
         
     if not SRT_ZH_INTERPRETED.exists():
@@ -89,7 +89,7 @@ def main() -> None:
     # Configure Gemini
     genai.configure(api_key=api_key)
     # Using Pro for deep academic analysis
-    model = genai.GenerativeModel("gemini-1.5-pro")
+    model = genai.GenerativeModel("gemini-3.5-flash")
 
     print("Generating translation comparison report using Gemini Pro...")
     prompt = PROMPT_TEMPLATE.format(
