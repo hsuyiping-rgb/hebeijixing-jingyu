@@ -23,17 +23,27 @@
 - 720p 合併紀錄與驗證：
   - `自動車生產議課/output/merge_manifest_720p.md`
   - 完整解碼驗證已通過 (`ffmpeg -v error -i ... -f null -` 無任何錯誤)。
+- 語音轉譯與逐字稿整理：
+  - `自動車生產議課/output/subtitles.srt` 與 `subtitles.zh_TW.srt`（台灣標準繁體中文字幕）
+  - `自動車生產議課/output/transcript.txt`（中文完整解說逐字稿）
+- 課例研究與分析報告：
+  - `自動車生產議課/output/analysis.txt`（學習共同體視角深度分析，共 12 節大綱）
+- 簡報與概念圖產出：
+  - `自動車生產議課/output/slides.pptx` 與 `slides.html`（12 頁 `learning` 抹茶綠風格 PPTX 與離線一頁式 HTML 簡報）
+  - `自動車生產議課/output/concept.txt` 與 `concept_post.png`（核心概念社群圖檔）
 
 ## 尚未完成
 
-- 尚未進行後續影片分析（目前已具備完整的 360p 與 720p 合併影片）。
+- 無（本課例分析所有核心產出皆已備齊）。
 
 ## 建議接續步驟
 
-1. 使用合併後的 `hamanosato_wakisaka_social_discussion_20141114_merged_720p.mp4` 影片進行課堂影片分析，依照學習共同體觀點撰寫課例研究報告。
+1. 人工檢視簡報內容，確認版面與文字流暢度。
+2. 必要時，依據貼文規格進行社群貼文的文案撰寫。
 
 ## 注意
 
 - 大型媒體檔案已於 `.gitignore` 排除，切勿 `git add`。
 - 最後更新：Antigravity @ DESKTOP-31QBU95 (Git push: ✅ 已推)
+
 
