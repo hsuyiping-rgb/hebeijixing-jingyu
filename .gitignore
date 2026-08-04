@@ -10,6 +10,11 @@ Thumbs.db
 credentials.*
 secrets.*
 
+# Credentials and sensitive logs
+cookies.txt
+www.youtube.com_cookies.txt
+*.log
+
 .claude/
 .codex/
 .firebase/

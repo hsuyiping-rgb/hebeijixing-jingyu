@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1. 課堂導入與單元定位 [00:00:00 - 00:03:20]</title>
+  <style>
+    :root {
+      --bg-color: #EEF2EB;
+      --title-color: #23412D;
+      --text-color: #4B504B;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      font-family: 'Microsoft JhengHei', -apple-system, sans-serif;
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .slides-container {
+      position: relative;
+      width: 90vw;
+      max-width: 1200px;
+      height: 70vh;
+      min-height: 500px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      flex: 1;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    .slide.active {
+      display: flex;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      gap: 40px;
+      align-items: center;
+    }
+    .slide-text {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide-text h2 {
+      color: var(--title-color);
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 32px;
+      line-height: 1.3;
+      border-left: 5px solid var(--title-color);
+      padding-left: 15px;
+    }
+    .slide-text ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .slide-text li {
+      font-size: 20px;
+      line-height: 1.8;
+      margin-bottom: 12px;
+      list-style-type: square;
+    }
+    .slide-image {
+      flex: 0.8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .slide-image img {
+      max-width: 100%;
+      max-height: 90%;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      object-fit: cover;
+      aspect-ratio: 1;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(255, 255, 255, 0.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn {
+      background: var(--title-color);
+      color: var(--bg-color);
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .progress-bar-container {
+      flex: 1;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 4px;
+      margin: 0 40px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--title-color);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .slide-counter {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text-color);
+      min-width: 60px;
+      text-align: right;
+    }
+    @media (max-width: 768px) {
+      .slide-layout {
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      .slide-image {
+        height: auto;
+        margin-top: 20px;
+      }
+      .slide-image img {
+        max-height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slides-container">
+
+    <section class="slide" id="slide-1">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>1. 課堂導入與單元定位 [00:00:00 - 00:03:20]</h2>
+          <ul>
+          <li>【現象描述】 教師開場介紹社會科學習的目的，並將這堂課定位為15小時單元中的第13堂課，回顧了前期的歷史與產業人物。</li>
+          <li>【學習共同體詮釋 (回歸)】 透過回顧單元脈絡，教師將學生的思維「回歸」到先前的學習經驗，為今日探討更深層的產業課題建立穩固的先備知識基石。</li>
+          <li>【專業反思】 在導入階段不急於拋出問題，而是透過脈絡梳理幫助學生安定心神，是建立安全學習環境、促進後續高品質聆聽的重要前提。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>2. 生命安全與汽車產業的連結 [00:03:20 - 00:07:38]</h2>
+          <ul>
+          <li>【現象描述】 教師引用同學父親的話，引導學生思考「確保生命安全」在汽車製造中的核心地位。</li>
+          <li>【學習共同體詮釋 (串聯)】 教師將學生的生活經驗（同學家長的真實工作）與學科知識「串聯」起來，使教材具有生命力與真實感。</li>
+          <li>【專業反思】 藉由在地化、生活化的人際網絡來設計教材，能有效激發學生的內在動機，讓冰冷的工業生產課題轉化為有溫度的社會探究。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>3. 安全與成本的拉扯 [00:07:38 - 00:11:10]</h2>
+          <ul>
+          <li>【現象描述】 課堂中點出保護安全與控制材料成本之間的矛盾，並探討工廠師傅在維持高品質時所面臨的不便。</li>
+          <li>【學習共同體詮釋 (互相傾聽)】 學生在教師的引導下，開始聆聽產業實務上的兩難，這種聆聽不僅是聽見聲音，更是同理生產者的處境。</li>
+          <li>【專業反思】 社會科的核心在於理解人類社會的複雜性。教師在此成功地創造了認知衝突，讓學生明白真實世界中沒有絕對完美的單一答案。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>4. 進入伸展跳躍課題：海外生產的兩難 [00:11:10 - 00:16:30]</h2>
+          <ul>
+          <li>【現象描述】 教師請學生翻開課本131頁，拋出日本工廠移往海外的議題，引發國內生產與海外生產孰優孰劣的思考。</li>
+          <li>【學習共同體詮釋 (伸展跳躍的課題)】 這是一個典型的「伸展跳躍」設計，超越了單純的知識記憶，要求學生在國家經濟利益與企業生存之間進行價值判斷。</li>
+          <li>【專業反思】 高品質的跳躍課題必須具備真實性與複雜度，此處的提問成功讓學生跨越舒適圈，進入需要深度協作與思考的學習區帶。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>5. 小組討論：國內與海外生產的比較 [00:16:30 - 00:23:10]</h2>
+          <ul>
+          <li>【現象描述】 學生針對國內生產高工資（一小時超過1000日圓）與海外低成本進行討論，並表達對產業外移的擔憂。</li>
+          <li>【學習共同體詮釋 (互相傾聽與串聯)】 學生在小組中交換意見，將個人對「高工資」的理解與同學對「社會自治」的想法進行串聯，形成小組共識。</li>
+          <li>【專業反思】 觀察學生在討論中是否出現細微的肢體語言（如注視發言者、點頭），可評估傾聽的品質。教師在此階段適時退居幕後，把學習權還給學生。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>6. 個人與整體的串聯：傾聽同學與家長的意見 [00:23:10 - 00:30:20]</h2>
+          <ul>
+          <li>【現象描述】 討論中再次帶入學生家長（在汽車廠工作）的具體處境，將巨觀的國家經濟問題與微觀的家庭生計結合。</li>
+          <li>【學習共同體詮釋 (串聯)】 教師巧妙地將「整體社會發展」與「個人家庭生活」串聯，讓學生意識到政策變動對真實人物的直接衝擊。</li>
+          <li>【專業反思】 將抽象經濟議題具象化為熟人的生活，是社會科教學的極佳策略，這能培養學生的同理心，並提升解決問題的使命感。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-7">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>7. 回歸現實與經濟考量 [00:30:20 - 00:35:00]</h2>
+          <ul>
+          <li>【現象描述】 探討若限定在日本國內生產，企業將面臨的經濟困境，包含匯率高漲、人事費提升及關稅問題。</li>
+          <li>【學習共同體詮釋 (回歸)】 當討論陷入感性的同情時，教師將學生的注意力「回歸」到客觀的經濟數據與國際貿易現實，確保討論不脫離學科本質。</li>
+          <li>【專業反思】 優秀的引導者能在感性與理性之間游刃有餘。適時提供殘酷的現實數據，能深化跳躍課題的思考厚度，防止流於空泛的道德呼籲。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-8">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>8. 澳洲豐田廠的真實案例分析 [00:35:00 - 00:41:00]</h2>
+          <ul>
+          <li>【現象描述】 教師引入2014年發布、2017年實施的澳洲豐田工廠關廠案例，說明2500人失業的慘痛代價。</li>
+          <li>【學習共同體詮釋 (伸展跳躍的課題)】 透過真實且具震撼力的國際案例，進一步將課題推向高峰，迫使學生在更極端的困境中重新評估先前的觀點。</li>
+          <li>【專業反思】 跨國案例的引入擴展了學生的全球視野。這類未經簡化的真實世界難題，正是培養高階批判性思考的最佳素材。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-9">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>9. 決策的艱難與經營者的視角 [00:41:00 - 00:46:15]</h2>
+          <ul>
+          <li>【現象描述】 探討豐田社長為了保護重要資產與公司存續，不得不做出關閉澳洲廠的艱難決定，這被視為一種「正當的犧牲」。</li>
+          <li>【學習共同體詮釋 (互相傾聽)】 學生在聆聽這段歷史時，需要跨越自身的直覺反感，去傾聽並理解經營者在兩難困境中的痛苦與無奈。</li>
+          <li>【專業反思】 讓學生站在不同利益關係人（勞工vs資方）的角度思考，是社會科教學的重要目標。這考驗學生轉換觀點與深刻共情的能力。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-10">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>10. 全局觀點與本土就業的平衡 [00:46:15 - 00:50:10]</h2>
+          <ul>
+          <li>【現象描述】 總結海外有16家工廠的同時，日本國內仍保留了需要大量人力的工廠，以此保護日本的技術與附屬品產業鏈。</li>
+          <li>【學習共同體詮釋 (串聯)】 教師將「海外擴張」與「保護本土技術」這兩個看似對立的概念「串聯」起來，形成更圓融的產業策略認知。</li>
+          <li>【專業反思】 事物往往不是非黑即白。教學在此達到了統合的層次，讓學生明白妥協與平衡才是真實社會運作的常態。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-11">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>11. 課後反思與學習總結 [00:50:10 - 00:54:10]</h2>
+          <ul>
+          <li>【現象描述】 課堂進入尾聲，教師請學生針對今天的討論發表感想，並強調將知識與大論點結合的重要性，為下節課做準備。</li>
+          <li>【學習共同體詮釋 (回歸與互相傾聽)】 教師讓學生「回歸」自我，整理一節課的思緒，並在發表感想時，再次創造全班「互相傾聽」的總結氛圍。</li>
+          <li>【專業反思】 留白讓學生沉澱與表達，是確保學習發生的關鍵。重視學生的主觀感受與認知變化，體現了以學習者為中心的教育信念。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-12">
+      <div class="slide-layout">
+        <div class="slide-text">
+          <h2>12. 延伸討論與教師專業反思 [00:54:10 - 00:57:30]</h2>
+          <ul>
+          <li>【現象描述】 記錄中提到教師在社會科投入的心力，以及針對不同年級（一至六年級）在家學習時間的規劃，並探討了免費補習與城鄉差距的問題。</li>
+          <li>【學習共同體詮釋 (串聯)】 將課堂內的學習成效與課外的家庭支持系統「串聯」，點出教育公平性與學習共同體理念在弱勢環境中的重要性。</li>
+          <li>【專業反思】 教師的專業不僅在於課堂上的40分鐘，更在於對學生整體生活脈絡的理解。真正的學習共同體，是致力於讓每一個孩子（無論貧富）都能獲得高品質的學習機會。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Navigation Controls -->
+    <div class="controls">
+      <button class="btn" id="prev-btn" onclick="changeSlide(-1)">上一頁</button>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <button class="btn" id="next-btn" onclick="changeSlide(1)">下一頁</button>
+      <span class="slide-counter" id="slide-counter">1 / 12</span>
+    </div>
+  </div>
+
+  <script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const progressBar = document.getElementById('progress-bar');
+    const slideCounter = document.getElementById('slide-counter');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      
+      currentSlideIndex = index;
+      
+      // Update buttons
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === totalSlides - 1;
+      
+      // Update progress bar
+      const progressPercent = ((index + 1) / totalSlides) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+      
+      // Update counter
+      slideCounter.innerText = `${index + 1} / ${totalSlides}`;
+    }
+
+    function changeSlide(direction) {
+      let targetIndex = currentSlideIndex + direction;
+      if (targetIndex >= 0 && targetIndex < totalSlides) {
+        showSlide(targetIndex);
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        changeSlide(-1);
+      }
+    });
+
+    // Initialize first slide
+    showSlide(0);
+  </script>
+</body>
+</html>
