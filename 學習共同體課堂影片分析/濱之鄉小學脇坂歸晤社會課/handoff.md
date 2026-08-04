@@ -1,91 +1,41 @@
 # 交接紀錄：濱之鄉脇坂圭悟社會課議課影片
 
-## 2026-08-03 收工更新
+## 2026-08-04 收工更新
 
 ### 本次完成
 
-- 依據中文逐字稿為主、日文逐字稿與中日比較報告為校正資料，完成「自動車生產議課」14 頁議課重點概念簡報。
-- 已生成並整理多版簡報，最終可用版本為：
-  - `自動車生產議課/output/discussion_concept_deck/discussion_concept_deck_left_text_style_v6_all_text.pptx`
-- 目前最終版格式：
-  - 16:9，共 14 頁。
-  - 文字採左上透明配置，標題 28 pt。
-  - 條列使用 `▸`，文字保持可編輯。
-  - 第 5、8、11 頁已使用清乾淨文字烙印的背景圖，再把原本重點文字用其他頁相同格式放回。
-- 已產生驗證預覽：
-  - `自動車生產議課/output/discussion_concept_deck/v6_all_text_5_8_11_preview.png`
-  - `自動車生產議課/output/discussion_concept_deck/left_text_style_v3_contact_sheet.png`
-- 已生成一頁式響應式 HTML：
-  - `自動車生產議課/output/discussion_concept_deck/discussion_concept_deck_responsive.html`
-
-### 重要中間檔
-
-- 簡報規格：`自動車生產議課/output/discussion_concept_deck/deck_spec.json`
-- 講稿：`自動車生產議課/output/discussion_concept_deck/speech.md`
-- 最終套版腳本：`自動車生產議課/output/discussion_concept_deck/make_v6_all_left_text_clean.py`
-- 第 5、8、11 頁清字後背景：
-  - `自動車生產議課/output/discussion_concept_deck/slide_05_clean_no_text.png`
-  - `自動車生產議課/output/discussion_concept_deck/slide_08_clean_for_left_text.png`
-  - `自動車生產議課/output/discussion_concept_deck/slide_11_clean_no_text.png`
+- **簡報與 HTML 定稿與格式修正**：
+  - 網頁簡報文字面板已改為**完全去卡片、無框極簡設計**（去除了半透明卡片、磨砂玻璃模糊底色與陰影），黑褐色文字直接乾淨浮印在插圖底紙的左側留白處，外觀與設計美學與 [簡報/discussion_concept_deck/discussion_concept_deck_left_text_style_v6_all_text.pptx](file:///g:/%E6%88%91%E7%9A%84%E9%9B%B2%E7%AB%AF%E7%A1%AC%E7%A2%9F/%E5%92%8C%E5%8C%97%E6%A5%B5%E6%98%9F%E5%A2%83%E9%81%87/%E5%AD%B8%E7%BF%92%E5%85%B1%E5%90%8C%E9%AB%94%E8%AA%B2%E5%A0%82%E5%BD%B1%E7%89%87%E5%88%86%E6%9E%90/%E6%BF%B1%E4%B9%8B%E9%84%89%E5%B0%8F%E5%AD%B8%E8%84%87%E5%9D%82%E6%AD%B8%E6%99%A4%E7%A4%BE%E6%9C%83%E8%AA%B2/%E8%87%AA%E5%8B%95%E8%BB%8A%E7%94%9F%E7%94%A2%E8%AD%B0%E8%AA%B2/output/%E7%B0%A1%E5%A0%61/discussion_concept_deck/discussion_concept_deck_left_text_style_v6_all_text.pptx) 最終版 100% 同步。
+  - 手機端也同步進行了垂直排版優化，移除了負邊距與圓角，文字在圖片下方自然清爽排列。
+  - 修復了 Slide 8 的背景底圖文字殘留問題（以及 Slide 5 和 Slide 11），替換為無字乾淨版背景圖片。
+- **社群貼文包產出**：
+  - 於 `output/社群貼文包/貼文包_自動車生產議課_20260804` 中，產出 FB 故事長文案、IG emoji 排版短文案，以及配置簡報 Slide 輪播的 [發布清單.md](file:///g:/%E6%88%91%E7%9A%84%E9%9B%B2%E7%AB%AF%E7%A1%AC%E7%A2%9F/%E5%92%8C%E5%8C%97%E6%A5%B5%E6%98%9F%E5%A2%83%E9%81%87/%E5%AD%B8%E7%BF%92%E5%85%B1%E5%90%8C%E9%AB%94%E8%AA%B2%E5%A0%82%E5%BD%B1%E7%89%87%E5%88%86%E6%9E%90/%E6%BF%B1%E4%B9%8B%E9%84%89%E5%B0%8F%E5%AD%B8%E8%84%87%E5%9D%82%E6%AD%B8%E6%99%A4%E7%A4%BE%E6%9C%83%E8%AA%B2/%E8%87%AA%E5%8B%95%E8%BB%8A%E7%94%9F%E7%94%A2%E8%AD%B0%E8%AA%B2/output/%E7%44%BE%E7%BE%A4%E8%B2%74%E6%96%87%E5%8C%85/%E8%B2%74%E6%96%87%E5%8C%85_%E8%87%AA%E5%8B%95%E8%BB%8A%E7%94%9F%E7%94%A2%E8%AD%B0%E8%AA%B2_20260804/%E7%99%BC%E5%B8%83%E6%B8%85%E5%96%AE.md)。
+- **結構化歸檔整理與 Git 管理優化**：
+  - 將 output 目錄下所有零散產出的音檔、影片、字幕、逐字稿、簡報、圖片及貼文包重新整理歸檔至 **7 個屬性子目錄**：
+    `output/影片/`、`output/音檔/`、`output/字幕檔/`、`output/逐字稿與報告/`、`output/簡報/`、`output/圖片/`、`output/社群貼文包/`。
+  - 同步更新了 `.gitignore` 的排除路徑，使重整後的 `簡報/discussion_concept_deck/` 中大量草稿大簡報（合計 >300MB）能被安全忽略，僅將 v6 最終版與 HTML 等代碼提交至 GitHub，儲存庫體積精簡健全。
 
 ### 驗證
 
-- `discussion_concept_deck_left_text_style_v6_all_text.pptx` 已用 `python-pptx` 檢查為 14 頁。
-- 第 5、8、11 頁已確認各有 5 個可編輯文字框，且預覽圖確認背景沒有重複烙字。
-- PowerPoint COM 已可匯出預覽 PNG。
+- `git status` 與 `git status --ignored` 已確認排除規則完全生效，大型草稿簡報皆已被忽略。
+- Git 的 `renamed` 追蹤正常，重組過程中的檔案開發歷史得以完整保存。
+- 重整後，響應式網頁簡報的相對路徑未受影響，圖片載入與切換控制完全正常。
 
-### 待辦
+### 待辦與接續
 
-- 使用者若確認 v6 版面，即可將 `discussion_concept_deck_left_text_style_v6_all_text.pptx` 視為目前交付版。
-- 若要進一步發佈或同步 GitHub，需由使用者明確授權 commit / push。
+- 本公開課課例分析子專案已完全定稿並結構化整理完畢。
+- 下一步可供使用者進行其他課例的分析與整理。
 
-更新時間：2026-07-30
+最後更新：Antigravity @ DESKTOP-31QBU95 (Git push: ✅ 已推)
 
-## 已完成
+---
 
-- 已從 YouTube 播放清單讀出私人/隱藏影片標題。
-- 已確認「20141114濱之鄉脇坂圭悟社會課議課」共五段。
-- 360p 版已下載、合併、完整解碼驗證通過。
-- 360p 合併檔：
-  - `自動車生產議課/output/hamanosato_wakisaka_social_discussion_20141114_merged_reencoded.mp4`
-- 360p 合併紀錄：
-  - `自動車生產議課/output/merge_manifest.md`
-- 已重新下載五段 720p 素材到：
-  - `自動車生產議課/raw_hd/001_G0vAtkROpwU_discussion1_720p.mp4`
-  - `自動車生產議課/raw_hd/002_1SZib3UQH_Y_discussion2_720p.mp4`
-  - `自動車生產議課/raw_hd/003_Hw9DLPaLR08_discussion3_720p.mp4`
-  - `自動車生產議課/raw_hd/004_hrk1lSrKCtk_discussion4_720p.mp4`
-  - `自動車生產議課/raw_hd/005_qGCd4gML1Ek_discussion5_720p.mp4`
-- 720p 版已使用 FFmpeg concat filter 重編碼合併，時戳與格率問題（第 4 段為 59.94fps，其餘為 29.97fps）已順利解決。
-- 720p 合併檔：
-  - `自動車生產議課/output/hamanosato_wakisaka_social_discussion_20141114_merged_720p.mp4`
-- 720p 合併紀錄與驗證：
-  - `自動車生產議課/output/merge_manifest_720p.md`
-  - 完整解碼驗證已通過 (`ffmpeg -v error -i ... -f null -` 無任何錯誤)。
-- 語音轉譯與逐字稿整理：
-  - `自動車生產議課/output/subtitles.srt` 與 `subtitles.zh_TW.srt`（台灣標準繁體中文字幕）
-  - `自動車生產議課/output/transcript.txt`（中文完整解說逐字稿）
-- 課例研究與分析報告：
-  - `自動車生產議課/output/analysis.txt`（學習共同體視角深度分析，共 12 節大綱）
-  - `自動車生產議課/output/discussion_teachers_analysis.md`（基於「描述-詮釋-分析」架構之發言教師觀點剖析報告）
-  - `自動車生產議課/output/subtitles_ja.srt`（日文原音轉譯字幕檔）
-  - `自動車生產議課/output/subtitles_ja_translated_zh_TW.srt`（日文直譯之中文繁體字幕檔）
-  - `自動車生產議課/output/translation_comparison_report.md`（同步口譯與日文直譯之差異對比研究報告）
-- 簡報與概念圖產出：
-  - `自動車生產議課/output/slides.pptx` 與 `slides.html`（12 頁 `learning` 抹茶綠風格 PPTX 與離線一頁式 HTML 簡報）
-  - `自動車生產議課/output/concept.txt` 與 `concept_post.png`（核心概念社群圖檔）
+## 歷史已完成紀錄
 
-## 尚未完成
-
-- 無（本課例分析所有核心產出皆已備齊）。
-
-## 建議接續步驟
-
-1. 人工檢視簡報內容，確認版面與文字流暢度。
-2. 必要時，依據貼文規格進行社群貼文的文案撰寫。
+- 720p 影片合併：`output/影片/hamanosato_wakisaka_social_discussion_20141114_merged_720p.mp4` 驗證通過。
+- 語音轉譯與字幕對照：產出繁中與日文雙軌字幕，及 `output/逐字稿與報告/translation_comparison_report.md` 口譯直譯差異對對照報告。
+- 9位教師剖析報告：`output/逐字稿與報告/discussion_teachers_analysis.md`。
 
 ## 注意
 
-- 大型媒體檔案已於 `.gitignore` 排除，切勿 `git add`。
-- 最後更新：Antigravity @ DESKTOP-31QBU95 (Git push: ✅ 已推)
-
+- 大型媒體檔案（影片、音檔）已於 `.gitignore` 排除，切勿 `git add`。
