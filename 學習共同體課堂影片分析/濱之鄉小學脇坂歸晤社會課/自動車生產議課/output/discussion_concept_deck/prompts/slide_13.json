@@ -1,0 +1,42 @@
+{
+  "slide": 13,
+  "title": "給觀課者的學習：把微弱聲音放大，而不是把課堂講順",
+  "prompt": "# Codex PPT Slide Image Prompt\n\n## Canvas\n{\n  \"type\": \"16:9 full-slide PowerPoint image\",\n  \"language\": \"Traditional Chinese\",\n  \"slide_number\": 13,\n  \"render_slide_number\": false\n}\n\n## Deck Goal\n用學習共同體哲學說明濱之鄉小學脇坂圭悟五年級社會課議課中的核心概念，形成可用於教師研習的 14 張簡報。\n\n## Required Background\n{\n  \"deck_context\": {\n    \"source_summary\": \"核心依據為中文逐字稿。日文逐字稿與中日文翻譯比較只用於校正概念，不在簡報中呈現翻譯差異。議課重點在於教師如何從課堂事實讀懂學生的兩難、沉默、傾聽、同儕關係與社會科本質。\",\n    \"core_claim\": \"在無解的社會兩難中，學生透過傾聽、等待、資料重讀與同儕對話，學會把自己的生活現實放進更大的社會關係裡；議課的價值，是讓教師也跟著重新學會如何讀懂這些微弱而真實的學習。\",\n    \"canonical_terms\": [\n      \"學習共同體\",\n      \"議課不是評課\",\n      \"傾聽\",\n      \"等待\",\n      \"沉默\",\n      \"兩難\",\n      \"一欄表\",\n      \"小組協同學習\",\n      \"社會科本質\",\n      \"沒有正解的社會問題\"\n    ],\n    \"character_continuity\": \"跨頁出現的授課教師固定為壯年男性，短黑髮帶少量灰髮、深灰外套、白襯衫、溫和專注。跨頁重複學生固定服飾與髮型：沉思男孩短黑髮淡色襯衫；傾聽女孩深色水手領制服；白襯衫短髮男孩；低馬尾女孩。角色不使用真實人物 likeness。\"\n  },\n  \"slide_local_context\": {\n    \"required_background\": \"中文逐字稿為主，日文逐字稿與翻譯比較只作校正，不在畫面呈現翻譯差異。\"\n  }\n}\n\n## Global Style\n{\n  \"name\": \"風格A：研究紀錄感，溫暖紙本\",\n  \"visual_direction\": \"手繪墨線與淡水彩，像觀課筆記、田野記錄與教育研究簡報的結合。首尾使用學共哲學插圖，中間頁使用依文字內容設計的示意插圖。\",\n  \"color_palette\": \"米白紙色、深墨黑、灰綠、赭紅小面積強調、柔和暖赭與低彩度木色。\",\n  \"typography\": \"繁體中文清楚可讀。封面標題約 50 pt，章節頁標題約 40 pt，一般頁主張約 30 pt，重點條列約 20-22 pt，時間戳或來源註記約 14-16 pt。\",\n  \"texture_and_finish\": \"subtle paper texture, hand-drawn ink lines, light watercolor wash, generous whitespace, no glossy corporate look\",\n  \"deck_consistency\": \"same palette, typography mood, paper texture, hand-drawn classroom illustration language, and recurring character design across all slides\"\n}\n\n## Input Images\n\n- Image 1: G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png — approved sample slide style reference; match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it\n\n\n## Slide\n{\n  \"number\": 13,\n  \"title\": \"給觀課者的學習：把微弱聲音放大，而不是把課堂講順\",\n  \"role\": \"reflection\",\n  \"intent\": \"提醒觀課者保留學生學習的不確定與微觀細節。\"\n}\n\n## Text\n{\n  \"title\": \"給觀課者的學習：把微弱聲音放大，而不是把課堂講順\",\n  \"key_points\": [\n    \"概念需回到學生學習事實校正\",\n    \"支吾、重複、沉默與表情，是理解學習不可刪除的資料\",\n    \"議課不應變成教師建議清單\",\n    \"真正的觀課學習，是改變自己下一次觀看學生的方式\"\n  ],\n  \"speaker_focus\": null\n}\n\n## Layout\n{\n  \"composition\": \"large magnifying glass and transcript/notebook visual; concise text column\"\n}\n\n## Visual Elements\n{\n  \"main_visual\": \"放大鏡照在逐字稿中的空白與停頓符號上，旁邊浮現學生思考的淡色線稿。\"\n}\n\n## Style Reference Rule\nUse Image 1 as the approved sample-slide style reference. Match its palette, typography mood, density, texture, and overall visual identity. Do not copy its exact layout unless this slide's layout explicitly asks for it.\n\n## Input Image Handling Rules\nFor any input image marked as a strict input asset, include it visibly and preserve its content. Do not redraw, replace, relabel, or invent a similar figure. Scale and crop only as needed for composition while keeping the important labels, arrows, data, and relationships recognizable.\n\n## Universal Constraints\n- The final image itself must contain the title and key points.\n- Render Chinese text exactly and legibly; avoid garbled characters.\n- Keep the confirmed deck style consistent while varying layout by slide role.\n- No watermark, unrelated logo, or extra slide number.\n",
+  "out": "slide_13.png",
+  "input_images": [
+    {
+      "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+      "role": "approved sample slide style reference",
+      "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+    }
+  ],
+  "requires_context_images": true,
+  "expected_backend": "built-in image tool",
+  "sample_generation_method": {
+    "backend_used": "built-in image tool",
+    "tool_name": "image_gen",
+    "mode": "generate",
+    "prompt_source": "approved slide 08 sample prompt with warm paper research-record style and recurring character constraints",
+    "size": "16:9 landscape, built-in default",
+    "quality": "built-in default",
+    "approved_sample_path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+    "input_context_preparation": "approved sample is used as style-only reference; no strict source image assets",
+    "handoff_rule": "Subagents must use built-in image_gen generate mode and return a blocker if unavailable."
+  },
+  "generation_contract": {
+    "must_use_selected_image_backend": true,
+    "must_match_sample_generation_method": true,
+    "forbidden_final_image_methods": [
+      "local drawing/rendering scripts",
+      "Pillow-generated slides",
+      "SVG/HTML/CSS/canvas screenshots",
+      "python-pptx/PptxGenJS/native PPT layout screenshots",
+      "manually composited text/image overlays"
+    ],
+    "must_return": [
+      "backend_used",
+      "selected_source",
+      "qa_note"
+    ]
+  }
+}

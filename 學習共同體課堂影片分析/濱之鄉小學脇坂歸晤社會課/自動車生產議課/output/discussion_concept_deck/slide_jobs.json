@@ -1,0 +1,562 @@
+{
+  "run_status": "slides_recorded",
+  "deck_name": "discussion_concept_deck",
+  "selected_backend": "built-in image tool",
+  "sample_generation_method": {
+    "backend_used": "built-in image tool",
+    "tool_name": "image_gen",
+    "mode": "generate",
+    "prompt_source": "approved slide 08 sample prompt with warm paper research-record style and recurring character constraints",
+    "size": "16:9 landscape, built-in default",
+    "quality": "built-in default",
+    "approved_sample_path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+    "input_context_preparation": "approved sample is used as style-only reference; no strict source image assets",
+    "handoff_rule": "Subagents must use built-in image_gen generate mode and return a blocker if unavailable."
+  },
+  "max_concurrent_slides": 6,
+  "slides": [
+    {
+      "slide_id": "slide_01",
+      "number": 1,
+      "title": "在無解的兩難中學會傾聽",
+      "job": "prompts/slide_01.json",
+      "out": "origin_image/slide_01.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68c-3527-7152-a066-9695bfba4dc3",
+        "agent_nickname": "Kepler",
+        "prompt": "prompts/slide_01.json",
+        "prompt_sha256": "63984e306e1331f2a8a3995b5b89afa2a5c0d277adbabb00999a3b67067bfebf",
+        "dispatched_at": "2026-08-03T07:35:55Z"
+      },
+      "result": {
+        "agent_id": "019fc68c-3527-7152-a066-9695bfba4dc3",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_01\\slide_01_built_in_image_tool.png",
+        "selected_source_sha256": "420e55c13b0322764b5e262e0eef470dce6e7c90bc151bd09852ba4f8640f97d",
+        "final_image": "origin_image/slide_01.png",
+        "final_image_sha256": "420e55c13b0322764b5e262e0eef470dce6e7c90bc151bd09852ba4f8640f97d",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合暖紙質研究紀錄與淡水彩風格，有小組座位與角色一致性，未出現可讀黑板字或可讀文字。",
+        "recorded_at": "2026-08-03T07:37:49Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_02",
+      "number": 2,
+      "title": "這場議課真正追問的是什麼",
+      "job": "prompts/slide_02.json",
+      "out": "origin_image/slide_02.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68c-5682-7ae2-9646-9109af56bb3e",
+        "agent_nickname": "Hubble",
+        "prompt": "prompts/slide_02.json",
+        "prompt_sha256": "42211fd54e6d1c3e24aa7522ebe8bf0139fa54ecbf1cb1e18ac4e65624091595",
+        "dispatched_at": "2026-08-03T07:35:55Z"
+      },
+      "result": {
+        "agent_id": "019fc68c-5682-7ae2-9646-9109af56bb3e",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_02\\slide_02_built_in_image_tool.png",
+        "selected_source_sha256": "a78fc027d6d3015026871cffd2ae09ba6a538295215a4f8f2091adf7ddb58610",
+        "final_image": "origin_image/slide_02.png",
+        "final_image_sha256": "a78fc027d6d3015026871cffd2ae09ba6a538295215a4f8f2091adf7ddb58610",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪淡水彩風格，含小組座位與教師/學生角色一致性，未放可讀黑板字。",
+        "recorded_at": "2026-08-03T07:38:00Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_03",
+      "number": 3,
+      "title": "社會科不是找答案，而是進入關係",
+      "job": "prompts/slide_03.json",
+      "out": "origin_image/slide_03.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68c-74ea-7161-934b-33c873f505cd",
+        "agent_nickname": "Goodall",
+        "prompt": "prompts/slide_03.json",
+        "prompt_sha256": "bc7be7a39c44eb383e4701c4c64b9b175938efefaa2cafc3d8a397f22c7d86b0",
+        "dispatched_at": "2026-08-03T07:35:56Z"
+      },
+      "result": {
+        "agent_id": "019fc68c-74ea-7161-934b-33c873f505cd",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_03.png",
+        "selected_source_sha256": "6215fb0dafce189399b7e961014ba6d1bd14d857b8713cd5177c454cb2b7df5a",
+        "final_image": "origin_image/slide_03.png",
+        "final_image_sha256": "6215fb0dafce189399b7e961014ba6d1bd14d857b8713cd5177c454cb2b7df5a",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪淡水彩風格，含小組座位與一致教師/學生角色，且無可讀黑板字。",
+        "recorded_at": "2026-08-03T07:38:10Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_04",
+      "number": 4,
+      "title": "從身邊家長出發，讓龐大社會靠近孩子",
+      "job": "prompts/slide_04.json",
+      "out": "origin_image/slide_04.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68c-920f-79a0-80bd-e21c3f0077cc",
+        "agent_nickname": "Maxwell",
+        "prompt": "prompts/slide_04.json",
+        "prompt_sha256": "e781cc7fac309a12f9d6e04c7b7e6b12230780d0700b8c5c087835b24bf8c3a8",
+        "dispatched_at": "2026-08-03T07:35:56Z"
+      },
+      "result": {
+        "agent_id": "019fc68c-920f-79a0-80bd-e21c3f0077cc",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_04\\slide_04_built_in.png",
+        "selected_source_sha256": "edb20380e789ff534c3cbf6d249a3d349c987821b264a9db915882cee6eb925b",
+        "final_image": "origin_image/slide_04.png",
+        "final_image_sha256": "edb20380e789ff534c3cbf6d249a3d349c987821b264a9db915882cee6eb925b",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪淡水彩風格，具小組座位與教師角色一致性，未出現可讀黑板字。",
+        "recorded_at": "2026-08-03T07:38:32Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_05",
+      "number": 5,
+      "title": "一欄表讓沒有發言的想法進入公共空間",
+      "job": "prompts/slide_05.json",
+      "out": "origin_image/slide_05.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68c-aefa-7570-a566-a462cfbd1226",
+        "agent_nickname": "Bohr",
+        "prompt": "prompts/slide_05.json",
+        "prompt_sha256": "28e97cb8d3a876fd3f7ec0fe0d470f95a4175f0646a874d1e36b35acd055522b",
+        "dispatched_at": "2026-08-03T07:35:57Z"
+      },
+      "result": {
+        "agent_id": "019fc68c-aefa-7570-a566-a462cfbd1226",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_outputs\\slide_05\\slide_05_built_in_image_tool.png",
+        "selected_source_sha256": "a988bd2cbe6bad212f9d61bda1631047173bdae90fa776bd0f453d3588f257e5",
+        "final_image": "origin_image/slide_05.png",
+        "final_image_sha256": "a988bd2cbe6bad212f9d61bda1631047173bdae90fa776bd0f453d3588f257e5",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪水彩風格，具小組座位與教師/學生角色一致性，表格與黑板無可讀文字。",
+        "recorded_at": "2026-08-03T07:42:00Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_06",
+      "number": 6,
+      "title": "兩難不是概念講解，而是身體先感到困住",
+      "job": "prompts/slide_06.json",
+      "out": "origin_image/slide_06.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68c-ceaf-7752-9d27-643e68111846",
+        "agent_nickname": "Epicurus",
+        "prompt": "prompts/slide_06.json",
+        "prompt_sha256": "ff60413a079de554cf841dafea3a01c1e6d45c23c1f35d9745d9bd15c9953ae8",
+        "dispatched_at": "2026-08-03T07:35:57Z"
+      },
+      "result": {
+        "agent_id": "019fc68c-ceaf-7752-9d27-643e68111846",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_outputs\\slide_06.png",
+        "selected_source_sha256": "57e6d27bd5c61ed828239230aafe1a277d3c836673f7a4f9b900b8d1e2711b02",
+        "final_image": "origin_image/slide_06.png",
+        "final_image_sha256": "57e6d27bd5c61ed828239230aafe1a277d3c836673f7a4f9b900b8d1e2711b02",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質研究紀錄風格，含小組座位與角色一致性，未加入可讀黑板字或可讀文字。",
+        "recorded_at": "2026-08-03T07:40:45Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_07",
+      "number": 7,
+      "title": "小組討論是微型社會，不是答案交換",
+      "job": "prompts/slide_07.json",
+      "out": "origin_image/slide_07.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68f-3ed1-76f3-ac06-ba9477335fed",
+        "agent_nickname": "Darwin",
+        "prompt": "prompts/slide_07.json",
+        "prompt_sha256": "9394c68c46c7dee82d7e3719816308ab5175ad6807ec3db73b79da17e4a61f5e",
+        "dispatched_at": "2026-08-03T07:39:08Z"
+      },
+      "result": {
+        "agent_id": "019fc68f-3ed1-76f3-ac06-ba9477335fed",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_07\\slide_07.png",
+        "selected_source_sha256": "94fd90594007f183134006ce1fd2d130e1127ccc2146ceeecbee3d72732868d3",
+        "final_image": "origin_image/slide_07.png",
+        "final_image_sha256": "94fd90594007f183134006ce1fd2d130e1127ccc2146ceeecbee3d72732868d3",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合暖紙質手繪淡水彩風格；有小組座位與一致的教師/學生角色設定，且無可讀黑板字或可讀文字。",
+        "recorded_at": "2026-08-03T07:42:35Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_08",
+      "number": 8,
+      "title": "沉默是學習正在生成的時間",
+      "job": "prompts/slide_08.json",
+      "out": "origin_image/slide_08.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "accepted",
+      "dispatch": null,
+      "result": {
+        "final_image": "origin_image/slide_08.png",
+        "accepted_sample": true
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_09",
+      "number": 9,
+      "title": "指名不是控制，而是傳達「我沒有放棄你」",
+      "job": "prompts/slide_09.json",
+      "out": "origin_image/slide_09.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68f-92c8-76d1-b8cc-6f27dfa4e556",
+        "agent_nickname": "Ptolemy",
+        "prompt": "prompts/slide_09.json",
+        "prompt_sha256": "98e7b0c85421b77d0354573a194adfa0eaa04b14e904aef556642e551252db51",
+        "dispatched_at": "2026-08-03T07:39:09Z"
+      },
+      "result": {
+        "agent_id": "019fc68f-92c8-76d1-b8cc-6f27dfa4e556",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_09_builtin.png",
+        "selected_source_sha256": "792be5b36b275af2bafe500e4e6c24250f3c372744bd5a501ecc83d99bc4647d",
+        "final_image": "origin_image/slide_09.png",
+        "final_image_sha256": "792be5b36b275af2bafe500e4e6c24250f3c372744bd5a501ecc83d99bc4647d",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "圖像符合 prompt 的暖紙質研究紀錄風格，呈現小組座位與壯年男性教師角色一致性，且沒有可讀黑板字。",
+        "recorded_at": "2026-08-03T07:41:34Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_10",
+      "number": 10,
+      "title": "真實社會進入課堂，孩子才可能成為公民",
+      "job": "prompts/slide_10.json",
+      "out": "origin_image/slide_10.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68f-b08b-7d02-ba22-62c8edd79e46",
+        "agent_nickname": "Dalton",
+        "prompt": "prompts/slide_10.json",
+        "prompt_sha256": "c2706646516dff1a60cfc6cebc5f9346159daa55271e6b5fc324f112d0c0796a",
+        "dispatched_at": "2026-08-03T07:39:10Z"
+      },
+      "result": {
+        "agent_id": "019fc68f-b08b-7d02-ba22-62c8edd79e46",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_10_builtin.png",
+        "selected_source_sha256": "bc1ccbe0329c34441d26eb1f924af8ee4d0aac3458ba6f64279d5d5796c8b2bf",
+        "final_image": "origin_image/slide_10.png",
+        "final_image_sha256": "bc1ccbe0329c34441d26eb1f924af8ee4d0aac3458ba6f64279d5d5796c8b2bf",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪水彩風格，有小組座位與教師/學生角色一致性，且無可讀黑板字。",
+        "recorded_at": "2026-08-03T07:43:21Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_11",
+      "number": 11,
+      "title": "教師在議課中的成長，不是提出建議，而是改變觀看方式",
+      "job": "prompts/slide_11.json",
+      "out": "origin_image/slide_11.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc68f-cf6a-74f3-9a77-5282afa35c7b",
+        "agent_nickname": "Franklin",
+        "prompt": "prompts/slide_11.json",
+        "prompt_sha256": "97d105814deb91eb0bcb82ca8983578f02a01cfb9652ec8fc7ecc5a938f00c94",
+        "dispatched_at": "2026-08-03T07:39:10Z"
+      },
+      "result": {
+        "agent_id": "019fc68f-cf6a-74f3-9a77-5282afa35c7b",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_11\\slide_11.png",
+        "selected_source_sha256": "61b6af9e4f566cd6dd4b2d93d7caf7bcbc40af0a91f347107160dee9f9f8d71d",
+        "final_image": "origin_image/slide_11.png",
+        "final_image_sha256": "61b6af9e4f566cd6dd4b2d93d7caf7bcbc40af0a91f347107160dee9f9f8d71d",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪水彩風格，包含小組座位與壯年男性教師角色連續性，未捏造可讀黑板字。",
+        "recorded_at": "2026-08-03T07:42:10Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_12",
+      "number": 12,
+      "title": "佐藤學評講把課例推回學共哲學",
+      "job": "prompts/slide_12.json",
+      "out": "origin_image/slide_12.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc691-9143-7c02-8814-304f25c29c7b",
+        "agent_nickname": "Chandrasekhar",
+        "prompt": "prompts/slide_12.json",
+        "prompt_sha256": "81017e2de7c3b68fccab3b63fc4bb6e199a706db433bfc2811d642cb57512a64",
+        "dispatched_at": "2026-08-03T07:41:01Z"
+      },
+      "result": {
+        "agent_id": "019fc691-9143-7c02-8814-304f25c29c7b",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_12\\slide_12_builtin.png",
+        "selected_source_sha256": "8a387fc6bb6a4d6573380a9831c0b76b35c335a7397968dd367370c7cc4e49ea",
+        "final_image": "origin_image/slide_12.png",
+        "final_image_sha256": "8a387fc6bb6a4d6573380a9831c0b76b35c335a7397968dd367370c7cc4e49ea",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪淡水彩風格，有小組座位與教師/學生角色連續性，未加入可讀黑板字或標籤文字。",
+        "recorded_at": "2026-08-03T07:45:26Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_13",
+      "number": 13,
+      "title": "給觀課者的學習：把微弱聲音放大，而不是把課堂講順",
+      "job": "prompts/slide_13.json",
+      "out": "origin_image/slide_13.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc692-5229-7910-9656-0b4140b9b4bb",
+        "agent_nickname": "Confucius",
+        "prompt": "prompts/slide_13.json",
+        "prompt_sha256": "866fbb61404af30ebb76c7661099b65416cf532db4d7803ed4a22fb9eeaadc53",
+        "dispatched_at": "2026-08-03T07:41:51Z"
+      },
+      "result": {
+        "agent_id": "019fc692-5229-7910-9656-0b4140b9b4bb",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_13.png",
+        "selected_source_sha256": "f298d0e73de056f5a84f73e464e054ad24838aaef77c21a69deecb66a539010d",
+        "final_image": "origin_image/slide_13.png",
+        "final_image_sha256": "f298d0e73de056f5a84f73e464e054ad24838aaef77c21a69deecb66a539010d",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "符合 prompt 的暖紙質手繪淡水彩風格，含小組座位與一致教師/學生角色，未加入可讀黑板字或可讀文字。",
+        "recorded_at": "2026-08-03T07:46:18Z"
+      },
+      "blocker": null
+    },
+    {
+      "slide_id": "slide_14",
+      "number": 14,
+      "title": "學習共同體，是一起承受不確定",
+      "job": "prompts/slide_14.json",
+      "out": "origin_image/slide_14.png",
+      "input_images": [
+        {
+          "path": "G:/我的雲端硬碟/和北極星境遇/學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/origin_image/slide_08.png",
+          "role": "approved sample slide style reference",
+          "fidelity": "match style, palette, typography density, small-group seating, and recurring character design; do not copy the exact layout unless slide content calls for it"
+        }
+      ],
+      "requires_context_images": true,
+      "status": "recorded",
+      "dispatch": {
+        "agent_id": "019fc692-da3b-7950-ac96-6fe1299805cc",
+        "agent_nickname": "Schrodinger",
+        "prompt": "prompts/slide_14.json",
+        "prompt_sha256": "9e34466f09456e4753278f21ea2ee421316ed748dbe2187acd1787e72d524236",
+        "dispatched_at": "2026-08-03T07:42:26Z"
+      },
+      "result": {
+        "agent_id": "019fc692-da3b-7950-ac96-6fe1299805cc",
+        "backend_used": "built-in image tool",
+        "selected_source": "G:\\我的雲端硬碟\\和北極星境遇\\學習共同體課堂影片分析\\濱之鄉小學脇坂歸晤社會課\\自動車生產議課\\output\\discussion_concept_deck\\worker_output\\slide_14\\slide_14.png",
+        "selected_source_sha256": "601bd5c0e9b195562cfd593b0e14323cc6d0680f51fadbe1c4819742ab87437a",
+        "final_image": "origin_image/slide_14.png",
+        "final_image_sha256": "601bd5c0e9b195562cfd593b0e14323cc6d0680f51fadbe1c4819742ab87437a",
+        "expected_backend": "built-in image tool",
+        "expected_backend_labels": [
+          "built-in image tool",
+          "image_gen"
+        ],
+        "sample_generation_method_matched": true,
+        "qa_note": "圖像符合暖紙質研究紀錄與手繪淡水彩風格，呈現小組座位與教師/學生角色一致性，且未產生可讀黑板字或可讀文字。",
+        "recorded_at": "2026-08-03T07:46:42Z"
+      },
+      "blocker": null
+    }
+  ],
+  "updated_at": "2026-08-03T07:46:42Z"
+}

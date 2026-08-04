@@ -1,5 +1,44 @@
 # 交接紀錄：濱之鄉脇坂圭悟社會課議課影片
 
+## 2026-08-03 收工更新
+
+### 本次完成
+
+- 依據中文逐字稿為主、日文逐字稿與中日比較報告為校正資料，完成「自動車生產議課」14 頁議課重點概念簡報。
+- 已生成並整理多版簡報，最終可用版本為：
+  - `自動車生產議課/output/discussion_concept_deck/discussion_concept_deck_left_text_style_v6_all_text.pptx`
+- 目前最終版格式：
+  - 16:9，共 14 頁。
+  - 文字採左上透明配置，標題 28 pt。
+  - 條列使用 `▸`，文字保持可編輯。
+  - 第 5、8、11 頁已使用清乾淨文字烙印的背景圖，再把原本重點文字用其他頁相同格式放回。
+- 已產生驗證預覽：
+  - `自動車生產議課/output/discussion_concept_deck/v6_all_text_5_8_11_preview.png`
+  - `自動車生產議課/output/discussion_concept_deck/left_text_style_v3_contact_sheet.png`
+- 已生成一頁式響應式 HTML：
+  - `自動車生產議課/output/discussion_concept_deck/discussion_concept_deck_responsive.html`
+
+### 重要中間檔
+
+- 簡報規格：`自動車生產議課/output/discussion_concept_deck/deck_spec.json`
+- 講稿：`自動車生產議課/output/discussion_concept_deck/speech.md`
+- 最終套版腳本：`自動車生產議課/output/discussion_concept_deck/make_v6_all_left_text_clean.py`
+- 第 5、8、11 頁清字後背景：
+  - `自動車生產議課/output/discussion_concept_deck/slide_05_clean_no_text.png`
+  - `自動車生產議課/output/discussion_concept_deck/slide_08_clean_for_left_text.png`
+  - `自動車生產議課/output/discussion_concept_deck/slide_11_clean_no_text.png`
+
+### 驗證
+
+- `discussion_concept_deck_left_text_style_v6_all_text.pptx` 已用 `python-pptx` 檢查為 14 頁。
+- 第 5、8、11 頁已確認各有 5 個可編輯文字框，且預覽圖確認背景沒有重複烙字。
+- PowerPoint COM 已可匯出預覽 PNG。
+
+### 待辦
+
+- 使用者若確認 v6 版面，即可將 `discussion_concept_deck_left_text_style_v6_all_text.pptx` 視為目前交付版。
+- 若要進一步發佈或同步 GitHub，需由使用者明確授權 commit / push。
+
 更新時間：2026-07-30
 
 ## 已完成
@@ -49,5 +88,4 @@
 
 - 大型媒體檔案已於 `.gitignore` 排除，切勿 `git add`。
 - 最後更新：Antigravity @ DESKTOP-31QBU95 (Git push: ✅ 已推)
-
 
