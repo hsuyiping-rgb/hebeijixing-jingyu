@@ -189,13 +189,11 @@ body {
   width: var(--w);
   min-height: var(--h);
   padding: clamp(24px, 3.2vw, 42px);
-  background: var(--panel-bg);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 24px;
-  backdrop-filter: blur(20px);
-  box-shadow: 
-    0 15px 35px rgba(43, 37, 26, 0.08),
-    inset 0 0 12px rgba(255, 255, 255, 0.25);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -305,8 +303,7 @@ li::before {
     top: auto !important;
     width: 100% !important;
     min-height: 0 !important;
-    margin: -50px 0 0 0;
-    border-radius: 20px 20px 16px 16px;
+    margin: 1rem 0 0 0;
     z-index: 2;
   }
 }
