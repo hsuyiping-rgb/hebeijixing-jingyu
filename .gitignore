@@ -83,5 +83,5 @@ output/課堂檔案/**/影音/*.mp4
 public/
 
 # 排除自動車生產議課下的過渡大簡報，只保留 v6 最終交付版簡報
-學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/*.pptx
-!學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/discussion_concept_deck/discussion_concept_deck_left_text_style_v6_all_text.pptx
+學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/簡報/discussion_concept_deck/*.pptx
+!學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/簡報/discussion_concept_deck/discussion_concept_deck_left_text_style_v6_all_text.pptx
