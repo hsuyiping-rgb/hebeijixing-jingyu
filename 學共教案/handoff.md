@@ -56,4 +56,4 @@
 
 - 時間：2026-09-09
 - 更新者：Claude Opus 5 @ DESKTOP-31QBU95
-- Git push：待推
+- Git push：✅ 已推（6d308ae，含本 session 共 8 個 commit）
