@@ -102,3 +102,9 @@ public/
 # 排除自動車生產議課下的過渡大簡報，只保留 v6 最終交付版簡報
 學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/簡報/discussion_concept_deck/*.pptx
 !學習共同體課堂影片分析/濱之鄉小學脇坂歸晤社會課/自動車生產議課/output/簡報/discussion_concept_deck/discussion_concept_deck_left_text_style_v6_all_text.pptx
+
+# 學共教案的課文附件：出版社著作，只留本機與 Google Drive。
+# 版控的 教案.docx／教案.md 一律是**不含課文**的版本；要給觀課教師的含課文版
+# 用 build_docx.py 的 --附件 另外產生，檔名固定帶「（含課文附件）」。
+學共教案/教案成果/**/附件_課文.*
+學共教案/教案成果/**/*（含課文附件）.docx

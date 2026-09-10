@@ -2,7 +2,11 @@
 """把教案內容填進「公開課教案參考格式.docx」制式表，輸出可編輯的 .docx。
 
 用法：
-    python -X utf8 build_docx.py <內容.json> <範本.docx> <輸出.docx>
+    python -X utf8 build_docx.py <內容.json> <範本.docx> <輸出.docx> [--附件 <附件.json>]
+
+`--附件` 指向另一份 JSON（形如 `{"附件": [...]}`），內容會併進主 JSON 後才產表。
+用途：出版社課文之類**不進版控**的素材另存一檔，版控版與含附件版共用同一份教案內容，
+只差在產出時有沒有帶 `--附件`。
 
 內容 JSON 的結構見同目錄 `教案內容.schema.md`，或參考實際範例
 `教案成果/五年級_數學_折線圖_20260909/教案內容.json`。
@@ -36,6 +40,7 @@ import sys
 import docx
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
+from docx.enum.text import WD_BREAK
 from docx.shared import Cm, Pt
 
 try:
@@ -276,6 +281,19 @@ def build(content, template, out):
                 f.new_para(p._element, txt, bold=False)
             break
 
+    # 附件（制式表沒有，接在文件最後；例如公開課要附上的課文全文）
+    # JSON: "附件": [{"標題": ..., "說明": ..., "段落": [...]}]
+    for i, att in enumerate(c.get('附件') or []):
+        p = d.add_paragraph()
+        p.add_run().add_break(WD_BREAK.PAGE)          # 附件另起一頁
+        f._style(p.add_run(att['標題']), bold=True)
+        if att.get('說明'):
+            f._style(d.add_paragraph().add_run(att['說明']))
+        for line in att.get('段落') or []:
+            np = d.add_paragraph()
+            np.paragraph_format.space_after = Pt(0)
+            f._style(np.add_run(line))
+
     d.save(out)
     return out
 
@@ -304,9 +322,15 @@ def inspect(template):
 if __name__ == '__main__':
     if len(sys.argv) == 3 and sys.argv[1] == '--inspect':
         inspect(sys.argv[2])
-    elif len(sys.argv) == 4:
+    elif len(sys.argv) in (4, 6):
         with open(sys.argv[1], encoding='utf-8') as fh:
             data = json.load(fh)
+        if len(sys.argv) == 6:
+            if sys.argv[4] != '--附件':
+                print(__doc__)
+                sys.exit(1)
+            with open(sys.argv[5], encoding='utf-8') as fh:
+                data.update(json.load(fh))
         print('已輸出:', build(data, sys.argv[2], sys.argv[3]))
     else:
         print(__doc__)
