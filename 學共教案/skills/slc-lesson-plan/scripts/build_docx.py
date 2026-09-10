@@ -293,6 +293,26 @@ def build(content, template, out):
             np = d.add_paragraph()
             np.paragraph_format.space_after = Pt(0)
             f._style(np.add_run(line))
+        # 附件也可以放表格（例如學習單的填寫格）
+        # {"標題":..., "欄寬":[cm,...], "列":[[格,...],...], "表頭":bool, "列高":cm}
+        for tb in att.get('表') or []:
+            if tb.get('標題'):
+                f._style(d.add_paragraph().add_run(tb['標題']), bold=True)
+            rows = tb['列']
+            t = d.add_table(rows=len(rows), cols=len(rows[0]))
+            try:
+                t.style = d.styles['Table Grid']
+            except KeyError:
+                pass
+            for ri, row in enumerate(rows):
+                for ci, val in enumerate(row):
+                    f.cell(t.rows[ri].cells[ci], val,
+                           bold=(ri == 0 and tb.get('表頭')))
+                if tb.get('列高') and not (ri == 0 and tb.get('表頭')):
+                    t.rows[ri].height = Cm(tb['列高'])
+            if tb.get('欄寬'):
+                f.col_widths(t, tb['欄寬'])
+            d.add_paragraph()
 
     d.save(out)
     return out
@@ -330,7 +350,13 @@ if __name__ == '__main__':
                 print(__doc__)
                 sys.exit(1)
             with open(sys.argv[5], encoding='utf-8') as fh:
-                data.update(json.load(fh))
+                extra = json.load(fh)
+            for k, v in extra.items():
+                # 附件是串接不是覆寫：主 JSON 的學習單在前，外掛的課文在後。
+                if isinstance(v, list) and isinstance(data.get(k), list):
+                    data[k] = data[k] + v
+                else:
+                    data[k] = v
         print('已輸出:', build(data, sys.argv[2], sys.argv[3]))
     else:
         print(__doc__)
