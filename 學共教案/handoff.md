@@ -35,10 +35,10 @@
 - **技能可用且已三度驗證**。Step 3 硬檢核現為 **11 條**。
 - 母 repo 已 commit 三個並**推上去了**：`b5f68a1`（技能改動）、`2a2c9c9`（自然課教案成果
   ＋前次未推的交接檔）、`f9ce1f6`（收工更新）。遠端目前在 `f9ce1f6`。
-- ⚠️ **本檔在 `f9ce1f6` 之後又被改過兩次**：Codex 加了〈甘蔗吸管〉斷點，Claude 接著補上
-  Codex 產出的歸屬說明。**這兩筆尚未 commit。**
-- 技能已 `cp -r` 到 `~/.claude/skills/slc-lesson-plan/` 並 `chezmoi re-add`（SKILL.md 與 build_docx.py 都已進 source）。
-  **dotfiles repo 尚未 push。**
+- 本檔在 `f9ce1f6` 之後又改過：Codex 加了〈甘蔗吸管〉斷點，Claude 補上歸屬說明，
+  已一併 commit + push（`686f34d`）。
+- 技能已 `cp -r` 到 `~/.claude/skills/slc-lesson-plan/`、`chezmoi re-add`，
+  dotfiles 也已 commit + push（`8510930`）。
 - ⚠️ **本輪有兩個 Agent 同時在這個專案工作**：Claude（自然科教案＋技能）與 Codex（社會科教案）。
   改共用檔案前務必先讀最新內容，不要整份覆寫。
 - **三課教案都缺 Step 0 欄位**：學校、班級人數、日期節次、教學者、備課成員、特殊學生。
@@ -63,9 +63,9 @@
 
 ## ⚠️ 注意事項
 
-- **`.git/packed-refs.lock` 有一個 20:01 留下的 0 byte 殘留鎖檔。**
-  兩次 commit 都成功，但每次都噴 `Unable to create packed-refs.lock`。
-  **push 時可能會被它擋住。** 確認沒有其他 git 程序在跑之後手動刪掉即可，本輪沒有擅自刪。
+- **`.git/packed-refs.lock` 仍有一個 20:01 留下的 0 byte 殘留鎖檔**（本輪沒有擅自刪）。
+  前兩次 commit 都噴 `Unable to create packed-refs.lock` 但都成功，**四次 push 也都成功**，
+  所以不急。多半是 Codex 那邊的 git 程序留下的。確認沒有 git 程序在跑之後刪掉即可。
 - **母 repo `hebeijixing-jingyu` 是 PUBLIC。** 不進版控的有四類：
   `範本/`（含 307 班 24 位學生姓名）、`教材/`（出版社課本）、
   課文附件（`附件_課文.*`、`*（含課文附件）.docx`）、
@@ -97,6 +97,6 @@
 - 更新者：**Codex** @ DESKTOP-31QBU95（社會科〈甘蔗吸管〉斷點）
   ＋ **Claude Opus 5** @ DESKTOP-31QBU95（自然科教案、技能修改、收工同步）
 - Git push：
-  - Claude 的部分 **✅ 已推**（`7308427..f9ce1f6`，母 repo）
+  - Claude 的部分 **✅ 已推**（母 repo `7308427..686f34d`，四個 commit）
   - **Codex 的〈甘蔗吸管〉產出未 commit、未推**（Codex 表示未獲明確授權）
-  - **dotfiles（chezmoi）未推**，source 已更新但沒有 push
+  - dotfiles（chezmoi）**✅ 已推**（`4b1a56f..8510930`）
