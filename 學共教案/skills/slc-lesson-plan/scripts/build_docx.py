@@ -281,8 +281,9 @@ def build(content, template, out):
                 f.new_para(p._element, txt, bold=False)
             break
 
-    # 附件（制式表沒有，接在文件最後；例如公開課要附上的課文全文）
-    # JSON: "附件": [{"標題": ..., "說明": ..., "段落": [...]}]
+    # 附件（制式表沒有，接在文件最後；例如公開課要附上的課文全文、課本圖）
+    # JSON: "附件": [{"標題":..., "說明":..., "段落":[...], "圖":[...], "表":[...]}]
+    # 排版順序：標題 → 說明 → 段落 → 圖 → 表
     for i, att in enumerate(c.get('附件') or []):
         p = d.add_paragraph()
         p.add_run().add_break(WD_BREAK.PAGE)          # 附件另起一頁
@@ -293,6 +294,22 @@ def build(content, template, out):
             np = d.add_paragraph()
             np.paragraph_format.space_after = Pt(0)
             f._style(np.add_run(line))
+        # 附件也可以放圖（例如公開課要附上的課本天氣圖、示意圖）
+        # {"檔": 路徑, "寬cm": 15, "說明": "圖說"}；路徑可為絕對，或相對輸出 docx 的目錄
+        for im in att.get('圖') or []:
+            src = im['檔']
+            if not os.path.isabs(src):
+                cand = os.path.join(os.path.dirname(os.path.abspath(out)), src)
+                src = cand if os.path.exists(cand) else src
+            pi = d.add_paragraph()
+            pi.paragraph_format.space_after = Pt(2)
+            pi.alignment = 1
+            pi.add_run().add_picture(src, width=Cm(im.get('寬cm', 15)))
+            if im.get('說明'):
+                pc = d.add_paragraph()
+                pc.alignment = 1
+                f._style(pc.add_run(im['說明']))
+
         # 附件也可以放表格（例如學習單的填寫格）
         # {"標題":..., "欄寬":[cm,...], "列":[[格,...],...], "表頭":bool, "列高":cm}
         for tb in att.get('表') or []:
