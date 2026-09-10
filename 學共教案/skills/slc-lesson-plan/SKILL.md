@@ -200,6 +200,11 @@ python -X utf8 skills/slc-lesson-plan/scripts/build_docx.py   "教案成果/<...
 - 換範本或範本改版時，先跑 `build_docx.py --inspect <範本.docx>` 確認表格幾何，
   它會標出哪幾列有合併儲存格。
 - **不要覆寫 `範本/` 裡的任何檔案。**
+- **「文本結構分析」以圖形為優先**：制式表這一欄的抬頭就寫著「(用圖形和文字表示)」。
+  把 JSON 的 `教材組織與學生分析.文本結構分析` 寫成 `{"圖": {...}, "文字": [...]}`，
+  腳本會呼叫 `scripts/structure_diagram.py` 畫出節次鏈／概念鏈／教材地位的橫向流程圖，
+  存成同資料夾的 `文本結構圖.png` 並插在抬頭之後，文字敘述退居補充。
+  圖規格見 `structure_diagram.py` 的 docstring；沒有 `圖` 鍵時退回純文字，不會壞掉。
 
 `範本/` 不進版控（含學生個資），clone 後可能是空的。若找不到範本檔，
 **停下來請使用者補齊**，不要自己重造一份表格。
@@ -230,3 +235,4 @@ python -X utf8 skills/slc-lesson-plan/scripts/build_docx.py   "教案成果/<...
 | `templates/教案範本.md` | 教案 Markdown 骨架 |
 | `templates/課題設計卡.md` | Step 1 的一頁卡片骨架 |
 | `scripts/build_docx.py` | Step 4 的制式表填表腳本（含 `--inspect` 檢視範本幾何） |
+| `scripts/structure_diagram.py` | 文本結構分析的流程圖繪製（PIL，由 `build_docx.py` 呼叫） |

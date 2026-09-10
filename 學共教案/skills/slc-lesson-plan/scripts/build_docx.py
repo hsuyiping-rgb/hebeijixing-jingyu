@@ -30,14 +30,23 @@
 理據表依「教師／教材／學生／環境」四大類排序，同類的「類」欄自動縱向合併。
 """
 import json
+import os
 import sys
 
 import docx
 from docx.oxml.ns import qn
-from docx.shared import Pt
+from docx.oxml import OxmlElement
+from docx.shared import Cm, Pt
+
+try:
+    from structure_diagram import render as render_structure
+except ImportError:                                  # 沒有 Pillow 時退回純文字
+    render_structure = None
 
 # 教學設計理據的四大類順序：備課時先看教師怎麼教，再看教材、學生，最後看環境怎麼營造。
 LEI_ORDER = ['教師', '教材', '學生', '環境']
+# 理據表欄寬（cm）：類窄、項目中、內容吃滿剩下的版面，合計＝制式表寬度。
+LEI_COL_CM = [1.4, 3.6, 13.4]
 
 
 # ---------------------------------------------------------------- 工具
@@ -90,6 +99,32 @@ class Filler:
             np = cell.add_paragraph()
             np.paragraph_format.space_after = Pt(0)
             self._style(np.add_run(ln), bold)
+
+    def picture(self, cell, png, width_cm):
+        """在儲存格末尾加一張置中的圖。"""
+        p = cell.add_paragraph()
+        p.paragraph_format.space_after = Pt(4)
+        p.alignment = 1
+        p.add_run().add_picture(png, width=Cm(width_cm))
+        return p
+
+    @staticmethod
+    def col_widths(t, cms):
+        """固定表格欄寬（Word 只認 tblLayout=fixed ＋ 每格 w:tcW）。"""
+        pr = t._element.tblPr
+        el = OxmlElement('w:tblLayout')
+        el.set(qn('w:type'), 'fixed')
+        pr.append(el)
+        t.autofit = False
+        for row in t.rows:
+            seen = set()
+            i = 0
+            for c in row.cells:
+                if id(c._tc) in seen:
+                    continue
+                seen.add(id(c._tc))
+                c.width = Cm(cms[min(i, len(cms) - 1)])
+                i += 1
 
     def para(self, p, text):
         """就地改寫既有段落，保留原格式。"""
@@ -175,8 +210,22 @@ def build(content, template, out):
     # 教材組織與學生分析（三小段，各自保留原有的「一、二、三」抬頭）
     # JSON 鍵沿用舊名，抬頭一律取範本原文（現行範本是「三、特殊學生特性描述：」）
     for i, key in enumerate(['文本結構分析', '學習困難及發現', '部份學生特性'], 1):
-        head = T[3].rows[i].cells[0].paragraphs[0].text.strip()
-        f.cell(T[3].rows[i].cells[0], [head] + list(c['教材組織與學生分析'][key]))
+        cell = T[3].rows[i].cells[0]
+        head = cell.paragraphs[0].text.strip()
+        val = c['教材組織與學生分析'][key]
+        # 文本結構分析可寫成 {"圖": {...}, "文字": [...]}：抬頭之後先擺圖，文字只當補充。
+        if isinstance(val, dict):
+            f.cell(cell, [head] + list(val.get('文字', [])))
+            spec = val.get('圖')
+            if spec and render_structure:
+                png = os.path.join(os.path.dirname(os.path.abspath(out)),
+                                   '文本結構圖.png')
+                render_structure(spec, png)
+                # 圖插在抬頭那一段之後，文字敘述之前
+                pic = f.picture(cell, png, 17.4)
+                cell.paragraphs[0]._element.addnext(pic._element)
+        else:
+            f.cell(cell, [head] + list(val))
 
     # 教學設計理據 12 項（制式表沒有，另插）
     # 依「教師→教材→學生→環境」四大類排序，同類的「類」欄縱向合併成一格。
@@ -187,6 +236,7 @@ def build(content, template, out):
         t = f.grid(len(items) + 1, 3, ['類', '項目', '內容'],
                    [[r['類'], r['項目'], r['內容']] for r in items],
                    T[3]._element, title='教學設計理據')
+        f.col_widths(t, LEI_COL_CM)
         start = 0
         for k in range(1, len(items) + 1):
             if k == len(items) or items[k]['類'] != items[start]['類']:
