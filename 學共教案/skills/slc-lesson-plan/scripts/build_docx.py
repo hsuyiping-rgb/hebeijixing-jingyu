@@ -2,7 +2,12 @@
 """把教案內容填進「公開課教案參考格式.docx」制式表，輸出可編輯的 .docx。
 
 用法：
-    python -X utf8 build_docx.py <內容.json> <範本.docx> <輸出.docx> [--附件 <附件.json>]
+    python -X utf8 build_docx.py <內容.json> <範本.docx> <輸出.docx> [--附件 <附件.json>] [--無圖]
+
+`--無圖` 略過內容裡所有夾在文字中的課本圖（`{"圖": ...}` 元素與附件的「圖」清單），
+用來產進版控的無圖版；含圖版另外跑一次不帶此旗標，檔名帶「（含課本圖）」。
+流程表的「教學活動內容」「教師支援」與附件「段落」的串列元素都可以是
+`{"圖": "附件_課本圖_xxx.png", "寬cm": 6, "說明": "圖說"}`，圖會夾在前後文字之間。
 
 `--附件` 指向另一份 JSON（形如 `{"附件": [...]}`），內容會併進主 JSON 後才產表。
 用途：出版社課文之類**不進版控**的素材另存一檔，版控版與含附件版共用同一份教案內容，
@@ -76,7 +81,9 @@ def detect_font(d):
 
 
 class Filler:
-    def __init__(self, template):
+    def __init__(self, template, out_dir='.', no_img=False):
+        self.out_dir = out_dir
+        self.no_img = no_img          # --無圖：略過所有課本圖，產版控用的無圖版
         self.d = docx.Document(template)
         self.font, self.ea = detect_font(self.d)
 
@@ -99,11 +106,36 @@ class Filler:
         for r in list(p0.runs):
             r._element.getparent().remove(r._element)
         p0.paragraph_format.space_after = Pt(0)
-        self._style(p0.add_run(lines[0]), bold)
-        for ln in lines[1:]:
-            np = cell.add_paragraph()
+        # 串列元素可以是 {"圖": 路徑, "寬cm": 6, "說明": "圖說"}：把課本圖夾在文字中間，
+        # 讓「各自觀看甘蔗吸管圖片」這類活動旁邊就看得到那張圖。
+        first = True
+        for ln in lines:
+            if isinstance(ln, dict):
+                if self.no_img or not self._img_path(ln['圖']):
+                    continue
+                self.picture(cell, self._img_path(ln['圖']), ln.get('寬cm', 6))
+                if ln.get('說明'):
+                    pc = cell.add_paragraph()
+                    pc.paragraph_format.space_after = Pt(4)
+                    pc.alignment = 1
+                    self._style(pc.add_run(ln['說明']))
+                continue
+            np = p0 if first else cell.add_paragraph()
+            first = False
             np.paragraph_format.space_after = Pt(0)
             self._style(np.add_run(ln), bold)
+        if first:                       # 全是被略過的圖，留一個空段落
+            self._style(p0.add_run(''), bold)
+
+    def _img_path(self, src):
+        """相對路徑以輸出 docx 的目錄為準；找不到就回 None 並提醒（課本圖不進版控，可能不在）。"""
+        if not os.path.isabs(src):
+            cand = os.path.join(self.out_dir, src)
+            src = cand if os.path.exists(cand) else src
+        if not os.path.exists(src):
+            print(f'  ⚠️ 找不到圖，已略過：{src}')
+            return None
+        return src
 
     def picture(self, cell, png, width_cm):
         """在儲存格末尾加一張置中的圖。"""
@@ -179,8 +211,8 @@ class Filler:
 
 # ---------------------------------------------------------------- 主流程
 
-def build(content, template, out):
-    f = Filler(template)
+def build(content, template, out, no_img=False):
+    f = Filler(template, os.path.dirname(os.path.abspath(out)), no_img)
     d = f.d
     c = content
     T = d.tables
@@ -291,16 +323,27 @@ def build(content, template, out):
         if att.get('說明'):
             f._style(d.add_paragraph().add_run(att['說明']))
         for line in att.get('段落') or []:
+            if isinstance(line, dict):          # 段落中夾圖，格式同流程表
+                src = None if f.no_img else f._img_path(line['圖'])
+                if src:
+                    pi = d.add_paragraph()
+                    pi.paragraph_format.space_after = Pt(2)
+                    pi.alignment = 1
+                    pi.add_run().add_picture(src, width=Cm(line.get('寬cm', 6)))
+                    if line.get('說明'):
+                        pc = d.add_paragraph()
+                        pc.alignment = 1
+                        f._style(pc.add_run(line['說明']))
+                continue
             np = d.add_paragraph()
             np.paragraph_format.space_after = Pt(0)
             f._style(np.add_run(line))
         # 附件也可以放圖（例如公開課要附上的課本天氣圖、示意圖）
         # {"檔": 路徑, "寬cm": 15, "說明": "圖說"}；路徑可為絕對，或相對輸出 docx 的目錄
         for im in att.get('圖') or []:
-            src = im['檔']
-            if not os.path.isabs(src):
-                cand = os.path.join(os.path.dirname(os.path.abspath(out)), src)
-                src = cand if os.path.exists(cand) else src
+            src = None if f.no_img else f._img_path(im['檔'])
+            if not src:
+                continue
             pi = d.add_paragraph()
             pi.paragraph_format.space_after = Pt(2)
             pi.alignment = 1
@@ -359,14 +402,16 @@ def inspect(template):
 if __name__ == '__main__':
     if len(sys.argv) == 3 and sys.argv[1] == '--inspect':
         inspect(sys.argv[2])
-    elif len(sys.argv) in (4, 6):
-        with open(sys.argv[1], encoding='utf-8') as fh:
+    elif '--無圖' in sys.argv or len(sys.argv) in (4, 6):
+        no_img = '--無圖' in sys.argv
+        argv = [a for a in sys.argv if a != '--無圖']
+        with open(argv[1], encoding='utf-8') as fh:
             data = json.load(fh)
-        if len(sys.argv) == 6:
-            if sys.argv[4] != '--附件':
+        if len(argv) == 6:
+            if argv[4] != '--附件':
                 print(__doc__)
                 sys.exit(1)
-            with open(sys.argv[5], encoding='utf-8') as fh:
+            with open(argv[5], encoding='utf-8') as fh:
                 extra = json.load(fh)
             for k, v in extra.items():
                 # 附件是串接不是覆寫：主 JSON 的學習單在前，外掛的課文在後。
@@ -374,7 +419,7 @@ if __name__ == '__main__':
                     data[k] = data[k] + v
                 else:
                     data[k] = v
-        print('已輸出:', build(data, sys.argv[2], sys.argv[3]))
+        print('已輸出:', build(data, argv[2], argv[3], no_img=no_img))
     else:
         print(__doc__)
         sys.exit(1)
