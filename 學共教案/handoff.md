@@ -64,4 +64,4 @@
 
 - 時間：2026-09-11
 - 更新者：**Claude Opus 5** @ DESKTOP-31QBU95
-- Git push：母 repo 待推（收工 commit）；dotfiles ✅ 已推（`bf2861e`）
+- Git push：母 repo ✅ 已推（`fe6b3e9`，含本收工 commit）；dotfiles ✅ 已推（`bf2861e`）
