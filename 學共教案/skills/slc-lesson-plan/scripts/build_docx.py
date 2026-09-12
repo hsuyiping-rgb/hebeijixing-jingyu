@@ -35,8 +35,18 @@
     P        「觀課重點」← 本課觀課焦點插在這一段之後
     T[7] 4x4  觀課紀錄表（留白）
 
-制式表沒有「教學設計理據」與「理答預想表」，本腳本會另外插表。
+制式表沒有「教學設計理據」「理答預想表」「串連進程模擬」，本腳本會另外插表。
 理據表依「教師／教材／學生／環境」四大類排序，同類的「類」欄自動縱向合併。
+串連進程模擬（JSON 鍵 `串連進程模擬`）接在理答預想表之後：轉引／轉問／深究各一段、
+每段三位學生三段發言，同段的「策略／情境」欄縱向合併。
+
+版面規格（2026-09-12 依使用者手改的自然科教案定案，之後各課一律照此）：
+    - 全文統一 新細明體 12pt（含表頭標題、「公開授課觀課紀錄表」與觀課資訊表，
+      不再用範本的 14pt／20pt），存檔前由 finalize_format() 一次掃過所有 run。
+    - 理據表欄寬 1.4／3.6／13.4 cm，同時寫進 tblGrid，LibreOffice 與 Word 都吃得到。
+    - 「各節次學習活動設計的重點」內容列最小高度改 4.6 cm（範本原本 12.9 cm，
+      會把後面的流程表整列推到下一頁）。
+    - 附件的學習單表格一律撐滿版面寬（18.4 cm），「欄寬」只當比例用。
 """
 import json
 import os
@@ -57,6 +67,13 @@ except ImportError:                                  # 沒有 Pillow 時退回�
 LEI_ORDER = ['教師', '教材', '學生', '環境']
 # 理據表欄寬（cm）：類窄、項目中、內容吃滿剩下的版面，合計＝制式表寬度。
 LEI_COL_CM = [1.4, 3.6, 13.4]
+# 串連進程模擬表欄寬（cm）：策略／情境、序、學生發言、教師理答、意圖，合計＝版面寬。
+CHAIN_COL_CM = [2.8, 0.7, 5.0, 5.3, 4.6]
+# 版面規格：全文字型與字級、內文可用寬度（A4 直式、四邊 1.27 cm）、各節次重點列最小高度
+BODY_FONT = '新細明體'
+BODY_PT = 12
+PAGE_TEXT_CM = 18.44
+SECTIONS_ROW_MIN_CM = 4.6
 
 
 # ---------------------------------------------------------------- 工具
@@ -146,13 +163,32 @@ class Filler:
         return p
 
     @staticmethod
-    def col_widths(t, cms):
-        """固定表格欄寬（Word 只認 tblLayout=fixed ＋ 每格 w:tcW）。"""
+    def col_widths(t, cms, full_width=False):
+        """固定表格欄寬：tblLayout=fixed ＋ 每格 w:tcW ＋ w:tblGrid 三處都寫，
+        Word 看 tcW、LibreOffice 看 tblGrid，缺一邊就會有一邊排成等寬。
+        full_width=True 時把 cms 當比例，等比放大到撐滿版面寬（學習單表格用）。"""
+        cms = list(cms)
+        if full_width:
+            k = PAGE_TEXT_CM / sum(cms)
+            cms = [w * k for w in cms]
         pr = t._element.tblPr
+        for old in pr.findall(qn('w:tblLayout')):
+            pr.remove(old)
         el = OxmlElement('w:tblLayout')
         el.set(qn('w:type'), 'fixed')
         pr.append(el)
+        if full_width:
+            tw = pr.find(qn('w:tblW'))
+            if tw is None:
+                tw = OxmlElement('w:tblW')
+                pr.append(tw)
+            tw.set(qn('w:type'), 'pct')
+            tw.set(qn('w:w'), '5000')
         t.autofit = False
+        grid = t._element.find(qn('w:tblGrid'))
+        if grid is not None:
+            for gc, w in zip(grid.findall(qn('w:gridCol')), cms):
+                gc.set(qn('w:w'), str(int(Cm(w).twips)))
         for row in t.rows:
             seen = set()
             i = 0
@@ -162,6 +198,25 @@ class Filler:
                 seen.add(id(c._tc))
                 c.width = Cm(cms[min(i, len(cms) - 1)])
                 i += 1
+
+    @staticmethod
+    def finalize_format(d):
+        """存檔前統一全文字型與字級（新細明體 12pt）。
+        範本表頭與觀課紀錄表原本是 14pt／20pt、CJK 字型有的標楷體有的沒設，
+        使用者手改後的定稿是全文一致，這裡直接掃過所有 run 一次改齊。"""
+        for r in d.element.body.iter(qn('w:r')):
+            rpr = r.get_or_add_rPr()            # 用 python-docx 的 API 插，子元素順序才合 schema
+            rf = rpr.get_or_add_rFonts()
+            for a in list(rf.attrib):
+                del rf.attrib[a]
+            for k in ('w:ascii', 'w:hAnsi', 'w:eastAsia', 'w:cs'):
+                rf.set(qn(k), BODY_FONT)
+            rpr.get_or_add_sz().set(qn('w:val'), str(BODY_PT * 2))
+            szcs = rpr.find(qn('w:szCs'))
+            if szcs is None:                    # python-docx 沒有 szCs 的 API，手動接在 sz 後面
+                szcs = OxmlElement('w:szCs')
+                rpr.find(qn('w:sz')).addnext(szcs)
+            szcs.set(qn('w:val'), str(BODY_PT * 2))
 
     def para(self, p, text):
         """就地改寫既有段落，保留原格式。"""
@@ -285,6 +340,7 @@ def build(content, template, out, no_img=False):
     # 各節次重點
     f.cell(T[4].rows[0].cells[0], c['各節次重點']['標題'], bold=True)
     f.cell(T[4].rows[1].cells[0], c['各節次重點']['內容'])
+    T[4].rows[1].height = Cm(SECTIONS_ROW_MIN_CM)      # 範本的 12.9 cm 會把流程表推到下一頁
 
     # 流程表
     for ri, seg in enumerate(c['流程'], 1):
@@ -294,13 +350,41 @@ def build(content, template, out, no_img=False):
         f.cell(T[5].rows[ri].cells[3], seg['時間'], bold=True)
 
     # 理答預想表 + 彈性條款（制式表沒有，另插）
+    t_pre = None
     if c.get('理答預想表'):
-        f.grid(len(c['理答預想表']) + 1, 4,
+        t_pre = f.grid(len(c['理答預想表']) + 1, 4,
                ['預想的學生回應', '判讀', '策略', '教師台詞'],
                [[r['回應'], r['判讀'], r['策略'], r['台詞']] for r in c['理答預想表']],
                T[5]._element, title=c.get('理答預想表標題', '附錄：理答預想表'))
     if c.get('彈性條款'):
         f.new_para(T[5]._element, c['彈性條款'], bold=False)
+
+    # 串連進程模擬（制式表沒有，接在理答預想表之後）
+    # JSON: "串連進程模擬": {"標題":..., "說明":..., "進程":[{"策略","情境","目標","步":[{"學生","發言","教師","意圖"}]}]}
+    # 一問一答的理答預想表看不出「三個人的發言怎麼串成一條線」，這張表把每段串連拆成三步，
+    # 每步都寫學生原話、教師接的那句、以及這一步把誰跟誰串起來。同一段的策略欄縱向合併。
+    chain = c.get('串連進程模擬')
+    if chain and t_pre is not None:
+        rows = []
+        for seg in chain['進程']:
+            for k, st in enumerate(seg['步'], 1):
+                head = [seg['策略'], seg.get('情境', ''), '', seg.get('目標', '')] if k == 1 else None
+                rows.append((head, [f"{k}", f"{st['學生']}：{st['發言']}", st['教師'], st['意圖']]))
+        t = f.grid(len(rows) + 1, 5,
+                   ['策略／情境', '序', '學生發言（預想）', '教師理答', '這一步在串什麼'],
+                   [[''] + r for _, r in rows], t_pre._element,
+                   title=chain.get('標題', '附錄二：串連進程模擬'))
+        if chain.get('說明'):
+            f.new_para(t._element, chain['說明'], after=False, bold=False)
+        f.col_widths(t, CHAIN_COL_CM)
+        ri = 1
+        for seg in chain['進程']:
+            n = len(seg['步'])
+            merged = t.cell(ri, 0).merge(t.cell(ri + n - 1, 0))
+            f.cell(merged, [seg['策略'], '', seg.get('情境', ''), '', seg.get('目標', '')], bold=False)
+            f.cell(t.cell(ri, 0), [seg['策略'], '', seg.get('情境', ''), '', seg.get('目標', '')])
+            merged.paragraphs[0].runs[0].bold = True
+            ri += n
 
     # 觀課資訊
     for i, v in enumerate(c['觀課資訊']):
@@ -357,7 +441,9 @@ def build(content, template, out, no_img=False):
         # {"標題":..., "欄寬":[cm,...], "列":[[格,...],...], "表頭":bool, "列高":cm}
         for tb in att.get('表') or []:
             if tb.get('標題'):
-                f._style(d.add_paragraph().add_run(tb['標題']), bold=True)
+                pt = d.add_paragraph()
+                pt.paragraph_format.keep_with_next = True     # 標題不跟表格分家
+                f._style(pt.add_run(tb['標題']), bold=True)
             rows = tb['列']
             t = d.add_table(rows=len(rows), cols=len(rows[0]))
             try:
@@ -365,15 +451,22 @@ def build(content, template, out, no_img=False):
             except KeyError:
                 pass
             for ri, row in enumerate(rows):
+                trpr = t.rows[ri]._tr.get_or_add_trPr()
+                trpr.append(OxmlElement('w:cantSplit'))         # 單一列不跨頁
+                if ri == 0 and tb.get('表頭'):
+                    trpr.append(OxmlElement('w:tblHeader'))     # 表頭列跨頁時重複
+                    for pp in t.rows[0].cells[0].paragraphs:
+                        pp.paragraph_format.keep_with_next = True
                 for ci, val in enumerate(row):
                     f.cell(t.rows[ri].cells[ci], val,
                            bold=(ri == 0 and tb.get('表頭')))
                 if tb.get('列高') and not (ri == 0 and tb.get('表頭')):
                     t.rows[ri].height = Cm(tb['列高'])
-            if tb.get('欄寬'):
-                f.col_widths(t, tb['欄寬'])
+            # 學習單表格一律撐滿版面寬；「欄寬」只當各欄比例，沒給就等分。
+            f.col_widths(t, tb.get('欄寬') or [1] * len(rows[0]), full_width=True)
             d.add_paragraph()
 
+    Filler.finalize_format(d)
     d.save(out)
     return out
 
