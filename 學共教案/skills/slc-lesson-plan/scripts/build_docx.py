@@ -355,7 +355,7 @@ def build(content, template, out, no_img=False):
         t_pre = f.grid(len(c['理答預想表']) + 1, 4,
                ['預想的學生回應', '判讀', '策略', '教師台詞'],
                [[r['回應'], r['判讀'], r['策略'], r['台詞']] for r in c['理答預想表']],
-               T[5]._element, title=c.get('理答預想表標題', '附錄：理答預想表'))
+               T[5]._element, title=c.get('理答預想表標題', '附錄一：理答預想表'))
     if c.get('彈性條款'):
         f.new_para(T[5]._element, c['彈性條款'], bold=False)
 
