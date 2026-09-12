@@ -362,8 +362,18 @@ def build(content, template, out, no_img=False):
         rows = []                       # (kind, cells)
         if pre:
             rows.append(('band', '一、單步理答（講錯／沉默／離題等狀況，一句接一句）'))
+            # 同一個策略的預想併成同一列：回應／判讀／台詞各自用 ①②③ 對位
+            groups = {}
             for r in pre:
-                rows.append(('row', [r['策略'], '—', r['回應'], r['判讀'], r['台詞']]))
+                groups.setdefault(r['策略'], []).append(r)
+            marks = '①②③④⑤⑥⑦⑧⑨'
+            for strat, rs in groups.items():
+                if len(rs) == 1:
+                    r = rs[0]
+                    rows.append(('row', [strat, '—', r['回應'], r['判讀'], r['台詞']]))
+                else:
+                    col = lambda k: [f"{marks[i]}{r[k]}" for i, r in enumerate(rs)]
+                    rows.append(('row', [strat, '—', col('回應'), col('判讀'), col('台詞')]))
         segs = (chain or {}).get('進程') or []
         if segs:
             rows.append(('band', '二、串連進程（轉引／轉問／深究各一段，三位學生、三段發言）'))
@@ -386,7 +396,7 @@ def build(content, template, out, no_img=False):
                 f.cell(m, r, bold=True)
                 m.paragraphs[0].paragraph_format.keep_with_next = True   # 區塊標題不落單在頁尾
         # 串連段落：策略／情境欄縱向合併
-        ri = 1 + (len(pre) + 1 if pre else 0) + (1 if segs else 0)
+        ri = 1 + max((i for i, (kind, _) in enumerate(rows) if kind == 'band'), default=-1) + 1   # 區塊二標題列的下一列
         for seg in segs:
             n = len(seg['步'])
             m = t.cell(ri, 0).merge(t.cell(ri + n - 1, 0))
