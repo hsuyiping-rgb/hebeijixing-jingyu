@@ -35,10 +35,11 @@
     P        「觀課重點」← 本課觀課焦點插在這一段之後
     T[7] 4x4  觀課紀錄表（留白）
 
-制式表沒有「教學設計理據」「理答預想表」「串連進程模擬」，本腳本會另外插表。
+制式表沒有「教學設計理據」與「附錄：理答預想與串連進程表」，本腳本會另外插表。
 理據表依「教師／教材／學生／環境」四大類排序，同類的「類」欄自動縱向合併。
-串連進程模擬（JSON 鍵 `串連進程模擬`）接在理答預想表之後：轉引／轉問／深究各一段、
-每段三位學生三段發言，同段的「策略／情境」欄縱向合併。
+附錄表一張表兩個區塊：區塊一單步理答（JSON 鍵 `理答預想表`）、區塊二串連進程
+（JSON 鍵 `串連進程模擬`，轉引／轉問／深究各一段、每段三位學生三段發言，
+同段的「策略／情境」欄縱向合併）。標題可用 JSON 鍵 `附錄標題` 覆寫。
 
 版面規格（2026-09-12 依使用者手改的自然科教案定案，之後各課一律照此）：
     - 全文統一 新細明體 12pt（含表頭標題、「公開授課觀課紀錄表」與觀課資訊表，
@@ -67,8 +68,8 @@ except ImportError:                                  # 沒有 Pillow 時退回�
 LEI_ORDER = ['教師', '教材', '學生', '環境']
 # 理據表欄寬（cm）：類窄、項目中、內容吃滿剩下的版面，合計＝制式表寬度。
 LEI_COL_CM = [1.4, 3.6, 13.4]
-# 串連進程模擬表欄寬（cm）：策略／情境、序、學生發言、教師理答、意圖，合計＝版面寬。
-CHAIN_COL_CM = [2.8, 0.7, 5.0, 5.3, 4.6]
+# 附錄表欄寬（cm）：策略／情境、序、學生回應、判讀／意圖、教師理答，合計＝版面寬。
+APPX_COL_CM = [2.6, 0.7, 5.0, 4.9, 5.2]
 # 版面規格：全文字型與字級、內文可用寬度（A4 直式、四邊 1.27 cm）、各節次重點列最小高度
 BODY_FONT = '新細明體'
 BODY_PT = 12
@@ -349,42 +350,51 @@ def build(content, template, out, no_img=False):
         f.cell(T[5].rows[ri].cells[2], seg['教師支援'])
         f.cell(T[5].rows[ri].cells[3], seg['時間'], bold=True)
 
-    # 理答預想表 + 彈性條款（制式表沒有，另插）
-    t_pre = None
-    if c.get('理答預想表'):
-        t_pre = f.grid(len(c['理答預想表']) + 1, 4,
-               ['預想的學生回應', '判讀', '策略', '教師台詞'],
-               [[r['回應'], r['判讀'], r['策略'], r['台詞']] for r in c['理答預想表']],
-               T[5]._element, title=c.get('理答預想表標題', '附錄一：理答預想表'))
-    if c.get('彈性條款'):
-        f.new_para(T[5]._element, c['彈性條款'], bold=False)
-
-    # 串連進程模擬（制式表沒有，接在理答預想表之後）
-    # JSON: "串連進程模擬": {"標題":..., "說明":..., "進程":[{"策略","情境","目標","步":[{"學生","發言","教師","意圖"}]}]}
-    # 一問一答的理答預想表看不出「三個人的發言怎麼串成一條線」，這張表把每段串連拆成三步，
-    # 每步都寫學生原話、教師接的那句、以及這一步把誰跟誰串起來。同一段的策略欄縱向合併。
+    # 附錄：理答預想與串連進程表（制式表沒有，另插；一張表兩個區塊）
+    # 區塊一「單步理答」來自 JSON 的 理答預想表 [{"回應","判讀","策略","台詞"}]，
+    # 區塊二「串連進程」來自 串連進程模擬 {"說明","進程":[{"策略","情境","目標","步":[{"學生","發言","教師","意圖"}]}]}。
+    # 一問一答看不出「三個人的發言怎麼串成一條線」，所以把三段串連拆成三步接在單步理答之後，
+    # 五欄共用：策略／情境｜序｜預想的學生回應｜判讀／這一步在串什麼｜教師理答。
+    # 區塊標題列橫向合併整列；串連段落的「策略／情境」欄縱向合併。
+    pre = c.get('理答預想表') or []
     chain = c.get('串連進程模擬')
-    if chain and t_pre is not None:
-        rows = []
-        for seg in chain['進程']:
-            for k, st in enumerate(seg['步'], 1):
-                head = [seg['策略'], seg.get('情境', ''), '', seg.get('目標', '')] if k == 1 else None
-                rows.append((head, [f"{k}", f"{st['學生']}：{st['發言']}", st['教師'], st['意圖']]))
+    if pre or chain:
+        rows = []                       # (kind, cells)
+        if pre:
+            rows.append(('band', '一、單步理答（講錯／沉默／離題等狀況，一句接一句）'))
+            for r in pre:
+                rows.append(('row', [r['策略'], '—', r['回應'], r['判讀'], r['台詞']]))
+        segs = (chain or {}).get('進程') or []
+        if segs:
+            rows.append(('band', '二、串連進程（轉引／轉問／深究各一段，三位學生、三段發言）'))
+            for seg in segs:
+                for k, st in enumerate(seg['步'], 1):
+                    rows.append(('row', ['', str(k), f"{st['學生']}：{st['發言']}", st['意圖'], st['教師']]))
         t = f.grid(len(rows) + 1, 5,
-                   ['策略／情境', '序', '學生發言（預想）', '教師理答', '這一步在串什麼'],
-                   [[''] + r for _, r in rows], t_pre._element,
-                   title=chain.get('標題', '附錄二：串連進程模擬'))
-        if chain.get('說明'):
-            f.new_para(t._element, chain['說明'], after=False, bold=False)
-        f.col_widths(t, CHAIN_COL_CM)
-        ri = 1
-        for seg in chain['進程']:
+                   ['策略／情境', '序', '預想的學生回應', '判讀／這一步在串什麼', '教師理答'],
+                   [r if kind == 'row' else [r, '', '', '', ''] for kind, r in rows],
+                   T[5]._element,
+                   title=c.get('附錄標題', '附錄：理答預想與串連進程表'))
+        note = (chain or {}).get('說明')
+        if note:
+            f.new_para(t._element, note, after=False, bold=False)
+        f.col_widths(t, APPX_COL_CM)
+        # 區塊標題列：整列合併、粗體
+        for i, (kind, r) in enumerate(rows, 1):
+            if kind == 'band':
+                m = t.cell(i, 0).merge(t.cell(i, 4))
+                f.cell(m, r, bold=True)
+                m.paragraphs[0].paragraph_format.keep_with_next = True   # 區塊標題不落單在頁尾
+        # 串連段落：策略／情境欄縱向合併
+        ri = 1 + (len(pre) + 1 if pre else 0) + (1 if segs else 0)
+        for seg in segs:
             n = len(seg['步'])
-            merged = t.cell(ri, 0).merge(t.cell(ri + n - 1, 0))
-            f.cell(merged, [seg['策略'], '', seg.get('情境', ''), '', seg.get('目標', '')], bold=False)
-            f.cell(t.cell(ri, 0), [seg['策略'], '', seg.get('情境', ''), '', seg.get('目標', '')])
-            merged.paragraphs[0].runs[0].bold = True
+            m = t.cell(ri, 0).merge(t.cell(ri + n - 1, 0))
+            f.cell(m, [seg['策略'], '', seg.get('情境', ''), '', seg.get('目標', '')])
+            m.paragraphs[0].runs[0].bold = True
             ri += n
+    if c.get('彈性條款'):                 # 放在流程表與附錄表之間
+        f.new_para(T[5]._element, c['彈性條款'], bold=False)
 
     # 觀課資訊
     for i, v in enumerate(c['觀課資訊']):
