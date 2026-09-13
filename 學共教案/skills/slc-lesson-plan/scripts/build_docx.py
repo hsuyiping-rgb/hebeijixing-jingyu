@@ -4,8 +4,9 @@
 用法：
     python -X utf8 build_docx.py <內容.json> <範本.docx> <輸出.docx> [--附件 <附件.json>] [--無圖]
 
-`--無圖` 略過內容裡所有夾在文字中的課本圖（`{"圖": ...}` 元素與附件的「圖」清單），
-用來產進版控的無圖版；含圖版另外跑一次不帶此旗標，檔名帶「（含課本圖）」。
+`--無圖` 略過內容裡所有夾在文字中的**課本圖**（`{"圖": ...}` 元素與附件的「圖」清單中，
+檔名以 `附件_課本` 開頭者），用來產進版控的無圖版；含圖版另外跑一次不帶此旗標，
+檔名帶「（含課本圖）」。自製的學習單圖（例如 `附件_學習單_*.png`）不受此旗標影響，兩版都會放。
 流程表的「教學活動內容」「教師支援」與附件「段落」的串列元素都可以是
 `{"圖": "附件_課本圖_xxx.png", "寬cm": 6, "說明": "圖說"}`，圖會夾在前後文字之間。
 
@@ -129,7 +130,7 @@ class Filler:
         first = True
         for ln in lines:
             if isinstance(ln, dict):
-                if self.no_img or not self._img_path(ln['圖']):
+                if not self._img_path(ln['圖']):
                     continue
                 self.picture(cell, self._img_path(ln['圖']), ln.get('寬cm', 6))
                 if ln.get('說明'):
@@ -145,8 +146,14 @@ class Filler:
         if first:                       # 全是被略過的圖，留一個空段落
             self._style(p0.add_run(''), bold)
 
+    def _skip(self, src):
+        """--無圖 只略過課本圖（檔名以 附件_課本 開頭）；自製學習單圖照放。"""
+        return self.no_img and os.path.basename(src).startswith('附件_課本')
+
     def _img_path(self, src):
         """相對路徑以輸出 docx 的目錄為準；找不到就回 None 並提醒（課本圖不進版控，可能不在）。"""
+        if self._skip(src):
+            return None
         if not os.path.isabs(src):
             cand = os.path.join(self.out_dir, src)
             src = cand if os.path.exists(cand) else src
@@ -440,7 +447,7 @@ def build(content, template, out, no_img=False):
             f._style(d.add_paragraph().add_run(att['說明']))
         for line in att.get('段落') or []:
             if isinstance(line, dict):          # 段落中夾圖，格式同流程表
-                src = None if f.no_img else f._img_path(line['圖'])
+                src = f._img_path(line['圖'])
                 if src:
                     pi = d.add_paragraph()
                     pi.paragraph_format.space_after = Pt(2)
@@ -457,7 +464,7 @@ def build(content, template, out, no_img=False):
         # 附件也可以放圖（例如公開課要附上的課本天氣圖、示意圖）
         # {"檔": 路徑, "寬cm": 15, "說明": "圖說"}；路徑可為絕對，或相對輸出 docx 的目錄
         for im in att.get('圖') or []:
-            src = None if f.no_img else f._img_path(im['檔'])
+            src = f._img_path(im['檔'])
             if not src:
                 continue
             pi = d.add_paragraph()
