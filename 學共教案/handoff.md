@@ -27,14 +27,13 @@
 - **五課教案都缺 Step 0 欄位**（學校、班級人數、日期節次、教學者、備課成員、特殊學生），文中 `〔待補〕`。
 - 熱對物質的影響另有四項待教師確認：節次是否為活動 1 第 3 節、前一節是否已做完 p.49 加熱銅球、
   pe-Ⅲ-2 全文、**銅環同時加熱 3 分鐘是否足夠（推估值，要課前試做）**。
-- dotfiles 端（chezmoi）**本次未同步**：`~/.claude/skills/slc-lesson-plan/` 改了 SKILL.md、README.md、
+- dotfiles 端（chezmoi）已同步（`f154909`）：`~/.claude/skills/slc-lesson-plan/` 改了 SKILL.md、README.md、
   `references/科目_自然.md`、`references/制式表欄位對照.md`、`scripts/build_docx.py`，新增 `references/自然領綱代碼.md`。
 
 ## ➡️ 下一步
 
-1. chezmoi 同步技能複本：既有檔 `chezmoi re-add`，新檔 `chezmoi add ~/.claude/skills/slc-lesson-plan/references/自然領綱代碼.md`，然後 push dotfiles。
-2. 等使用者提供 Step 0 資料，補五課基本欄位、觀課焦點指名對象、串連進程的生1／生2／生3，重跑 `build_docx.py`（含圖版與無圖版各一次）。
-3. （選做）exam-composer 的 Step A 補一句「南一自然教師專用課本按單元拆」。
+1. 等使用者提供 Step 0 資料，補五課基本欄位、觀課焦點指名對象、串連進程的生1／生2／生3，重跑 `build_docx.py`（含圖版與無圖版各一次）。
+2. （選做）exam-composer 的 Step A 補一句「南一自然教師專用課本按單元拆」。
 
 ## ⚠️ 注意事項
 
@@ -57,4 +56,4 @@
 
 - 時間：2026-09-13
 - 更新者：**Claude Opus 5** @ DESKTOP-31QBU95
-- Git push：母 repo 待推（本收工 commit）；dotfiles ❌ 未推（本次未跑 chezmoi，見下一步 1）
+- Git push：母 repo ✅ 已推（`7a176e7`）；dotfiles ✅ 已推（`f154909`）
