@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>楊景元老師公開課 課例研究簡報（含燒字幕影音與吉卜力手繪插圖）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-primary: #F7F5EE;
+    --card-bg: #FFFFFF;
+    --brand-dark: #1B382B;
+    --brand-green: #2D5A3E;
+    --brand-soft: #E4EFE7;
+    --brand-border: #D8E2D4;
+    --text-main: #2A322B;
+    --text-muted: #5C6B5E;
+    --accent-fact: #2C6849;
+    --accent-int: #28527A;
+    --accent-ref: #8A4C24;
+    --shadow-soft: 0 8px 30px rgba(27, 56, 43, 0.08);
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+header {
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--brand-border);
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-badge {
+    background: var(--brand-dark);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+.brand-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--brand-dark);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-btn {
+    background: #FFFFFF;
+    border: 1.5px solid var(--brand-border);
+    color: var(--brand-dark);
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: var(--brand-soft);
+    border-color: var(--brand-green);
+    color: var(--brand-green);
+}
+
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.slide-select {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--brand-border);
+    background: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brand-dark);
+    cursor: pointer;
+    outline: none;
+}
+
+.slide-select:focus {
+    border-color: var(--brand-green);
+}
+
+main {
+    flex: 1;
+    max-width: 1380px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Slide Container */
+.slide-box {
+    background: var(--card-bg);
+    border-radius: 18px;
+    border: 1.5px solid var(--brand-border);
+    box-shadow: var(--shadow-soft);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1.5px solid var(--brand-soft);
+    padding-bottom: 16px;
+}
+
+.title-area h1 {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--brand-dark);
+    line-height: 1.3;
+    font-family: 'Noto Serif TC', serif;
+}
+
+.title-area p {
+    font-size: 15px;
+    color: var(--brand-green);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.tc-badge {
+    background: var(--brand-soft);
+    color: var(--brand-green);
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--brand-border);
+    white-space: nowrap;
+}
+
+/* Two column body */
+.slide-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 26px;
+    align-items: stretch;
+}
+
+.text-card {
+    background: #FAFCFA;
+    border-radius: 14px;
+    border: 1px solid var(--brand-border);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pillar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pillar-tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.pillar-tag.fact { color: var(--accent-fact); }
+.pillar-tag.int { color: var(--accent-int); }
+.pillar-tag.ref { color: var(--accent-ref); }
+
+.pillar-content {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+.media-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    border: 1px solid var(--brand-border);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.illustration-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #E8EFEA;
+    box-shadow: var(--shadow-card);
+}
+
+.illustration-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Video Section */
+.video-section {
+    background: #111A15;
+    border-radius: 14px;
+    padding: 16px;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.video-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #9ED4B5;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    outline: none;
+}
+
+.video-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+    color: #A0B3A6;
+}
+
+.open-link {
+    color: #79D19E;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+}
+
+.open-link:hover {
+    color: #A2E8C0;
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 16px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+@media (max-width: 1024px) {
+    .slide-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="brand">
+        <span class="brand-badge">SLC 課例研究</span>
+        <span class="brand-title">楊景元老師公開課｜五年級數學「分數」觀課分析與課堂影音</span>
+    </div>
+    <div class="controls">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">◀ 上一頁</button>
+        <select class="slide-select" id="slideSelect" onchange="goToSlide(this.value)">
+        </select>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">下一頁 ▶</button>
+    </div>
+</header>
+
+<main>
+    <div class="slide-box">
+        <div class="slide-header">
+            <div class="title-area">
+                <h1 id="slideTitle">1. 離散量分數表徵與協同探究</h1>
+                <p id="slideSubtitle">五年級數學公開課課例研究</p>
+            </div>
+            <div class="tc-badge" id="slideTimecode">⏱ 實況區間 [00:00:30 - 00:01:25]</div>
+        </div>
+
+        <div class="slide-grid">
+            <!-- Left Text Analysis -->
+            <div class="text-card">
+                <div class="pillar">
+                    <span class="pillar-tag fact">【觀察到的學習事實】</span>
+                    <p class="pillar-content" id="factText"></p>
+                </div>
+                <div class="pillar">
+                    <span class="pillar-tag int">【學共哲學詮釋】</span>
+                    <p class="pillar-content" id="intText"></p>
+                </div>
+                <div class="pillar">
+                    <span class="pillar-tag ref">【教師實踐反思】</span>
+                    <p class="pillar-content" id="refText"></p>
+                </div>
+            </div>
+
+            <!-- Right Visual & Media -->
+            <div class="media-card">
+                <div class="illustration-wrap">
+                    <img id="slideImg" src="" alt="課堂觀察插圖">
+                </div>
+                <div class="video-section">
+                    <div class="video-header">
+                        <span class="video-title">🎬 課堂實況微觀影片（1080p 燒錄繁中字幕）</span>
+                        <a id="videoExtLink" class="open-link" href="" target="_blank">↗ 在新分頁直接開啟影片</a>
+                    </div>
+                    <div class="video-wrap">
+                        <video id="slideVideo" controls preload="metadata">
+                            <source id="videoSource" src="" type="video/mp4">
+                            您的瀏覽器不支援 HTML5 影片播放。
+                        </video>
+                    </div>
+                    <div class="video-actions">
+                        <span id="videoHint">提示：點擊播放觀看微觀學習事實</span>
+                        <span id="videoFileLabel"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    學習共同體公開課課例研究 · 新北市光復國小五年9班 楊景元老師 · 雙機位影音深度探究
+</footer>
+
+<script>
+const slides = [{"num": 1, "title": "離散量分數表徵與協同探究", "subtitle": "五年級數學公開課課例研究", "timecode": "[00:00:30 - 00:01:25]", "desc": "新北市五年9班的課堂上，桌椅排列為四人小組協同學習配置，桌上放有分組編碼卡與學習單。學生就座後安靜凝神，教師以溫和語調宣布本節課的核心挑戰。", "interpret": "課堂起點打破傳統講述模式，不急於板書公式，而是營造接納與安全的對話場域，讓孩子準備進入深度的聆聽與探究。", "reflect": "教師的鬆弛感與沉靜氣氛，是建立「相互傾聽」心理安全感的第一塊基石。", "fact_short": "桌椅排列為四人小組協同配置，全班就座安靜凝神", "interpret_short": "不急於板書公式，優先營造安全接納的對話場域", "reflect_short": "教師的鬆弛感與沉靜，是相互傾聽的第一塊基石", "img": "../drawings/slide_1.png", "video": "../clips/slide_01_clip.mp4"}, {"num": 2, "title": "從全市通過率25%出發的備課", "subtitle": "直面學習困境的共有課題設計", "timecode": "[00:01:15 - 00:01:50]", "desc": "本堂課緣起於五年級學科學力檢測第24題（全市通過率僅25%）。教材涉及離散量情境（盒裝物品），學生常混淆「一盒」與「全部盒數」的整體概念。", "interpret": "共備社群經歷四次研討，不降低目標避開難點，而是誠實面對兒童的思維盲區，將真實困境轉化為課堂的「共有課題」。", "reflect": "教學成功的前提在於「誠實面對每一個兒童、誠實面對教材」（佐藤學）。", "fact_short": "直面學力檢測第24題（全市通過率僅25%）難點", "interpret_short": "不避開認知盲區，將真實困境轉化為共有課題", "reflect_short": "教學的前提是誠實面對每一位兒童與教材本質", "img": "../drawings/slide_2.png", "video": "../clips/slide_02_clip.mp4"}, {"num": 3, "title": "沉靜讀題與質性思考時間", "subtitle": "不用筆、先以想像進入問題世界", "timecode": "[00:01:33 - 00:02:25]", "desc": "老師發下題目後提醒：「先不要動筆，用眼睛看題目，用想像看題目。」教室裡迎來長達一分多鐘的安靜時光，學生專注凝視學習單。", "interpret": "教師克制了立刻講述解題步驟的衝動，給予充足的「質性時間」，讓學生在大腦中重構生活情境與數量關係。", "reflect": "課堂的留白與安靜不是停滯，而是深層內化思考真正發生的關鍵時刻。", "fact_short": "發題後提醒「先不動筆」，給予逾一分鐘沉靜默讀", "interpret_short": "克制講述衝動，給予質性時間讓思維在大腦重構", "reflect_short": "課堂留白不是停滯，而是深層內化思考的真正發生", "img": "../drawings/slide_3.png", "video": "../clips/slide_03_clip.mp4"}, {"num": 4, "title": "小組編碼與互惠對話機制", "subtitle": "A-B 與 C-D 的互聽互學鷹架", "timecode": "[00:02:25 - 00:03:10]", "desc": "景元老師指導學生記住桌上的編碼角色，明確指令：「A同學向B同學分享你找到的條件語句，C同學向D同學分享核心問題，之後交換。」", "interpret": "明確的兩兩對話協議降低了後段學生的開口門檻，避免強勢學生壟斷話語權，賦予每位孩子均等的言談權力。", "reflect": "結構化的傾聽協議不是形式化束縛，而是保障「沒有一個孩子被忽視」的制度設計。", "fact_short": "指導 A-B 與 C-D 角色互換，依序分享條件與核心", "interpret_short": "結構化對話協議打破話語壟斷，保障後段發言權", "reflect_short": "平權傾聽機制確保沒有任何一個孩子被邊緣化", "img": "../drawings/slide_4.png", "video": "../clips/slide_04_clip.mp4"}, {"num": 5, "title": "文字與圖像的雙重線索轉譯", "subtitle": "從題幹語句到具體圖片表徵", "timecode": "[00:05:06 - 00:05:48]", "desc": "第二組A同學發表：「兩盒月餅有24個。」老師引導大家看學習單上的月餅排列圖：「除了文字，圖片是不是一種解題線索？」全班齊聲回應：「是！」", "interpret": "學生從純文本題幹跨越到具象圖像，發現生活中的「排、列、盒」都是數學思考的線索，降低了抽象符號的認知負荷。", "reflect": "數學教學中的表徵轉譯（多元表徵），是幫助學生搭建生活經驗與分數概念的重要橋樑。", "fact_short": "學生發表兩盒24個，教師引導「圖片也是解題線索」", "interpret_short": "從文字題幹跨越具象排列圖，有效降低認知負荷", "reflect_short": "善用多元表徵轉譯，搭起生活經驗與分數概念橋樑", "img": "../drawings/slide_5.png", "video": "../clips/slide_05_clip.mp4"}, {"num": 6, "title": "部分與整體概念的思維撞擊", "subtitle": "「三是整體，一是部分」的深度辨析", "timecode": "[00:05:50 - 00:06:45]", "desc": "老師提問：「三分之一盒月餅有幾個？裡面的三跟一代表什麼意思？」有學生立刻回答：「三是整體，一是部分。」老師讚許並追問：「那整體到底是指什麼？」", "interpret": "學生雖然能背出「部分與整體」術語，但在離散量情境中，「整體」是一盒（12個）還是全部（24個），成為最關鍵的思維撞擊點。", "reflect": "不滿足於學生說出標準詞彙，透過溫和追問讓潛藏的概念混淆浮上水面。", "fact_short": "追問「三分之一盒」裡的三跟一到底代表什麼意思", "interpret_short": "直擊迷思：學生能背出術語，卻混淆整體基準單位", "reflect_short": "不滿足於表面標準詞彙，透過溫和追問浮現核心衝突", "img": "../drawings/slide_6.png", "video": "../clips/slide_06_clip.mp4"}, {"num": 7, "title": "神奇表格記錄同伴思維", "subtitle": "傾聽不只是聽，更要留下記錄", "timecode": "[00:08:00 - 00:08:55]", "desc": "老師請學生在學習單左側寫自己的解題想法，右側記錄同伴的發言：「可以用文字、算式或圖畫，把你剛才聽到的同伴想法寫下來。」", "interpret": "透過雙欄表格的具體任務，傾聽被轉化為有意識的思維記錄，讓「傾聽關係」具象化為紙上的同伴痕跡。", "reflect": "當學生的筆下開始記錄同伴的聲音，互惠學習（Reciprocal Learning）便自然發生。", "fact_short": "設計雙欄表格：左側記自己想法，右側記錄同伴發言", "interpret_short": "將傾聽轉化為具體紙筆任務，讓思維痕跡具體可視", "reflect_short": "當學生筆下記錄同伴聲音，互惠學習便自然發生", "img": "../drawings/slide_7.png", "video": "../clips/slide_07_clip.mp4"}, {"num": 8, "title": "兩兩對話中的思維流動", "subtitle": "彼此指圖、互相確認的微觀現場", "timecode": "[00:10:50 - 00:12:00]", "desc": "學生兩兩湊近，一人拿著鉛筆指著月餅圖向隔壁夥伴解釋，另一人專注傾聽並點頭，隨後在自己的記錄欄寫下同伴的想法。", "interpret": "微觀鏡頭捕捉到學生眼神的專注聚焦與身體前傾的傾聽姿態，言談不再是向老師單向回報，而是在同伴間溫潤流動。", "reflect": "真實的學習發生在同儕平視的對話間，而不是教師高高在上的權威灌輸。", "fact_short": "兩人湊近指圖對話，一人拿筆解釋、一人點頭記錄", "interpret_short": "眼神聚焦與前傾姿態，言談在同儕平視間溫潤流動", "reflect_short": "真實學習發生在同儕對話間，而非權威單向灌輸", "img": "../drawings/slide_8.png", "video": "../clips/slide_08_clip.mp4"}, {"num": 9, "title": "黑板作為思維的展演平台", "subtitle": "展示多元想法而非標準答案", "timecode": "[00:13:30 - 00:14:50]", "desc": "老師邀請不同想法的同學（又安、宇晨等）將學習單張貼在黑板上，黑板上同時出現了文字說明、除法算式與不同的答案（8個、4個、6個）。", "interpret": "黑板不再是教師書寫標準解法的獨占空間，而是全班學生多樣思維的展覽館，呈現了思考歷程的真實光譜。", "reflect": "包容「錯誤」與「多元歷程」的黑板文化，讓學生敢於展現不成熟的想法。", "fact_short": "邀請不同解法學生將學習單張貼黑板，多元歷程並陳", "interpret_short": "黑板成為思維展覽館，呈現思考歷程的真實光譜", "reflect_short": "包容錯誤與多元歷程，讓孩子敢於展現不成熟想法", "img": "../drawings/slide_9.png", "video": "../clips/slide_09_clip.mp4"}, {"num": 10, "title": "核心衝突：「24除以3」在算什麼？", "subtitle": "全班聚焦於整體單位的界定", "timecode": "[00:18:25 - 00:19:55]", "desc": "台上同學解釋算式「24÷3=8」，算出8個。老師不直接評判對錯，而是引導全班反思：「24是哪裡來的？是全部兩盒。那題目核心問題問的是幾盒的三分之一？」", "interpret": "這正是檢測通過率低的核心癥結——學生直接拿題目出現的所有數量相除，忽略了「三分之一盒」是以「一盒」為基準單位（單位一）。", "reflect": "教學的藝術不在於指出錯誤，而在於將學生的迷思放大為全班共同探討的思維課題。", "fact_short": "台上列出24÷3=8，老師追問「24代表全部幾盒？」", "interpret_short": "直指低通過率核心：誤將兩盒全部當成基準單位一", "reflect_short": "不直接評判對錯，將學生迷思轉化為全班探究課題", "img": "../drawings/slide_10.png", "video": "../clips/slide_10_clip.mp4"}, {"num": 11, "title": "去評價的提問與串聯策略", "subtitle": "教師作為思考對話的串聯者", "timecode": "[00:20:55 - 00:22:20]", "desc": "老師柔聲串聯：「楊老師對第一個算式有一點不同想法，大家小組討論一下，24除以2等於12，這個12代表什麼意思？」", "interpret": "景元老師展現了高超的「串聯（Connect）與回歸（Return）」策略，將問題拋回小組，讓學生在互相談論中自發修正。", "reflect": "教師退居幕後成為傾聽者與串聯者，賦予學生修正思維的自主權。", "fact_short": "教師退居幕後：「老師有不同想法，小組討論12的意思」", "interpret_short": "展現高超串聯與回歸策略，引導小組自發對話修正", "reflect_short": "教師成為對話串聯者，賦予學生修正思維的自主權", "img": "../drawings/slide_11.png", "video": "../clips/slide_11_clip.mp4"}, {"num": 12, "title": "回歸單位一：先確認一盒是12個", "subtitle": "從迷思中破繭而出的共識建立", "timecode": "[00:23:25 - 00:24:50]", "desc": "學生玉瑄舉手發表：「因為題目說三分之一盒，三是分成三等份，所以要先把一盒的12個分成三等份，12÷3=4個！」全班同學紛紛點頭表示認同。", "interpret": "透過同伴的口語轉譯，全班達成了重要的數學共識：求幾分之幾盒，必須以「一盒的內容物」作為被分割的整體。", "reflect": "由學生自己口中說出的概念澄定理據，遠比教師重複講授十遍更具說服力。", "fact_short": "學生玉瑄發表：「求1/3盒要先把一盒12個分三等份」", "interpret_short": "透過同伴口語轉譯，全班達成以一盒為單位的共識", "reflect_short": "學生口中說出的概念理據，遠比教師講十遍具說服力", "img": "../drawings/slide_12.png", "video": "../clips/slide_12_clip.mp4"}, {"num": 13, "title": "伸展跳躍任務：9個月餅是幾盒？", "subtitle": "從單位分量邁向分數表徵的反向挑戰", "timecode": "[00:24:58 - 00:26:15]", "desc": "進入第二題挑戰：「9個月餅是多少盒？請用分數表示。」這題反向考驗學生由「個數（部分）」推導出「盒數（分數）」的表徵能力。", "interpret": "這是典型的「伸展跳躍（Jump Task）」——打破剛才「已知盒數求個數」的順向思維，要求學生建立部分與整體的比例關係。", "reflect": "沒有伸展跳躍的課堂難以激發高品質的思維深化，跳躍任務是課堂高潮的催化劑。", "fact_short": "跳躍任務：挑戰「9個月餅是多少盒？用分數表示」", "interpret_short": "打破已知盒數求個數的順向思維，考驗逆向比例表徵", "reflect_short": "沒有跳躍的課堂難以深化，跳躍任務是思考催化劑", "img": "../drawings/slide_13.png", "video": "../clips/slide_13_clip.mp4"}, {"num": 14, "title": "表徵的相遇：12分之9盒與4分之3盒", "subtitle": "兩條不同思考路徑的精彩交會", "timecode": "[00:32:35 - 00:34:00]", "desc": "黑板上展現出兩種截然不同的答案：多數同學列出「9/12盒」，蔡宇晨同學則寫出「3/4盒」，引發全班好奇與專注的目光。", "interpret": "9/12盒是以「1個為單位分量（一盒12個，9個佔9/12）」；3/4盒則是以「3個為一排（一盒分成4排，9個佔3排）」，兩者都是對教材本質的深刻洞察。", "reflect": "多元表徵在課堂上的相遇，是協同學習最美麗的風景。", "fact_short": "黑板同時出現「9/12盒」與「3/4盒」兩種精彩答案", "interpret_short": "一個以「個」為單位，一個以「排」為單位，皆具深意", "reflect_short": "多元表徵在黑板上的相遇，是協同學習最美麗風景", "img": "../drawings/slide_14.png", "video": "../clips/slide_14_clip.mp4"}, {"num": 15, "title": "溝通與連結：多元思考的相互肯定", "subtitle": "看見彼此的思維邏輯皆屬正確", "timecode": "[00:34:35 - 00:36:45]", "desc": "宇晨詳細解釋：「因為一盒12個分成四排，9個佔了三排，所以是四分之三盒。」全班恍然大悟，老師讚許：「你們學過擴分對不對？兩個答案都對！」", "interpret": "學生透過空間排列（排、列）成功轉化了抽象分數，全班在同伴的發表中看見了數學的多樣美感與內在一致性。", "reflect": "真正的數學素養不是背誦唯一答案，而是能以數學語言說出思考歷程並理解同伴。", "fact_short": "學生解釋一盒4排佔3排，老師肯定「兩個答案都對」", "interpret_short": "以空間排列轉化抽象分數，看見數學的多樣與一致", "reflect_short": "數學素養非背誦單一答案，而在於能說出邏輯與理解同伴", "img": "../drawings/slide_15.png", "video": "../clips/slide_15_clip.mp4"}, {"num": 16, "title": "課例總結：傾聽關係鑄就深度學習", "subtitle": "誠實面對兒童思維的公開課啟示", "timecode": "[00:38:40 - 00:39:50]", "desc": "下課前學生依依不捨地將想法整理至學習單，承諾放學前交到辦公室與老師繼續討論。觀課紀錄顯示全班每位孩子均全程深度投入。", "interpret": "本堂課成功地將全市通過率25%的難點題，透過「傾聽、串聯、回歸與跳躍」，轉化為每位孩子都能發光、都能學會的課堂實踐。", "reflect": "學習共同體的本質，正是以柔和而堅定的傾聽，陪伴每個孩子跨越思維的伸展台。", "fact_short": "下課前依依不捨整理學習單，每位孩子全程深度投入", "interpret_short": "以傾聽、串聯、回歸與跳躍，成功跨越25%難點", "reflect_short": "以柔和而堅定的傾聽，陪伴每個孩子跨越思維伸展台", "img": "../drawings/slide_16.png", "video": "../clips/slide_16_clip.mp4"}];
+let currentIndex = 0;
+
+const selectEl = document.getElementById('slideSelect');
+slides.forEach((s, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${s.num}. ${s.title} (${s.timecode})`;
+    selectEl.appendChild(opt);
+});
+
+function renderSlide(idx) {
+    if (idx < 0 || idx >= slides.length) return;
+    currentIndex = idx;
+    const s = slides[idx];
+
+    document.getElementById('slideTitle').textContent = `${s.num}. ${s.title}`;
+    document.getElementById('slideSubtitle').textContent = s.subtitle;
+    document.getElementById('slideTimecode').textContent = `⏱ 實況區間 ${s.timecode}`;
+    document.getElementById('factText').textContent = s.fact_short + "。 " + s.desc;
+    document.getElementById('intText').textContent = s.interpret_short + "。 " + s.interpret;
+    document.getElementById('refText').textContent = s.reflect_short + "。 " + s.reflect;
+
+    document.getElementById('slideImg').src = s.img;
+
+    const vid = document.getElementById('slideVideo');
+    const vsrc = document.getElementById('videoSource');
+    vid.pause();
+    vsrc.src = s.video;
+    vid.load();
+
+    const extLink = document.getElementById('videoExtLink');
+    extLink.href = s.video;
+    document.getElementById('videoFileLabel').textContent = `slide_${String(s.num).padStart(2, '0')}_clip.mp4`;
+
+    selectEl.value = idx;
+    document.getElementById('prevBtn').disabled = (idx === 0);
+    document.getElementById('nextBtn').disabled = (idx === slides.length - 1);
+}
+
+function prevSlide() {
+    if (currentIndex > 0) renderSlide(currentIndex - 1);
+}
+
+function nextSlide() {
+    if (currentIndex < slides.length - 1) renderSlide(currentIndex + 1);
+}
+
+function goToSlide(val) {
+    renderSlide(parseInt(val, 10));
+}
+
+// Keyboard navigation
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') prevSlide();
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+});
+
+// Initialize
+renderSlide(0);
+</script>
+</body>
+</html>

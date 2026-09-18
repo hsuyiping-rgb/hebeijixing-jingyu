@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>楊景元老師五年級數學公開課 課例研究（雙軌影音與大字級展示版）</title>
+  <style>
+    :root {
+      --bg-main: #EEF2EB;
+      --card-bg: #FFFFFF;
+      --title-color: #23412D;
+      --subtitle-color: #5A7362;
+      --text-main: #2A322B;
+      --border-color: #D8E2D4;
+      --tag-desc: #2C6849;
+      --tag-int: #28527A;
+      --tag-ref: #8A4C24;
+      --badge-bg: #DCE5D8;
+      --badge-text: #2D4B39;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    header.main-header {
+      background: var(--card-bg);
+      padding: 36px 44px;
+      border-radius: 18px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      margin-bottom: 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .main-header h1 {
+      font-size: 32px;
+      color: var(--title-color);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .main-header p {
+      font-size: 16px;
+      color: var(--subtitle-color);
+    }
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: var(--bg-main);
+      padding: 8px;
+      border-radius: 12px;
+    }
+    .nav-pills a {
+      display: inline-block;
+      padding: 6px 12px;
+      background: var(--card-bg);
+      color: var(--title-color);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border-color);
+    }
+    .nav-pills a:hover {
+      background: var(--title-color);
+      color: #fff;
+    }
+    .slide-section {
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      margin-bottom: 45px;
+      overflow: hidden;
+    }
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 26px 36px;
+      background: #FAFBF9;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .slide-badge {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--badge-text);
+      background: var(--badge-bg);
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .slide-title {
+      font-size: 28px;
+      color: var(--title-color);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .slide-subtitle {
+      font-size: 16px;
+      color: var(--subtitle-color);
+    }
+    .timecode-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--badge-text);
+      background: var(--badge-bg);
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(45, 75, 57, 0.15);
+    }
+    .slide-body {
+      display: flex;
+      padding: 36px;
+      gap: 36px;
+      align-items: flex-start;
+    }
+    .analysis-column {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .key-card {
+      background: #FDFEFC;
+      border: 1px solid var(--border-color);
+      border-left: 6px solid;
+      border-radius: 12px;
+      padding: 18px 24px;
+    }
+    .key-card.desc { border-left-color: var(--tag-desc); }
+    .key-card.interpret { border-left-color: var(--tag-int); }
+    .key-card.reflect { border-left-color: var(--tag-ref); }
+    .card-tag {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .key-card.desc .card-tag { color: var(--tag-desc); }
+    .key-card.interpret .card-tag { color: var(--tag-int); }
+    .key-card.reflect .card-tag { color: var(--tag-ref); }
+    .card-headline {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+    .card-detail {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #555E56;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 8px;
+    }
+    .visual-column {
+      flex: 0.9;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .image-wrapper {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: #F5F7F3;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    }
+    .image-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+    .video-wrapper {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: #1E2B22;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+    .video-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #E2ECD8;
+      background: #25382A;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .video-wrapper video {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16 / 9;
+      background: #000;
+    }
+    @media (max-width: 980px) {
+      .slide-body {
+        flex-direction: column;
+      }
+      .slide-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="main-header">
+      <div>
+        <h1>楊景元老師五年級數學公開課 課例研究（雙軌影音與大字級展示版）</h1>
+        <p>學習共同體哲學視角 · 16 頁觀課深度分析 ＋ 16 段 1080p 燒錄字幕影片實況</p>
+      </div>
+      <div class="nav-pills">
+        <a href="#slide-1">P1</a> <a href="#slide-2">P2</a> <a href="#slide-3">P3</a> <a href="#slide-4">P4</a> <a href="#slide-5">P5</a> <a href="#slide-6">P6</a> <a href="#slide-7">P7</a> <a href="#slide-8">P8</a> <a href="#slide-9">P9</a> <a href="#slide-10">P10</a> <a href="#slide-11">P11</a> <a href="#slide-12">P12</a> <a href="#slide-13">P13</a> <a href="#slide-14">P14</a> <a href="#slide-15">P15</a> <a href="#slide-16">P16</a>
+      </div>
+    </header>
+
+    
+    <div class="slide-section" id="slide-1">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 01 / 16</div>
+          <h2 class="slide-title">離散量分數表徵與協同探究</h2>
+          <div class="slide-subtitle">五年級數學公開課課例研究</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:00:00 - 00:01:30]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">桌椅排列為四人小組協同配置，全班就座安靜凝神</div>
+            <div class="card-detail">新北市五年9班的課堂上，桌椅排列為四人小組協同學習配置，桌上放有分組編碼卡與學習單。學生就座後安靜凝神，教師以溫和語調宣布本節課的核心挑戰。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">不急於板書公式，優先營造安全接納的對話場域</div>
+            <div class="card-detail">課堂起點打破傳統講述模式，不急於板書公式，而是營造接納與安全的對話場域，讓孩子準備進入深度的聆聽與探究。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">教師的鬆弛感與沉靜，是相互傾聽的第一塊基石</div>
+            <div class="card-detail">教師的鬆弛感與安靜氣氛，是建立「相互傾聽」心理安全感的第一塊基石。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_1.png" alt="Slide 1 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_1.png">
+              <source src="../影片/clips/slide_01_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-2">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 02 / 16</div>
+          <h2 class="slide-title">從全市通過率25%出發的備課</h2>
+          <div class="slide-subtitle">直面學習困境的共有課題設計</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:01:00 - 00:01:30]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">直面學力檢測第24題（全市通過率僅25%）難點</div>
+            <div class="card-detail">本堂課緣起於五年級學科學力檢測第24題（全市通過率僅25%）。教材涉及離散量情境（盒裝物品），學生常混淆「一盒」與「全部盒數」的整體概念。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">不避開認知盲區，將真實困境轉化為共有課題</div>
+            <div class="card-detail">共備社群經歷四次研討，不降低目標避開難點，而是誠實面對兒童的思維盲區，將真實困境轉化為課堂的「共有課題」。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">教學的前提是誠實面對每一位兒童與教材本質</div>
+            <div class="card-detail">教學成功的前提在於「誠實面對每一個兒童、誠實面對教材」（佐藤學）。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_2.png" alt="Slide 2 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_2.png">
+              <source src="../影片/clips/slide_02_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-3">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 03 / 16</div>
+          <h2 class="slide-title">小組編碼與互惠對話機制</h2>
+          <div class="slide-subtitle">A-B 與 C-D 的互聽互學鷹架</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:02:25 - 00:03:05]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">指導 A-B 與 C-D 角色互換，依序分享條件與核心</div>
+            <div class="card-detail">景元老師指導學生記住桌上的編碼角色，明確指令：「A同學向B同學分享你找到的條件語句，C同學向D同學分享核心問題，之後交換。」</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">結構化對話協議打破話語壟斷，保障後段發言權</div>
+            <div class="card-detail">明確的兩兩對話協議降低了後段學生的開口門檻，避免強勢學生壟斷話語權，賦予每位孩子均等的言談權力。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">平權傾聽機制確保沒有任何一個孩子被邊緣化</div>
+            <div class="card-detail">結構化的傾聽協議不是形式化束縛，而是保障「沒有一個孩子被忽視」的制度設計。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_3.png" alt="Slide 3 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_3.png">
+              <source src="../影片/clips/slide_03_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-4">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 04 / 16</div>
+          <h2 class="slide-title">沉靜讀題與質性思考時間</h2>
+          <div class="slide-subtitle">不用筆、先以想像進入問題世界</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:01:33 - 00:02:20]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">發題後提醒「先不動筆」，給予逾一分鐘沉靜默讀</div>
+            <div class="card-detail">老師發下題目後提醒：「先不要動筆，用眼睛看題目，用想像看題目。」教室裡迎來長達一分多鐘的安靜時光，學生專注凝視學習單。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">克制講述衝動，給予質性時間讓思維在大腦重構</div>
+            <div class="card-detail">教師克制了立刻講述解題步驟的衝動，給予充足的「質性時間」，讓學生在大腦中重構生活情境與數量關係。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">課堂留白不是停滯，而是深層內化思考的真正發生</div>
+            <div class="card-detail">課堂的留白與安靜不是停滯，而是深層內化思考真正發生的關鍵時刻。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_4.png" alt="Slide 4 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_4.png">
+              <source src="../影片/clips/slide_04_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-5">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 05 / 16</div>
+          <h2 class="slide-title">文字與圖像的雙重線索轉譯</h2>
+          <div class="slide-subtitle">從題幹語句到具體圖片表徵</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:05:06 - 00:05:43]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">學生發表兩盒24個，教師引導「圖片也是解題線索」</div>
+            <div class="card-detail">第二組A同學發表：「兩盒月餅有24個。」老師引導大家看學習單上的月餅排列圖：「除了文字，圖片是不是一種解題線索？」全班齊聲回應：「是！」</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">從文字題幹跨越具象排列圖，有效降低認知負荷</div>
+            <div class="card-detail">學生從純文本題幹跨越到具象圖像，發現生活中的「排、列、盒」都是數學思考的線索，降低了抽象符號的認知負荷。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">善用多元表徵轉譯，搭起生活經驗與分數概念橋樑</div>
+            <div class="card-detail">數學教學中的表徵轉譯（多元表徵），是幫助學生搭建生活經驗與分數概念的重要橋樑。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_5.png" alt="Slide 5 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_5.png">
+              <source src="../影片/clips/slide_05_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-6">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 06 / 16</div>
+          <h2 class="slide-title">部分與整體概念的思維撞擊</h2>
+          <div class="slide-subtitle">「三是整體，一是部分」的深度辨析</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:06:00 - 00:06:45]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">追問「三分之一盒」裡的三跟一到底代表什麼意思</div>
+            <div class="card-detail">老師提問：「三分之一盒月餅有幾個？裡面的三跟一代表什麼意思？」有學生立刻回答：「三是整體，一是部分。」老師讚許並追問：「那整體到底是指什麼？」</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">直擊迷思：學生能背出術語，卻混淆整體基準單位</div>
+            <div class="card-detail">學生雖然能背出「部分與整體」術語，但在離散量情境中，「整體」是一盒（12個）還是全部（24個），成為最關鍵的思維撞擊點。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">不滿足於表面標準詞彙，透過溫和追問浮現核心衝突</div>
+            <div class="card-detail">不滿足於學生說出標準詞彙，透過溫和追問讓潛藏的概念混淆浮上水面。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_6.png" alt="Slide 6 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_6.png">
+              <source src="../影片/clips/slide_06_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-7">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 07 / 16</div>
+          <h2 class="slide-title">神奇表格記錄同伴思維</h2>
+          <div class="slide-subtitle">傾聽不只是聽，更要留下記錄</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:08:00 - 00:09:20]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">設計雙欄表格：左側記自己想法，右側記錄同伴發言</div>
+            <div class="card-detail">老師請學生在學習單左側寫自己的解題想法，右側記錄同伴的發言：「可以用文字、算式或圖畫，把你剛才聽到的同伴想法寫下來。」</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">將傾聽轉化為具體紙筆任務，讓思維痕跡具體可視</div>
+            <div class="card-detail">透過雙欄表格的具體任務，傾聽被轉化為有意識的思維記錄，讓「傾聽關係」具象化為紙上的同伴痕跡。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">當學生筆下記錄同伴聲音，互惠學習便自然發生</div>
+            <div class="card-detail">當學生的筆下開始記錄同伴的聲音，互惠學習（Reciprocal Learning）便自然發生。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_7.png" alt="Slide 7 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_7.png">
+              <source src="../影片/clips/slide_07_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-8">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 08 / 16</div>
+          <h2 class="slide-title">兩兩對話中的思維流動</h2>
+          <div class="slide-subtitle">彼此指圖、互相確認的微觀現場</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:10:50 - 00:12:00]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">兩人湊近指圖對話，一人拿筆解釋、一人點頭記錄</div>
+            <div class="card-detail">學生兩兩湊近，一人拿著鉛筆指著月餅圖向隔壁夥伴解釋，另一人專注傾聽並點頭，隨後在自己的記錄欄寫下同伴的想法。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">眼神聚焦與前傾姿態，言談在同儕平視間溫潤流動</div>
+            <div class="card-detail">微觀鏡頭捕捉到學生眼神的專注聚焦與身體前傾的傾聽姿態，言談不再是向老師單向回報，而是在同伴間溫潤流動。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">真實學習發生在同儕對話間，而非權威單向灌輸</div>
+            <div class="card-detail">真實的學習發生在同儕平視的對話間，而不是教師高高在上的權威灌輸。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_8.png" alt="Slide 8 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_8.png">
+              <source src="../影片/clips/slide_08_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-9">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 09 / 16</div>
+          <h2 class="slide-title">黑板作為思維的展演平台</h2>
+          <div class="slide-subtitle">展示多元想法而非標準答案</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:13:30 - 00:16:30]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">邀請不同解法學生將學習單張貼黑板，多元歷程並陳</div>
+            <div class="card-detail">老師邀請不同想法的同學（又安、宇晨等）將學習單張貼在黑板上，黑板上同時出現了文字說明、除法算式與不同的答案（8個、4個、6個）。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">黑板成為思維展覽館，呈現思考歷程的真實光譜</div>
+            <div class="card-detail">黑板不再是教師書寫標準解法的獨占空間，而是全班學生多樣思維的展覽館，呈現了思考歷程的真實光譜。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">包容錯誤與多元歷程，讓孩子敢於展現不成熟想法</div>
+            <div class="card-detail">包容「錯誤」與「多元歷程」的黑板文化，讓學生敢於展現不成熟的想法。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_9.png" alt="Slide 9 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_9.png">
+              <source src="../影片/clips/slide_09_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-10">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 10 / 16</div>
+          <h2 class="slide-title">核心衝突：「24除以3」在算什麼？</h2>
+          <div class="slide-subtitle">全班聚焦於整體單位的界定</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:18:30 - 00:19:50]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">台上列出24÷3=8，老師追問「24代表全部幾盒？」</div>
+            <div class="card-detail">台上同學解釋算式「24÷3=8」，算出8個。老師不直接評判對錯，而是引導全班反思：「24是哪裡來的？是全部兩盒。那題目核心問題問的是幾盒的三分之一？」</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">直指低通過率核心：誤將兩盒全部當成基準單位一</div>
+            <div class="card-detail">這正是檢測通過率低的核心癥結——學生直接拿題目出現的所有數量相除，忽略了「三分之一盒」是以「一盒」為基準單位（單位一）。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">不直接評判對錯，將學生迷思轉化為全班探究課題</div>
+            <div class="card-detail">教學的藝術不在於指出錯誤，而在於將學生的迷思放大為全班共同探討的思維課題。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_10.png" alt="Slide 10 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_10.png">
+              <source src="../影片/clips/slide_10_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-11">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 11 / 16</div>
+          <h2 class="slide-title">去評價的提問與串聯策略</h2>
+          <div class="slide-subtitle">教師作為思考對話的串聯者</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:20:30 - 00:22:20]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">教師退居幕後：「老師有不同想法，小組討論12的意思」</div>
+            <div class="card-detail">老師柔聲串聯：「楊老師對第一個算式有一點不同想法，大家小組討論一下，24除以2等於12，這個12代表什麼意思？」</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">展現高超串聯與回歸策略，引導小組自發對話修正</div>
+            <div class="card-detail">景元老師展現了高超的「串聯（Connect）與回歸（Return）」策略，將問題拋回小組，讓學生在互相談論中自發修正。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">教師成為對話串聯者，賦予學生修正思維的自主權</div>
+            <div class="card-detail">教師退居幕後成為傾聽者與串聯者，賦予學生修正思維的自主權。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_11.png" alt="Slide 11 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_11.png">
+              <source src="../影片/clips/slide_11_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-12">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 12 / 16</div>
+          <h2 class="slide-title">回歸單位一：先確認一盒是12個</h2>
+          <div class="slide-subtitle">從迷思中破繭而出的共識建立</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:23:30 - 00:24:50]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">學生玉瑄發表：「求1/3盒要先把一盒12個分三等份」</div>
+            <div class="card-detail">學生玉瑄舉手發表：「因為題目說三分之一盒，三是分成三等份，所以要先把一盒的12個分成三等份，12÷3=4個！」全班同學紛紛點頭表示認同。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">透過同伴口語轉譯，全班達成以一盒為單位的共識</div>
+            <div class="card-detail">透過同伴的口語轉譯，全班達成了重要的數學共識：求幾分之幾盒，必須以「一盒的內容物」作為被分割的整體。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">學生口中說出的概念理據，遠比教師講十遍具說服力</div>
+            <div class="card-detail">由學生自己口中說出的概念澄定理據，遠比教師重複講授十遍更具說服力。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_12.png" alt="Slide 12 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_12.png">
+              <source src="../影片/clips/slide_12_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-13">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 13 / 16</div>
+          <h2 class="slide-title">伸展跳躍任務：9個月餅是幾盒？</h2>
+          <div class="slide-subtitle">從單位分量邁向分數表徵的反向挑戰</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:25:03 - 00:27:00]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">跳躍任務：挑戰「9個月餅是多少盒？用分數表示」</div>
+            <div class="card-detail">進入第二題挑戰：「9個月餅是多少盒？請用分數表示。」這題反向考驗學生由「個數（部分）」推導出「盒數（分數）」的表徵能力。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">打破已知盒數求個數的順向思維，考驗逆向比例表徵</div>
+            <div class="card-detail">這是典型的「伸展跳躍（Jump Task）」——打破剛才「已知盒數求個數」的順向思維，要求學生建立部分與整體的比例關係。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">沒有跳躍的課堂難以深化，跳躍任務是思考催化劑</div>
+            <div class="card-detail">沒有伸展跳躍的課堂難以激發高品質的思維深化，跳躍任務是課堂高潮的催化劑。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_13.png" alt="Slide 13 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_13.png">
+              <source src="../影片/clips/slide_13_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-14">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 14 / 16</div>
+          <h2 class="slide-title">表徵的相遇：12分之9盒與4分之3盒</h2>
+          <div class="slide-subtitle">兩條不同思考路徑的精彩交會</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:32:40 - 00:34:20]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">黑板同時出現「9/12盒」與「3/4盒」兩種精彩答案</div>
+            <div class="card-detail">黑板上展現出兩種截然不同的答案：多數同學列出「9/12盒」，蔡宇晨同學則寫出「3/4盒」，引發全班好奇與專注的目光。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">一個以「個」為單位，一個以「排」為單位，皆具深意</div>
+            <div class="card-detail">9/12盒是以「1個為單位分量（一盒12個，9個佔9/12）」；3/4盒則是以「3個為一排（一盒分成4排，9個佔3排）」，兩者都是對教材本質的深刻洞察。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">多元表徵在黑板上的相遇，是協同學習最美麗風景</div>
+            <div class="card-detail">多元表徵在課堂上的相遇，是協同學習最美麗的風景。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_14.png" alt="Slide 14 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_14.png">
+              <source src="../影片/clips/slide_14_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-15">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 15 / 16</div>
+          <h2 class="slide-title">溝通與連結：多元思考的相互肯定</h2>
+          <div class="slide-subtitle">看見彼此的思維邏輯皆屬正確</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:34:40 - 00:36:40]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">學生解釋一盒4排佔3排，老師肯定「兩個答案都對」</div>
+            <div class="card-detail">宇晨詳細解釋：「因為一盒12個分成四排，9個佔了三排，所以是四分之三盒。」全班恍然大悟，老師讚許：「你們學過擴分對不對？兩個答案都對！」</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">以空間排列轉化抽象分數，看見數學的多樣與一致</div>
+            <div class="card-detail">學生透過空間排列（排、列）成功轉化了抽象分數，全班在同伴的發表中看見了數學的多樣美感與內在一致性。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">數學素養非背誦單一答案，而在於能說出邏輯與理解同伴</div>
+            <div class="card-detail">真正的數學素養不是背誦唯一答案，而是能以數學語言說出思考歷程並理解同伴。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_15.png" alt="Slide 15 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_15.png">
+              <source src="../影片/clips/slide_15_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="slide-section" id="slide-16">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="slide-badge">SLIDE 16 / 16</div>
+          <h2 class="slide-title">課例總結：傾聽關係鑄就深度學習</h2>
+          <div class="slide-subtitle">誠實面對兒童思維的公開課啟示</div>
+        </div>
+        <div class="header-right">
+          <div class="timecode-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            時間碼 [00:37:00 - 00:40:00]
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-body">
+        <!-- Left Analysis Column -->
+        <div class="analysis-column">
+          <div class="key-card desc">
+            <div class="card-tag">【學習事實】</div>
+            <div class="card-headline">下課前依依不捨整理學習單，每位孩子全程深度投入</div>
+            <div class="card-detail">下課前學生依依不捨地將想法整理至學習單，承諾放學前交到辦公室與老師繼續討論。觀課紀錄顯示全班每位孩子均全程深度投入。</div>
+          </div>
+          <div class="key-card interpret">
+            <div class="card-tag">【哲學詮釋】</div>
+            <div class="card-headline">以傾聽、串聯、回歸與跳躍，成功跨越25%難點</div>
+            <div class="card-detail">本堂課成功地將全市通過率25%的難點題，透過「傾聽、串聯、回歸與跳躍」，轉化為每位孩子都能發光、都能學會的課堂實踐。</div>
+          </div>
+          <div class="key-card reflect">
+            <div class="card-tag">【實踐反思】</div>
+            <div class="card-headline">以柔和而堅定的傾聽，陪伴每個孩子跨越思維伸展台</div>
+            <div class="card-detail">學習共同體的本質，正是以柔和而堅定的傾聽，陪伴每個孩子跨越思維的伸展台。</div>
+          </div>
+        </div>
+
+        <!-- Right Visual & Media Column -->
+        <div class="visual-column">
+          <!-- Illustration (CLEAN, NO CAPTION TEXT) -->
+          <div class="image-wrapper">
+            <img src="../images/slide_16.png" alt="Slide 16 課堂重繪插圖" loading="lazy">
+          </div>
+
+          <!-- Subtitled Video Player -->
+          <div class="video-wrapper">
+            <div class="video-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              課堂實況影音（已燒錄繁中字幕 · 增益清晰音訊）
+            </div>
+            <video controls preload="metadata" poster="../images/slide_16.png">
+              <source src="../影片/clips/slide_16_clip.mp4" type="video/mp4">
+              您的瀏覽器不支援 HTML5 影片播放。
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <footer style="text-align: center; padding: 40px 0 20px; color: var(--subtitle-color); font-size: 14px;">
+      新北市光復國小 · 學習共同體課例研究 · 和北極星境遇專案
+    </footer>
+  </div>
+</body>
+</html>

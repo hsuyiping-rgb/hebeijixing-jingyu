@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>離散量分數表徵與協同探究 - 第一頁預覽</title>
+  <style>
+    :root {
+      --bg: #EEF2EB;
+      --title: #23412D;
+      --text: #4B504B;
+      --card-bg: #FFFFFF;
+      --border: #D5DFD5;
+      --shadow: rgba(35, 65, 45, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    .slide-container {
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+      background: var(--bg);
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .title-card {
+      background: var(--card-bg);
+      padding: 16px 28px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .title-card h1 {
+      font-size: 28px;
+      color: var(--title);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+    .title-card p {
+      font-size: 16px;
+      color: var(--text);
+      opacity: 0.85;
+    }
+    .content-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .text-card {
+      background: var(--card-bg);
+      padding: 32px 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .text-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .text-card li {
+      font-size: 19px;
+      line-height: 1.6;
+      position: relative;
+      padding-left: 24px;
+    }
+    .text-card li::before {
+      content: "▸ ";
+      position: absolute;
+      left: 0;
+      color: var(--title);
+      font-weight: bold;
+    }
+    .image-card {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px var(--shadow);
+      aspect-ratio: 16 / 9;
+      background: #E8EDE6;
+    }
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide-container">
+    <div class="title-card">
+      <h1>離散量分數表徵與協同探究</h1>
+      <p>新北市五年9班 楊景元老師數學公開課課例研究</p>
+    </div>
+    <div class="content-layout">
+      <div class="text-card">
+        <ul>
+          <li>探究核心：直面學科能力檢測難點，釐清「部分與整體」之基準量關係。</li>
+          <li>學習機制：A-B 與 C-D 結構化對話，保障每位孩子均等的言談權力。</li>
+          <li>教學策略：去評價的傾聽、串聯與回歸，將思維主導權還給學生。</li>
+          <li>共有與躍進：從一盒月餅的基礎課題，邁向多元表徵的伸展跳躍。</li>
+        </ul>
+      </div>
+      <div class="image-card">
+        <img src="../drawings/slide_1.png" alt="Slide 1 Illustration">
+      </div>
+    </div>
+  </div>
+</body>
+</html>
