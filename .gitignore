@@ -122,3 +122,11 @@ public/
 # 本 repo 為 PUBLIC，這兩份只留本機與 Google Drive，不進版控。
 924共識營/1141015教學設計.docx
 924共識營/1141017楊景元公開課觀課紀錄表.pdf
+
+# 景元公開課：內嵌 16 支 MP4 的簡報 pptx（500–600MB，超過 GitHub 100MB 上限）與測試用 pptx 只留 Google Drive。
+# 圖檔/ 與 drawings/ 是 images/ 的完全相同複本（md5 一致），只版控 slides.html 引用的 images/。
+學習共同體課堂影片分析/景元公開課/output/slides.pptx
+學習共同體課堂影片分析/景元公開課/output/簡報/slides*.pptx
+學習共同體課堂影片分析/景元公開課/test_*.pptx
+學習共同體課堂影片分析/景元公開課/output/圖檔/
+學習共同體課堂影片分析/景元公開課/output/drawings/
