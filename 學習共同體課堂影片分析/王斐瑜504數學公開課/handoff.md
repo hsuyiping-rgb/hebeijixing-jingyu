@@ -9,40 +9,48 @@
 - 影片：https://youtu.be/a_6dfDljGCY（單機位 39:35）
 - 決定：簡報 learning 風格、不接 NotebookLM、不加水彩插圖
 
-## ⏯️ 目前做到哪（2026-10-16）
-已完成：
-1. 字幕三源校正 → `output/subtitles_final.srt`、`transcript_corrected.md`（含可信度）；燒錄用 `subtitles_burn.srt`（只含已校正語句）
-2. 課例分析 `output/analysis.txt`：17 段，描述—詮釋（含「理答：」六策略分析）—反思
-3. Word：`output/課例分析_…_v3_含理答策略_板書更正.docx`（最新；v1、v2 保留）
-4. 簡報（全部另存，未互相覆蓋）：
-   - `簡報/slides.pptx/.html`：20 頁純文字版（舊板書文字）
-   - `簡報/slides_含截圖與影片.pptx/.html`：52 頁，360p 截圖＋影片（舊板書文字）
-   - `簡報/slides_含截圖與影片_720p.pptx/.html`：**最新版**，52 頁、174MB、16 支 720p 燒字幕影片
-5. 網頁發布：已準備 `簡報/web/`（16 支壓縮影片，共 96MB；720p 截圖），**還沒發布**
+## ⏯️ 目前做到哪（2026-11-15）
+2026-10-16 已完成：字幕三源校正、`output/analysis.txt`（17 段＋理答六策略）、Word v1–v3、三版簡報、`簡報/web/`（未發布）。
+
+2026-11-15 新增（都是另存新檔，沒有覆蓋舊檔）：
+1. 《教師花傳書》p.44–62 × 本課例對照：
+   - `花傳書p44-62×504課例_概念對照與討論問題_v2_呼應張力詳述.md/.docx`（**最新**，第一版已不在本機：13 個概念的「呼應或張力」欄詳寫，附頁碼、時間碼、師生原話；15 題討論問題、★ 優先三題、主持流程）
+2. 圖解 `output/圖解/課堂流程圖.png`、`理答策略統計.png`（1360px 寬，無學生影像）
+3. Word `output/課例分析_…_v4_含圖解.docx`：v3 內容＋卷首兩張圖解
+4. 簡報 `簡報/slides_含截圖與影片_720p_v2_含圖解與花傳書.pptx/.html`：**最新版**，74 頁、175MB
+   - 圖解總覽 2 頁；每段詮釋頁右上標出對應的花傳書概念；花傳書摘要＋13 個概念頁＋討論問題 6 頁＋主持流程
+   - 舊版最後的理答長條圖已改用圖解二
 
 ## 🚦 目前狀態
-- 發布 HTML 到 claude.ai 那一步被權限檢查以「個資處理（學生臉部影像）」擋下，等使用者決定：
-  ①改發布無學生影像的 20 頁 slides.html，或 ②使用者確認已取得同意後再發布含影像版
-- 720p 版簡報還沒在 PowerPoint 實際點開影片播放過
+- ❗ 舊版檔案在本機不見了，不是本次 Agent 刪的（11:28 還讀得到 v3），看起來像是清掉舊版、只留最新版：
+  - `output/` 的 Word v1、v2、v3（`git status` 顯示 D）：仍在 commit 7a0a3a2，可以 `git restore` 救回
+  - 花傳書對照第一版 md/docx：從沒進 git，只能從 Google 雲端硬碟垃圾桶找
+  - **等使用者確認是否刻意刪除**
+- 720p 兩版簡報都還沒在 PowerPoint 實際點開影片播放過
+- HTML 發布含學生影像的版本仍待使用者決定（同 10-16 狀態）
 
 ## ➡️ 下一步
-1. 等使用者決定發布哪一版（見上）；含影像版：把 `slides_含截圖與影片_720p.html` 轉成發布格式 → `web/index.html`，影片超過 64MB 要分兩次上傳
-2. 議課前在 PowerPoint 實際播放 720p 版幾支影片
-3. 視需要用最新 analysis.txt 重建 20 頁版與 360p 版簡報（目前還是舊的板書文字）
+1. 處理 Word v1–v3 不見的問題（救回或確認刪除）
+2. 議課前在 PowerPoint 打開 `…_720p_v2_含圖解與花傳書.pptx`，抽幾支影片試播
+3. 第 11、15 段是否為教師代答、「互相平行」由誰說出，議課時請授課者或觀課者確認，回填 analysis.txt 後重建
 
 ## 🔁 重建指令（在本資料夾執行）
 - 字幕：改 `output/corrections.json` → `python -X utf8 -I build_final.py output`
-- Word：`python -X utf8 -I build_docx.py . <檔名.docx>`
+- Word：`python -X utf8 -I build_docx.py . <檔名.docx>`（v4 卷首圖解是另外插入的，重建 Word 不會自動帶圖）
 - 20 頁簡報：`python -X utf8 -I build_slides.py . [檔名.pptx]`（內容在 `簡報/slides_content.json`）
-- 截圖＋影片簡報：`python -X utf8 -I build_slides_media.py . slides_含截圖與影片_720p.pptx _720`（截圖時間與片段在 `簡報/media_plan.json`）
+- 截圖＋影片簡報（舊版）：`python -X utf8 -I build_slides_media.py . slides_含截圖與影片_720p.pptx _720`
+- **含圖解＋花傳書版**：`python -X utf8 -I build_slides_media_v2.py . slides_含截圖與影片_720p_v2_含圖解與花傳書.pptx _720`
+  - 花傳書內容直接讀 `花傳書…_v2_呼應張力詳述.md`（改 md 就能更新）；各段對應概念寫在腳本的 `SEC_CONCEPTS`
+- 圖解 PNG：本次以 headless Chrome 截 HTML 產生，HTML 原檔在暫存區沒有保留；要改圖得重做
 
 ## ⚠️ 注意事項
-- 720p 只有畫面（`output/video_720_noaudio.mp4`）；聲音用 `audio_boost.mp3`，兩者逐格比對沒有時間偏移。yt-dlp 必須用 2026.08.19 以上版本，舊版下載到約 10MB 就會 403
-- 720p 板書：②圓柱體／角柱體／錐體 ③錐體／圓柱體／長方體／梯形體／正方體 ④三角形…圓形，旁邊加註「（體）」；圈起來的數字是座號
-- 各組發表（25:15–28:00）學生原音三源都辨識不出，第 10–12 段只能依教師轉述與板書
-- 第 11、15 段是否為教師代答，需對照現場觀課紀錄
-- 含學生影像或姓名的檔案都已 gitignore（截圖、片段、媒體版簡報、web/、未校正字幕、教材 PDF）
+- 花傳書原檔在 `教師花傳書/`（獨立巢狀 repo，勿從外層 git add）；van Hiele 層次是補充觀點，非花傳書原文，文件中已註明
+- headless Edge 截圖在這台電腦沒產出檔案；改用 Chrome 並加 `--user-data-dir` 才成功
+- 720p 只有畫面（`output/video_720_noaudio.mp4`）；聲音用 `audio_boost.mp3`。yt-dlp 須 2026.08.19 以上
+- 各組發表（25:15–28:00）學生原音辨識不出，第 10–12 段只能依教師轉述與板書
+- 含學生影像或姓名的檔案都已 gitignore（截圖、片段、媒體版簡報含 v2、web/、未校正字幕、教材 PDF）
 - 語音分辨不出他／她，文字一律用「他」
+- `.git/packed-refs.lock`（0 bytes，9/24）仍在；收工時仍有 git.exe 在跑，所以沒刪
 
 ## 🕐 最後更新
-2026-10-16 17:03｜Claude Opus 5.5 @ DESKTOP-HJA3024｜Git push：待推
+2026-11-15｜Claude Opus 5.5 @ DESKTOP-31QBU95｜Git push：待推
