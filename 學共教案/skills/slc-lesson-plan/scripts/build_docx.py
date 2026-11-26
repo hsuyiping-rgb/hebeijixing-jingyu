@@ -57,7 +57,6 @@ import sys
 import docx
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-from docx.enum.text import WD_BREAK
 from docx.shared import Cm, Pt
 
 try:
@@ -328,6 +327,27 @@ def build(content, template, out, no_img=False):
     T = d.tables
     ps = d.paragraphs
 
+    # 範本用空白段落中的硬分頁切換三個主要區塊；當前一區內容剛好填滿
+    # 一頁時，LibreOffice 會因此多產生整張空白頁。移除硬分頁段落，改把
+    # 「段前分頁」設在下一區表格的第一個段落上。
+    for p in list(d.paragraphs):
+        if not p.text.strip() and p._p.xpath('.//w:br[@w:type="page"]'):
+            p._p.getparent().remove(p._p)
+    for table in (T[3], T[4]):
+        prev = table._element.getprevious()
+        while prev is not None and prev.tag == qn('w:p'):
+            has_text = any((node.text or '').strip() for node in prev.xpath('.//w:t'))
+            if has_text:
+                break
+            parent = prev.getparent()
+            before = prev.getprevious()
+            parent.remove(prev)
+            prev = before
+        sep = f.new_para(table._element, '', after=False, bold=False)
+        sep.paragraph_format.page_break_before = True
+        sep.paragraph_format.space_before = Pt(0)
+        sep.paragraph_format.space_after = Pt(0)
+
     # 表頭
     h = c['表頭']
     f.para(ps[0], h['標題'])
@@ -429,6 +449,24 @@ def build(content, template, out, no_img=False):
     for i, v in enumerate(c['觀課資訊']):
         f.cell(T[6].rows[i].cells[1], v)
 
+    # 範本以獨立的「分頁符號段落」銜接觀課表；若前方長表格恰好填滿一頁，
+    # 分頁符號會多推出一張空白頁。改由觀課表標題本身設定「段前分頁」。
+    for i, p in enumerate(d.paragraphs):
+        if p.text.strip() == '公開授課觀課紀錄表':
+            # 刪除標題前連續的空白段落（範本原有分隔段落也在此），避免長表格
+            # 正好結束於頁尾時，空白段落占掉一整頁。
+            prev = p._p.getprevious()
+            while prev is not None and prev.tag == qn('w:p'):
+                has_text = any((node.text or '').strip() for node in prev.xpath('.//w:t'))
+                if has_text:
+                    break
+                parent = prev.getparent()
+                before = prev.getprevious()
+                parent.remove(prev)
+                prev = before
+            p.paragraph_format.page_break_before = True
+            break
+
     # 觀課重點（插在範本「觀課重點」段落之後）
     for p in d.paragraphs:
         if p.text.strip() == '觀課重點':
@@ -440,8 +478,16 @@ def build(content, template, out, no_img=False):
     # JSON: "附件": [{"標題":..., "說明":..., "段落":[...], "圖":[...], "表":[...]}]
     # 排版順序：標題 → 說明 → 段落 → 圖 → 表
     for i, att in enumerate(c.get('附件') or []):
+        # --無圖 時，若附件只含出版社圖片，整份附件（含標題空頁）一併略過。
+        visible_para = any(
+            not isinstance(line, dict) or bool(f._img_path(line.get('圖', '')))
+            for line in (att.get('段落') or [])
+        )
+        visible_img = any(bool(f._img_path(im.get('檔', ''))) for im in (att.get('圖') or []))
+        if not (att.get('說明') or visible_para or visible_img or att.get('表')):
+            continue
         p = d.add_paragraph()
-        p.add_run().add_break(WD_BREAK.PAGE)          # 附件另起一頁
+        p.paragraph_format.page_break_before = True   # 附件另起一頁，不製造獨立空白頁
         f._style(p.add_run(att['標題']), bold=True)
         if att.get('說明'):
             f._style(d.add_paragraph().add_run(att['說明']))

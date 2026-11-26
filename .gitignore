@@ -160,3 +160,12 @@ public/
 學習共同體課堂影片分析/景元公開課/output/screenshots/
 # 景元公開課的淘汰版（畫面錯位 clips、舊 pptx/html）只留 Google Drive。
 學習共同體課堂影片分析/景元公開課/output/_舊版/
+
+# 學共教案 甘蔗吸管「Word完成版／簡報輸出」：含課本圖的 docx 與說課簡報
+# （pptx 內嵌課本第 32～33 頁裁圖約 3.9MB）同屬出版社著作，本 repo 為 PUBLIC，只留本機。
+# 注意：既有的「*（含課本圖）.docx」規則用全角括號，檔名寫成「_含課本圖_」會漏接，故另列。
+學共教案/教案成果/**/*含課本圖*.docx
+學共教案/教案成果/**/簡報輸出/
+
+# Codex finalizer 的工作暫存（候選 pptx 與檢查 ndjson），可重建，不進版控。
+.codex-finalizer/
