@@ -1,79 +1,103 @@
-<title>刻痕放大鏡</title>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>刻痕放大鏡：粉是誰的？</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* 版面：實驗桌上並排兩台放大鏡，左右對照；上方一條全域開關，下方是給學生看的觀察提問 */
+/* 版面：實驗桌上並排兩台放大鏡，左右對照；上方一條全域開關與情境預設，下方是給學生看的觀察提問 */
 :root{
   --bg:#f3f5f2; --panel:#ffffff; --fg:#1c2420; --muted:#5a6762; --line:#d3dad5;
-  --accent:#2d6c66; --accent-soft:#e1eeeb; --ring:#38423e;
+  --accent:#2d6c66; --accent-soft:#e1eeeb; --ring:#38423e; --cut:#d2423a;
   --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
-  /* 礦物與工具顏色：真實白（肉眼）與示意著色 */
   --white-mineral:#f4f3ee;
   --c-talc:#bfe0c4; --c-calcite:#bcd5f0; --c-quartz:#f2c6d0;
   --c-nail:#e6c39f; --c-iron:#767b83;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
-  --accent:#7cc2b8; --accent-soft:#20302d; --ring:#c9d3cf; color-scheme:dark}}
+  --accent:#7cc2b8; --accent-soft:#20302d; --ring:#c9d3cf; --cut:#ff6f66; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
-  --accent:#7cc2b8; --accent-soft:#20302d; --ring:#c9d3cf; color-scheme:dark}
+  --accent:#7cc2b8; --accent-soft:#20302d; --ring:#c9d3cf; --cut:#ff6f66; color-scheme:dark}
+*{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6}
 .wrap{max-width:1180px;margin:0 auto;padding-block:20px 40px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  display:grid;gap:18px}
+  display:grid;gap:16px}
 header{display:grid;gap:6px}
-.eyebrow{font-size:.8rem;letter-spacing:.08em;color:var(--muted)}
+.eyebrow{font-size:.82rem;letter-spacing:.08em;color:var(--muted)}
 h1{margin:0;font-size:clamp(1.6rem,3.2vw,2.3rem);font-weight:700;text-wrap:balance}
-.lead{margin:0;color:var(--muted);max-width:62ch}
-.bar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.lead{margin:0;color:var(--muted);max-width:64ch}
+.bar{display:grid;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.bar-row{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .seg button{border:0;background:transparent;color:var(--fg);font:inherit;padding:6px 14px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--panel)}
+.presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.presets span{font-size:.86rem;color:var(--muted)}
+.btn{font:inherit;cursor:pointer;border-radius:8px;padding:6px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--panel)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.sm{padding:4px 10px;font-size:.88rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem;color:var(--muted)}
 .chip{display:inline-flex;align-items:center;gap:6px}
 .chip i{width:14px;height:14px;border-radius:3px;border:1px solid var(--line);display:inline-block}
 .note{font-size:.85rem;color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:18px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;min-width:0}
-.panel h2{margin:0;font-size:1.05rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.panel h2{margin:0;font-size:1.08rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:400}
 .pick{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
-.pick label{font-size:.9rem;color:var(--muted);display:flex;gap:6px;align-items:center}
+.pick label{font-size:.92rem;color:var(--muted);display:flex;gap:6px;align-items:center}
 select{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
 canvas{width:100%;display:block;border-radius:8px;background:var(--bg)}
 .actions{display:flex;flex-wrap:wrap;gap:8px}
-.actions button{font:inherit;cursor:pointer;border-radius:8px;padding:7px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--panel)}
-.actions button.ghost{background:transparent;color:var(--accent)}
-.actions button:disabled{opacity:.45;cursor:not-allowed}
 button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.prompt{margin:0;padding:10px 12px;border-radius:8px;background:var(--accent-soft);min-height:3.2em}
-footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
+.prompt{margin:0;padding:10px 12px;border-radius:8px;background:var(--accent-soft);min-height:3.2em;font-size:.96rem}
+footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:82ch}
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <header>
     <div class="eyebrow">六上自然・變動的大地・3-2 礦物的硬度</div>
     <h1>刻痕放大鏡：粉是誰的？</h1>
-    <p class="lead">兩顆礦物互相刻，表面都會留下白粉。用放大鏡看擦掉之前和之後，再看橫切面，比一比：哪一邊是真的凹下去？</p>
+    <p class="lead">兩顆礦物互相刻，表面都會留下痕跡或白粉。用放大鏡看擦掉之前和之後，再沿著紅虛線看橫切面，比一比：哪一邊是真的凹下去？</p>
   </header>
 
   <div class="bar">
-    <div class="seg" role="group" aria-label="顯示方式">
-      <button id="m-real" aria-pressed="true">肉眼看（都是白色）</button>
-      <button id="m-tint" aria-pressed="false">著色看（分辨粉的來源）</button>
+    <div class="bar-row">
+      <div class="seg" role="group" aria-label="顯示方式">
+        <button id="m-real" aria-pressed="true">肉眼看（真實顏色）</button>
+        <button id="m-tint" aria-pressed="false">著色看（分辨粉的來源）</button>
+      </div>
+      <div class="presets" role="group" aria-label="聯動操作">
+        <button id="both-cut" class="btn sm">兩邊一起刻</button>
+        <button id="both-wipe" class="btn sm ghost">兩邊一起擦</button>
+      </div>
+      <div class="presets" role="group" aria-label="課堂情境預設">
+        <span>預設對照：</span>
+        <button class="btn sm ghost" data-preset="qc">方解石 ↔ 石英</button>
+        <button class="btn sm ghost" data-preset="iron">鐵釘刻方解石 vs 石英</button>
+        <button class="btn sm ghost" data-preset="nail">指甲刻滑石 vs 方解石</button>
+      </div>
     </div>
-    <div class="legend" id="legend" hidden>
-      <span class="chip"><i style="background:var(--c-talc)"></i>滑石</span>
-      <span class="chip"><i style="background:var(--c-calcite)"></i>方解石</span>
-      <span class="chip"><i style="background:var(--c-quartz)"></i>石英</span>
-      <span class="chip"><i style="background:var(--c-nail)"></i>指甲</span>
-      <span class="chip"><i style="background:var(--c-iron)"></i>鐵釘</span>
+    <div class="bar-row">
+      <div class="legend" id="legend" hidden>
+        <span class="chip"><i style="background:var(--c-talc)"></i>滑石</span>
+        <span class="chip"><i style="background:var(--c-calcite)"></i>方解石</span>
+        <span class="chip"><i style="background:var(--c-quartz)"></i>石英</span>
+        <span class="chip"><i style="background:var(--c-nail)"></i>指甲</span>
+        <span class="chip"><i style="background:var(--c-iron)"></i>鐵釘</span>
+      </div>
+      <span class="note" id="tint-note">真實的滑石、方解石、石英都是白色，著色只是為了看出粉從哪裡來。</span>
     </div>
-    <span class="note" id="tint-note">真實的滑石、方解石、石英都是白色，著色只是為了看出粉從哪裡來。</span>
   </div>
 
   <div class="grid">
@@ -85,9 +109,9 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
       </div>
       <canvas id="a-cv" aria-label="放大鏡 A 的俯視放大圖與橫切面"></canvas>
       <div class="actions">
-        <button id="a-cut">刻一下</button>
-        <button id="a-wipe" class="ghost">擦一擦</button>
-        <button id="a-reset" class="ghost">重來</button>
+        <button id="a-cut" class="btn">刻一下</button>
+        <button id="a-wipe" class="btn ghost">擦一擦</button>
+        <button id="a-reset" class="btn ghost">重來</button>
       </div>
       <p class="prompt" id="a-prompt" aria-live="polite"></p>
     </section>
@@ -99,17 +123,17 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
       </div>
       <canvas id="b-cv" aria-label="放大鏡 B 的俯視放大圖與橫切面"></canvas>
       <div class="actions">
-        <button id="b-cut">刻一下</button>
-        <button id="b-wipe" class="ghost">擦一擦</button>
-        <button id="b-reset" class="ghost">重來</button>
+        <button id="b-cut" class="btn">刻一下</button>
+        <button id="b-wipe" class="btn ghost">擦一擦</button>
+        <button id="b-reset" class="btn ghost">重來</button>
       </div>
       <p class="prompt" id="b-prompt" aria-live="polite"></p>
     </section>
   </div>
 
   <footer>
-    <span>示意動畫，不按實際比例。上半部是用放大鏡從上往下看刻劃的地方，下半部是從刻痕中間切開的橫切面。</span>
-    <span>課堂用法：學生完成小組刻劃、說過自己的判讀之後再播（教案第 7(b) 步「粉是誰的」）。預設先用「肉眼看」，讓學生發現兩邊看起來一樣，再按「擦一擦」與「著色看」。本動畫刻意不顯示硬度數字，莫氏硬度表留到第 7(d) 步再打開。</span>
+    <span>示意動畫，不按實際比例。上半部是用放大鏡從上往下看刻劃的地方，紅虛線標示下半部「橫切面」切開的位置。</span>
+    <span>課堂用法：學生完成小組刻劃、說過自己的判讀之後再播（教案第 7(b) 步「粉是誰的」）。預設先用「肉眼看」，讓學生發現兩邊看起來很像，再按「兩邊一起擦」與「著色看」。本動畫刻意不顯示硬度數字，莫氏硬度表留到第 7(d) 步再打開。</span>
   </footer>
 </div>
 
@@ -117,11 +141,11 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
 (() => {
   // 硬度只在程式內部用來判斷誰刻得動誰，畫面上不顯示
   const ITEMS = {
-    talc:    {name:'滑石',  h:1,   token:'--c-talc',    mineral:true,  powder:'粉'},
+    talc:    {name:'滑石',  h:1,   token:'--c-talc',    mineral:true,  powder:'白粉'},
     nail:    {name:'指甲',  h:2.5, token:'--c-nail',    mineral:false, powder:'指甲屑'},
-    calcite: {name:'方解石',h:3,   token:'--c-calcite', mineral:true,  powder:'粉'},
-    iron:    {name:'鐵釘',  h:5.5, token:'--c-iron',    mineral:false, powder:'鐵的痕跡'},
-    quartz:  {name:'石英',  h:7,   token:'--c-quartz',  mineral:true,  powder:'粉'},
+    calcite: {name:'方解石',h:3,   token:'--c-calcite', mineral:true,  powder:'白粉'},
+    iron:    {name:'鐵釘',  h:5.5, token:'--c-iron',    mineral:false, powder:'灰黑色金屬痕'},
+    quartz:  {name:'石英',  h:7,   token:'--c-quartz',  mineral:true,  powder:'白粉'},
   };
   const TOOLS = ['nail','iron','talc','calcite','quartz'];
   const SURFS = ['talc','calcite','quartz'];
@@ -134,7 +158,7 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
     if (!tint && it.mineral) return css('--white-mineral');
     return css(it.token);
   }
-  function shade(hex, f){ // f<0 變暗, f>0 變亮
+  function shade(hex, f){
     const m = hex.replace('#','');
     const n = parseInt(m.length===3 ? m.split('').map(c=>c+c).join('') : m, 16);
     let r=n>>16&255, g=n>>8&255, b=n&255;
@@ -142,11 +166,10 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
     r = Math.round((t-r)*p + r); g = Math.round((t-g)*p + g); b = Math.round((t-b)*p + b);
     return `rgb(${r},${g},${b})`;
   }
-  // 固定亂數，讓每次重畫的晶粒紋理一樣
   function rng(seed){ return () => (seed = (seed*16807) % 2147483647) / 2147483647; }
 
   function makePanel(id, tool, surf){
-    const P = {id, tool, surf, strokes:0, prog:0, anim:null, wipeX:null, particles:[], streak:0, wiped:false};
+    const P = {id, tool, surf, strokes:0, prog:0, anim:null, wipeX:null, particles:[], secChips:[], streak:0, wiped:false};
     const $ = s => document.getElementById(`${id}-${s}`);
     const cv = $('cv'), ctx = cv.getContext('2d');
     const selT = $('tool'), selS = $('surf');
@@ -158,31 +181,42 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
     const harder = () => ITEMS[P.tool].h > ITEMS[P.surf].h;
     const same = () => P.tool === P.surf;
     const effStrokes = () => Math.min(P.strokes + (P.anim==='cut' ? P.prog : 0), 6);
+    const grooveHalf = () => .016 + .007*effStrokes();
 
-    function spawn(u){ // u：刻劃尖端位置（-0.8～0.8）
-      const r = Math.random;
-      const hd = harder();
-      const n = hd ? 3 : 2;
+    function rebuildSecChips(){
+      const r0 = rng(id==='a'?31:47);
+      const hd = harder(), n = Math.min(34, Math.max(8, Math.round(P.particles.length * .18)));
+      P.secChips = [];
+      for (let i=0;i<n;i++){
+        const side = i%2 ? -1 : 1;
+        const nx = hd ? side*(.05 + r0()*.14) : (r0()*2-1)*.11; // 相對中線位置（以 W 為單位）
+        P.secChips.push({nx, ny: r0(), src: hd ? P.surf : P.tool});
+      }
+    }
+
+    function spawn(u){
+      const r = Math.random, hd = harder(), n = hd ? 3 : 2;
       for (let i=0;i<n;i++){
         const side = r()<.5 ? -1 : 1;
         const gw = grooveHalf();
         const v = hd ? side*(gw + .01 + r()*.07) : (r()*2-1)*.035;
         P.particles.push({u: u - r()*.04, v, s: .008 + r()*.014, src: hd ? P.surf : P.tool});
       }
+      if (P.secChips.length < 34) rebuildSecChips();
     }
-    const grooveHalf = () => .014 + .007*effStrokes();
 
     function fit(){
-      const w = cv.clientWidth, h = Math.round(w*1.02), d = devicePixelRatio||1;
+      const w = cv.clientWidth, h = Math.round(w*1.04), d = devicePixelRatio||1;
       cv.width = w*d; cv.height = h*d; cv.style.height = h+'px';
       ctx.setTransform(d,0,0,d,0,0); draw();
     }
 
     function draw(){
-      const W = cv.clientWidth, H = Math.round(W*1.02);
+      const W = cv.clientWidth, H = Math.round(W*1.04);
       ctx.clearRect(0,0,W,H);
-      const fg = css('--fg'), muted = css('--muted'), ring = css('--ring');
-      ctx.font = `500 ${Math.max(12, W*.034)}px ${css('--font')}`;
+      const fg = css('--fg'), muted = css('--muted'), ring = css('--ring'), cutCol = css('--cut');
+      const fSize = Math.max(13, Math.round(W*.036));
+      ctx.font = `500 ${fSize}px ${css('--font')}`;
       if (same()){
         ctx.fillStyle = muted; ctx.textAlign='center';
         ctx.fillText('請選兩樣不同的東西', W/2, H/2); return;
@@ -190,10 +224,10 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
       const sc = colorOf(P.surf), tc = colorOf(P.tool);
       const hd = harder();
       // ---------- 上半：俯視放大鏡 ----------
-      const cx = W/2, cy = H*.28, R = Math.min(W*.4, H*.22);
+      const cx = W/2, cy = H*.285, R = Math.min(W*.38, H*.215);
       ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.clip();
       ctx.fillStyle = sc; ctx.fillRect(cx-R,cy-R,2*R,2*R);
-      grains.forEach(([gx,gy,gs,gt]) => { // 晶粒紋理
+      grains.forEach(([gx,gy,gs,gt]) => {
         ctx.fillStyle = shade(sc.startsWith('#')?sc:'#f4f3ee', gt<.5 ? -.06 : .35);
         ctx.beginPath(); ctx.ellipse(cx+gx*R, cy+gy*R, gs*R*1.6, gs*R, gt*3, 0, Math.PI*2); ctx.fill();
       });
@@ -204,18 +238,18 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
         const ext = P.strokes>0 ? 1 : P.prog;
         const gw = grooveHalf()*R;
         const base = sc.startsWith('#') ? sc : '#f4f3ee';
-        ctx.fillStyle = shade(base, -.32);
+        ctx.fillStyle = shade(base, -.34);
         ctx.fillRect(xs, cy-gw, span*ext, gw*2);
-        ctx.fillStyle = shade(base, -.5); ctx.fillRect(xs, cy-gw, span*ext, Math.max(1.2, gw*.35));
-        ctx.fillStyle = shade(base, .55); ctx.fillRect(xs, cy+gw-Math.max(1,gw*.25), span*ext, Math.max(1,gw*.25));
+        ctx.fillStyle = shade(base, -.54); ctx.fillRect(xs, cy-gw, span*ext, Math.max(1.4, gw*.35));
+        ctx.fillStyle = shade(base, .55); ctx.fillRect(xs, cy+gw-Math.max(1.2,gw*.25), span*ext, Math.max(1.2,gw*.25));
       }
       // 軟的去刻：留下一條自己的痕（還沒擦之前）
       if (!hd && P.streak>0){
         const from = P.wipeX===null ? -.8 : Math.max(-.8, P.wipeX);
         const to = -.8 + 1.6*P.streak;
         if (to > from){
-          ctx.globalAlpha = .55; ctx.fillStyle = tc;
-          ctx.fillRect(cx+from*R, cy-.03*R, (to-from)*R, .06*R); ctx.globalAlpha = 1;
+          ctx.globalAlpha = .62; ctx.fillStyle = tc;
+          ctx.fillRect(cx+from*R, cy-.032*R, (to-from)*R, .064*R); ctx.globalAlpha = 1;
         }
       }
       // 粉末
@@ -226,6 +260,11 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
         ctx.fillStyle = c;
         ctx.beginPath(); ctx.arc(cx+p.u*R, cy+p.v*R, p.s*R, 0, Math.PI*2); ctx.fill();
       });
+      // 切面位置紅虛線
+      ctx.save();
+      ctx.setLineDash([5,4]); ctx.strokeStyle = cutCol; ctx.lineWidth = 1.8;
+      ctx.beginPath(); ctx.moveTo(cx, cy-R); ctx.lineTo(cx, cy+R); ctx.stroke();
+      ctx.restore();
       // 刻劃中的工具尖端
       if (P.anim==='cut'){
         const tx = xs + span*P.prog;
@@ -237,56 +276,67 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
       // 擦拭的布
       if (P.anim==='wipe'){
         const wx = cx + P.wipeX*R;
-        ctx.globalAlpha = .85; ctx.fillStyle = css('--accent-soft');
-        ctx.fillRect(wx-R*.12, cy-R*.35, R*.24, R*.7); ctx.globalAlpha = 1;
+        ctx.globalAlpha = .88; ctx.fillStyle = css('--accent-soft'); ctx.strokeStyle = css('--accent'); ctx.lineWidth = 1.5;
+        ctx.fillRect(wx-R*.13, cy-R*.38, R*.26, R*.76); ctx.strokeRect(wx-R*.13, cy-R*.38, R*.26, R*.76); ctx.globalAlpha = 1;
       }
       ctx.restore();
       ctx.lineWidth = Math.max(3, W*.012); ctx.strokeStyle = ring;
       ctx.beginPath(); ctx.arc(cx,cy,R,0,Math.PI*2); ctx.stroke();
       ctx.fillStyle = muted; ctx.textAlign='left';
-      ctx.fillText('放大鏡（從上往下看）', 4, Math.max(14, W*.04));
+      ctx.fillText('放大鏡（從上往下看）', 4, Math.max(16, W*.042));
+      ctx.fillStyle = cutCol; ctx.textAlign='right';
+      ctx.font = `500 ${Math.max(12, Math.round(W*.03))}px ${css('--font')}`;
+      ctx.fillText('紅虛線＝下方切開處', W-4, Math.max(16, W*.042));
+      ctx.font = `500 ${fSize}px ${css('--font')}`;
 
       // ---------- 下半：橫切面 ----------
-      const top = H*.74, L = W*.08, Rr = W*.92, bot = H*.97, mid = W/2;
+      const top = H*.745, L = W*.06, Rr = W*.94, bot = H*.97, mid = W/2;
       ctx.fillStyle = muted; ctx.textAlign='left';
-      ctx.fillText('橫切面（從刻痕中間切開）', 4, H*.575);
-      const dep = hd ? (P.strokes>0 || P.anim==='cut' ? (6 + 5*effStrokes()) * W/400 : 0) : 0;
+      ctx.fillText('橫切面（沿紅虛線切開）', 4, H*.575);
+      const dep = hd ? (P.strokes>0 || P.anim==='cut' ? (7 + 5.2*effStrokes()) * W/400 : 0) : 0;
       const hw = dep*1.15;
       ctx.beginPath();
       ctx.moveTo(L, top); ctx.lineTo(mid-hw, top); ctx.lineTo(mid, top+dep); ctx.lineTo(mid+hw, top); ctx.lineTo(Rr, top);
       ctx.lineTo(Rr, bot); ctx.lineTo(L, bot); ctx.closePath();
-      ctx.fillStyle = sc; ctx.fill(); ctx.strokeStyle = fg; ctx.lineWidth = 1.6; ctx.stroke();
+      ctx.fillStyle = sc; ctx.fill(); ctx.strokeStyle = fg; ctx.lineWidth = 1.8; ctx.stroke();
       // 晶粒線
       ctx.save(); ctx.clip(); ctx.strokeStyle = shade(sc.startsWith('#')?sc:'#f4f3ee', -.12); ctx.lineWidth = 1;
       for (let i=0;i<9;i++){ const y = top+12+i*(bot-top)/9; ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(Rr, y+((i%3)-1)*6); ctx.stroke(); }
       ctx.restore();
-      // 粉末在橫切面上
-      const hasPowder = P.particles.length > 0;
-      if (hasPowder){
-        const r0 = rng(31);
-        const pc = colorOf(hd ? P.surf : P.tool);
-        const k = Math.min(1, P.particles.length/60);
-        for (let i=0;i<Math.round(26*k)+4;i++){
-          let x, y;
-          if (hd){ const side = i%2 ? -1 : 1; x = mid + side*(hw + 3 + r0()*hw*1.4); y = top - 2 - r0()*dep*.35; }
-          else { x = mid + (r0()*2-1)*W*.08; y = top - 2 - r0()*3; }
-          ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.arc(x+1,y+1,W*.008,0,Math.PI*2); ctx.fill();
-          ctx.fillStyle = pc; ctx.beginPath(); ctx.arc(x,y,W*.008,0,Math.PI*2); ctx.fill();
-        }
+      // 粉末在橫切面上（擦拭時依 x 位置同步被抹除）
+      const wipeSecX = P.anim==='wipe' ? (mid + P.wipeX * W * .35) : -999;
+      P.secChips.forEach(ch => {
+        const x = mid + (hd ? (ch.nx > 0 ? hw + 3 + Math.abs(ch.nx)*W*.6 : -hw - 3 - Math.abs(ch.nx)*W*.6) : ch.nx*W);
+        if (P.anim==='wipe' && x < wipeSecX) return;
+        const y = top - 2.5 - ch.ny * (hd ? Math.max(4, dep*.35) : 4);
+        ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.arc(x+1,y+1,W*.009,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle = colorOf(ch.src); ctx.beginPath(); ctx.arc(x,y,W*.009,0,Math.PI*2); ctx.fill();
+      });
+      // 橫切面擦拭的布
+      if (P.anim==='wipe'){
+        ctx.save(); ctx.globalAlpha = .85; ctx.fillStyle = css('--accent-soft'); ctx.strokeStyle = css('--accent'); ctx.lineWidth = 1.5;
+        ctx.fillRect(wipeSecX - W*.04, top - H*.09, W*.08, H*.09);
+        ctx.strokeRect(wipeSecX - W*.04, top - H*.09, W*.08, H*.09);
+        ctx.restore();
       }
-      // 工具尖端（軟的會被磨鈍）
+      // 工具尖端（刻劃時真的下壓；軟的會被磨鈍）
+      const pressing = P.anim==='cut' ? Math.sin(P.prog*Math.PI) : 0;
       const wear = hd ? 0 : Math.min(effStrokes(), 6);
-      const tipY = top - 3 - (hd ? 0 : wear*W*.002);
-      const blunt = hd ? 0 : wear*W*.006;
-      const ttop = H*.61;
+      const pressDepth = hd ? pressing * dep * .88 : pressing * 3;
+      const restGap = pressing > .02 ? 0 : 5;
+      const tipY = top - restGap + pressDepth - (hd ? 0 : wear*W*.0015);
+      const blunt = hd ? 0 : wear*W*.0065;
+      const ttop = H*.605 + pressDepth*.6;
+      const wobble = P.anim==='cut' ? Math.sin(P.prog*Math.PI*16)*1.5 : 0;
       ctx.beginPath();
-      ctx.moveTo(mid - W*.07, ttop); ctx.lineTo(mid + W*.07, ttop);
-      ctx.lineTo(mid + blunt + 1, tipY); ctx.lineTo(mid - blunt - 1, tipY);
+      ctx.moveTo(mid - W*.075 + wobble, ttop); ctx.lineTo(mid + W*.075 + wobble, ttop);
+      ctx.lineTo(mid + blunt + 1.2 + wobble, tipY); ctx.lineTo(mid - blunt - 1.2 + wobble, tipY);
       ctx.closePath();
-      ctx.fillStyle = tc; ctx.fill(); ctx.strokeStyle = fg; ctx.lineWidth = 1.4; ctx.stroke();
+      ctx.fillStyle = tc; ctx.fill(); ctx.strokeStyle = fg; ctx.lineWidth = 1.6; ctx.stroke();
+      // 標籤
       ctx.fillStyle = fg; ctx.textAlign='left';
-      ctx.fillText('拿來刻的：' + ITEMS[P.tool].name, mid + W*.1, ttop + W*.05);
-      ctx.fillText('被刻的：' + ITEMS[P.surf].name, L + 6, bot - 8);
+      ctx.fillText('拿來刻的：' + ITEMS[P.tool].name, mid + W*.1, H*.645);
+      ctx.fillText('被刻的：' + ITEMS[P.surf].name, L + 8, bot - 10);
     }
 
     function prompt(){
@@ -297,17 +347,25 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
       if (same()) { el.textContent = '拿來刻的和被刻的是同一樣東西，換一個再試。'; return; }
       const t = ITEMS[P.tool].name, s = ITEMS[P.surf].name;
       if (P.anim==='cut') { el.textContent = `${t} 正在 ${s} 上刻……`; return; }
-      if (P.anim==='wipe') { el.textContent = '擦一擦……'; return; }
+      if (P.anim==='wipe') { el.textContent = '用濕紙巾擦一擦……'; return; }
       if (P.strokes===0) { el.textContent = '按「刻一下」，用放大鏡看表面發生什麼事。'; return; }
+      const srcKey = harder() ? P.surf : P.tool;
+      const srcItem = ITEMS[srcKey];
       if (!P.wiped) {
-        el.textContent = tint
-          ? `表面有${ITEMS[harder()?P.surf:P.tool].powder}。看顏色：這是從哪一樣掉下來的？`
-          : '表面出現白白的粉。這些粉是哪一顆掉下來的？擦掉以後還剩什麼？';
+        if (tint){
+          el.textContent = `表面有${srcItem.powder}。看顏色：這是從哪一樣掉下來的？`;
+        } else if (!srcItem.mineral && srcKey === 'iron'){
+          el.textContent = `表面出現灰黑色的痕跡。這是 ${s} 被刻出溝了，還是鐵釘留下的痕跡？擦掉看看！`;
+        } else if (!srcItem.mineral && srcKey === 'nail'){
+          el.textContent = `表面出現淺色碎屑。這是 ${s} 的粉，還是被磨掉的指甲屑？擦掉看看！`;
+        } else {
+          el.textContent = '表面出現白白的粉。這些粉是哪一顆掉下來的？擦掉以後還剩什麼？';
+        }
         return;
       }
       el.textContent = harder()
-        ? `擦乾淨以後：${s} 的表面還留著一條溝，橫切面凹下去了。`
-        : `擦乾淨以後：${s} 的表面沒有溝，橫切面還是平的。`;
+        ? `擦乾淨以後：${s} 的表面還留著一條溝，橫切面真的凹下去了。`
+        : `擦乾淨以後：${s} 的表面沒有溝，橫切面還是平的（剛才只是 ${t} 留下的${srcItem.powder}）。`;
     }
 
     function step(kind, dur, done){
@@ -329,29 +387,52 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
       requestAnimationFrame(tick);
     }
     function cut(){ if (same()||P.anim) return; P.wiped=false; P.wipeX=null; P.prog=0;
-      step('cut', 1400, () => { P.strokes++; P.prog=0; }); }
+      step('cut', 1300, () => { P.strokes++; P.prog=0; rebuildSecChips(); }); }
     function wipe(){ if (P.anim||!P.particles.length) return;
-      step('wipe', 900, () => { P.particles=[]; P.streak=0; P.wipeX=null; P.wiped=true; }); }
-    function reset(){ if (P.anim) return; Object.assign(P,{strokes:0,prog:0,particles:[],streak:0,wipeX:null,wiped:false}); draw(); prompt(); }
+      step('wipe', 850, () => { P.particles=[]; P.secChips=[]; P.streak=0; P.wipeX=null; P.wiped=true; }); }
+    function reset(){ if (P.anim) return; Object.assign(P,{strokes:0,prog:0,particles:[],secChips:[],streak:0,wipeX:null,wiped:false}); draw(); prompt(); }
+    function setPair(t, s, doSeed=true){
+      if (P.anim) return;
+      P.tool = t; P.surf = s; selT.value = t; selS.value = s;
+      Object.assign(P,{strokes:0,prog:0,particles:[],secChips:[],streak:0,wipeX:null,wiped:false});
+      if (doSeed) seed();
+      draw(); prompt();
+    }
 
     $('cut').onclick = cut; $('wipe').onclick = wipe; $('reset').onclick = reset;
     selT.onchange = () => { P.tool = selT.value; reset(); };
     selS.onchange = () => { P.surf = selS.value; reset(); };
 
-    // 開場：已經刻過一次、還沒擦，學生一眼就看到「兩邊都有白粉」
     function seed(){
       const r = rng(id==='a'?3:5); const save = Math.random; Math.random = r;
       for (let i=0;i<70;i++) spawn(-.8 + 1.6*i/69);
       Math.random = save; P.strokes = 1; if (!harder()) P.streak = 1;
+      rebuildSecChips();
     }
     seed();
     new ResizeObserver(fit).observe(cv);
-    return {draw, prompt};
+    return {draw, prompt, cut, wipe, setPair};
   }
 
   const panels = [makePanel('a','quartz','calcite'), makePanel('b','calcite','quartz')];
   const redraw = () => panels.forEach(p => { p.draw(); p.prompt(); });
   panels.forEach(p => p.prompt());
+
+  document.getElementById('both-cut').onclick = () => panels.forEach(p => p.cut());
+  document.getElementById('both-wipe').onclick = () => panels.forEach(p => p.wipe());
+
+  const PRESETS = {
+    qc:   [['quartz','calcite'], ['calcite','quartz']],
+    iron: [['iron','calcite'],   ['iron','quartz']],
+    nail: [['nail','talc'],      ['nail','calcite']],
+  };
+  document.querySelectorAll('[data-preset]').forEach(btn => {
+    btn.onclick = () => {
+      const pair = PRESETS[btn.dataset.preset];
+      panels[0].setPair(pair[0][0], pair[0][1], true);
+      panels[1].setPair(pair[1][0], pair[1][1], true);
+    };
+  });
 
   const bReal = document.getElementById('m-real'), bTint = document.getElementById('m-tint');
   function setTint(v){ tint = v; bReal.setAttribute('aria-pressed', String(!v)); bTint.setAttribute('aria-pressed', String(v));
@@ -363,3 +444,5 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:80ch}
   if (document.fonts) document.fonts.ready.then(redraw);
 })();
 </script>
+</body>
+</html>

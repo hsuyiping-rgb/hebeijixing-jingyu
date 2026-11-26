@@ -1,83 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>石頭的旅程</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <style>
-/* 版面：上方一張從山到海的河流側面長卷，下方左邊把「這顆石頭」放大，右邊是觀察提問 */
 :root{
   --bg:#f2f4f1; --panel:#ffffff; --fg:#1c2420; --muted:#5a6762; --line:#d3dad5;
   --accent:#2d6c66; --accent-soft:#e1eeeb;
   --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
-  --sky:#e8f0f3; --rock:#a99a80; --rock-dark:#7d705b; --green:#b9cc96;
+  --sky:#e8f0f3; --sky-storm:#cdd8de; --rock:#a99a80; --rock-dark:#7d705b; --green:#b9cc96;
   --water:#7fb2d6; --flood:#a88b60; --sea:#5d97c4; --sand:#e2cf97; --mud:#b59a72;
   --stone:#c9c3b6; --stone-edge:#5d5748; --chip:#8f8676;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
   --accent:#7cc2b8; --accent-soft:#20302d;
-  --sky:#18211f; --rock:#6c604c; --rock-dark:#4d4436; --green:#3f4c33;
+  --sky:#18211f; --sky-storm:#141a1d; --rock:#6c604c; --rock-dark:#4d4436; --green:#3f4c33;
   --water:#2f6f9c; --flood:#7d6642; --sea:#285f8a; --sand:#8a7a4c; --mud:#6e5a3f;
   --stone:#b9b2a3; --stone-edge:#e8e2d4; --chip:#a89f8e; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
   --accent:#7cc2b8; --accent-soft:#20302d;
-  --sky:#18211f; --rock:#6c604c; --rock-dark:#4d4436; --green:#3f4c33;
+  --sky:#18211f; --sky-storm:#141a1d; --rock:#6c604c; --rock-dark:#4d4436; --green:#3f4c33;
   --water:#2f6f9c; --flood:#7d6642; --sea:#285f8a; --sand:#8a7a4c; --mud:#6e5a3f;
   --stone:#b9b2a3; --stone-edge:#e8e2d4; --chip:#a89f8e; color-scheme:dark}
+*{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6}
 .wrap{max-width:1240px;margin:0 auto;padding-block:20px 40px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   display:grid;gap:16px}
 header{display:grid;gap:6px}
-.eyebrow{font-size:.8rem;letter-spacing:.08em;color:var(--muted)}
+.eyebrow{font-size:.82rem;letter-spacing:.08em;color:var(--muted)}
 h1{margin:0;font-size:clamp(1.6rem,3.2vw,2.3rem);text-wrap:balance}
 .lead{margin:0;color:var(--muted);max-width:64ch}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0;align-content:start}
-.card h2{margin:0;font-size:1rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.card h2{margin:0;font-size:1.05rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
 .card h2 span{font-size:.85rem;color:var(--muted);font-weight:400}
 canvas{width:100%;display:block;border-radius:8px}
-.lower{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px}
-@media (max-width:820px){.lower{grid-template-columns:1fr}}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.stat{border:1px solid var(--line);border-radius:8px;padding:6px 10px}
-.stat b{display:block;font-size:1.15rem;font-variant-numeric:tabular-nums}
-.stat span{font-size:.8rem;color:var(--muted)}
-.timeline{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.flood{font-size:1.15rem;font-weight:700;min-width:8.5em;font-variant-numeric:tabular-nums}
-input[type=range]{flex:1 1 240px;accent-color:var(--accent);min-width:0}
+.lower{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.15fr);gap:16px}
+@media (max-width:860px){.lower{grid-template-columns:1fr}}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{border:1px solid var(--line);border-radius:8px;padding:6px 9px}
+.stat b{display:block;font-size:1.08rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--muted)}
+.timeline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ticks{display:flex;gap:6px;flex-wrap:wrap}
+.flood{font-size:1.1rem;font-weight:700;min-width:8.5em;font-variant-numeric:tabular-nums}
+input[type=range]{flex:1 1 220px;accent-color:var(--accent);min-width:0}
 button{font:inherit;cursor:pointer;border-radius:8px;padding:7px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--panel)}
 button.ghost{background:transparent;color:var(--accent)}
+button.sm{padding:4px 10px;font-size:.88rem}
 button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.prompt{margin:0;padding:10px 12px;border-radius:8px;background:var(--accent-soft);min-height:4.8em}
+.prompt{margin:0;padding:10px 12px;border-radius:8px;background:var(--accent-soft);min-height:4.8em;font-size:.96rem}
 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.86rem;color:var(--muted)}
 .legend span{display:inline-flex;gap:6px;align-items:center}
 .legend i{width:16px;height:10px;border-radius:2px;display:inline-block;border:1px solid var(--line)}
 footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <header>
     <div class="eyebrow">六上自然・變動的大地・2-1 河流的地形</div>
     <h1>石頭的旅程</h1>
-    <p class="lead">一塊從上游山壁崩下來、有稜有角的石頭，被大水一路推著走。它在路上發生了什麼事？為什麼最後停在中游，變成圓圓的鵝卵石？</p>
+    <p class="lead">一塊從上游山壁崩下來、有稜有角的石頭，被颱風大水一路推著走。它在路上發生了什麼事？磨掉的部分跑去哪裡了？</p>
   </header>
 
   <section class="card">
     <h2>從山到海的河流（側面看） <span>箭頭愈長＝水流愈快</span></h2>
     <canvas id="river" aria-label="河流從上游到下游的側面圖，石頭沿河道移動"></canvas>
     <div class="legend">
-      <span><i style="background:var(--water)"></i>平常的河水</span>
-      <span><i style="background:var(--flood)"></i>颱風大水（混濁）</span>
+      <span><i style="background:var(--water)"></i>平常的河水（推不動大石）</span>
+      <span><i style="background:var(--flood)"></i>颱風大水（水急混濁）</span>
       <span><i style="background:var(--chip)"></i>撞下來的碎屑</span>
-      <span><i style="background:var(--sand)"></i>堆積的細沙和泥</span>
+      <span><i style="background:var(--mud)"></i>磨出並堆積在下游的細沙和泥</span>
     </div>
     <div class="timeline">
       <button id="play">播放</button>
-      <button id="reset" class="ghost">回到出發</button>
       <div class="flood" id="flood">還沒出發</div>
       <input type="range" id="t" min="0" max="100" step=".1" value="0" aria-label="經過的時間">
+    </div>
+    <div class="ticks" role="group" aria-label="課堂快速跳轉">
+      <button class="ghost sm" data-t="0">出發前</button>
+      <button class="ghost sm" data-t="39">第 4 次大水（預測停在哪）</button>
+      <button class="ghost sm" data-t="83">第 9 次大水（停在中游）</button>
+      <button class="ghost sm" data-t="100">旅程結束</button>
     </div>
   </section>
 
@@ -86,9 +100,10 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
       <h2>放大看這顆石頭 <span>虛線是出發時的樣子</span></h2>
       <canvas id="stone" aria-label="石頭放大圖，比較出發時與現在"></canvas>
       <div class="stats">
-        <div class="stat"><b id="s-size">60 公分</b><span>大小（示意）</span></div>
+        <div class="stat"><b id="s-size">60 公分</b><span>直徑（示意）</span></div>
         <div class="stat"><b id="s-round">很多</b><span>稜角</span></div>
-        <div class="stat"><b id="s-where">上游</b><span>在河的哪一段</span></div>
+        <div class="stat"><b id="s-where">上游</b><span>河段</span></div>
+        <div class="stat"><b id="s-lost">0%</b><span>磨成細沙</span></div>
       </div>
     </section>
     <section class="card">
@@ -96,7 +111,7 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
       <p class="prompt" id="prompt" aria-live="polite"></p>
       <footer>
         <span>示意動畫：石頭大小、距離和時間都不是實際比例。真實的河裡，一顆石頭從上游走到中游，可能要經過很多次颱風大水、幾百年到幾千年。</span>
-        <span>課堂用法：接在寶特瓶搖粉筆之後（教案第 7(c) 步「粉筆搖一分鐘才磨這麼一點，河裡的石頭要多久？」）。可以先停在「第 4 次大水」，請學生預測它會停在哪裡。</span>
+        <span>課堂用法：接在寶特瓶搖粉筆之後（教案第 7(c) 步「粉筆搖一分鐘才磨這麼一點，河裡的石頭要多久？」）。可先按「第 4 次大水」，請學生預測它最後會停在哪裡、磨掉的體積去了哪裡。</span>
       </footer>
     </section>
   </div>
@@ -113,12 +128,11 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
   const ease = k => k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
   function rng(seed){ return () => (seed = (seed*16807) % 2147483647) / 2147483647; }
 
-  // ---------- 劇本：十次大水 ----------
-  const FLOODS = 10, START = 6, GAP = 9.4, DUR = 4.2;           // 時間軸 0～100
-  const POS   = [.05,.12,.19,.26,.33,.40,.47,.54,.575,.575,.575]; // 每次大水後石頭的位置（0＝源頭，1＝出海口）
-  const SIZE  = [1,.86,.75,.66,.58,.52,.47,.44,.43,.43,.43];      // 相對大小
-  const ROUND = [0,.2,.36,.5,.62,.72,.8,.86,.88,.88,.88];        // 圓滑程度
-  function phase(T){ // 回傳：已完成幾次大水 k，以及正在進行中那次的進度 f（不在大水中為 null）
+  const FLOODS = 10, START = 6, GAP = 9.4, DUR = 4.2;
+  const POS   = [.05,.12,.19,.26,.33,.40,.47,.54,.575,.575,.575];
+  const SIZE  = [1,.86,.75,.66,.58,.52,.47,.44,.43,.43,.43];
+  const ROUND = [0,.2,.36,.5,.62,.72,.8,.86,.88,.88,.88];
+  function phase(T){
     for (let k=0;k<FLOODS;k++){ const s = START + k*GAP;
       if (T < s) return {k, f:null};
       if (T < s + DUR) return {k, f:(T-s)/DUR}; }
@@ -131,30 +145,26 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
     return {u:lerp(POS[k],POS[k+1],e), size:lerp(SIZE[k],SIZE[k+1],e), round:lerp(ROUND[k],ROUND[k+1],e),
       moving: POS[k+1] > POS[k], k, f};
   }
-  // 碎屑：每次大水在石頭身邊撞下幾顆，之後每次大水再往下游走一段
   const chips = (() => { const r = rng(11), out = [];
-    for (let k=0;k<FLOODS;k++){ const n = k < 8 ? 7 : 0;
+    for (let k=0;k<FLOODS;k++){ const n = k < 8 ? 8 : 0;
       for (let i=0;i<n;i++) out.push({born:k, f0:r(), u0:lerp(POS[k],POS[k+1],r()), step:.13+r()*.08, stop:.8+r()*.17, sz:.5+r()*.7, lift:r()}); }
     return out; })();
   function chipU(c, T){
-    // k：已經結束的大水次數；f：正在進行中那一次（第 k 次，從 0 起算）的進度
     const {k,f} = phase(T), b = c.born;
-    if (k < b || (k === b && (f === null || f < c.f0))) return null;   // 還沒被撞下來
-    const later = Math.max(0, k - 1 - b);                               // 出生之後、已經結束的大水
-    const now = (f !== null && k > b) ? ease(f) : 0;                    // 正在進行中的那一次
+    if (k < b || (k === b && (f === null || f < c.f0))) return null;
+    const later = Math.max(0, k - 1 - b);
+    const now = (f !== null && k > b) ? ease(f) : 0;
     return Math.min(c.u0 + c.step*(later + now), c.stop);
   }
 
-  // ---------- 河流側面 ----------
-  let W=1000, H=400;
-  const elev = u => Math.pow(1-u, 2.3);                        // 源頭高、出海口低
-  const bedY = u => lerp(H*.14, H*.8, 1-elev(clamp(u,0,1)));
+  let W=1000, H=400, animPhase = 0;
+  const elev = u => Math.pow(1-u, 2.3);
+  const bedY = u => lerp(H*.23, H*.82, 1-elev(clamp(u,0,1)));
   const X = u => lerp(W*.03, W*.97, u);
-  const speed = u => .25 + 2.3*Math.pow(1-u, 1.3)*(1-u);      // 坡度愈陡流得愈快（示意）
+  const speed = u => .25 + 2.3*Math.pow(1-u, 1.3)*(1-u);
 
   const stoneShape = (() => { const r = rng(5), v=[]; for (let i=0;i<9;i++){ const a = i/9*Math.PI*2 + (r()-.5)*.35; v.push([a, .7 + r()*.45]); } return v; })();
   function stonePath(c, cx, cy, R, round, rot){
-    // round：0＝稜角分明，1＝圓滑；半徑也慢慢往「扁圓的鵝卵石」靠
     const pts = stoneShape.map(([a, rr]) => {
       const target = 1/Math.sqrt(Math.pow(Math.cos(a)/1.25,2) + Math.pow(Math.sin(a)/.85,2));
       const r = lerp(rr, target*.85, round);
@@ -174,16 +184,40 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
   function drawRiver(T){
     const c = rc; c.clearRect(0,0,W,H);
     const st = stoneAt(T), flooding = st.f !== null;
-    c.fillStyle = css('--sky'); c.fillRect(0,0,W,H);
+    c.fillStyle = flooding ? css('--sky-storm') : css('--sky'); c.fillRect(0,0,W,H);
+
+    // 河段分區淡虛線與頂端固定標題（絕不與石頭重疊）
+    c.save();
+    c.setLineDash([4,4]); c.strokeStyle = css('--line'); c.lineWidth = 1.2;
+    [.30, .68].forEach(u => { c.beginPath(); c.moveTo(X(u), H*.03); c.lineTo(X(u), bedY(u)); c.stroke(); });
+    c.restore();
+    c.textAlign = 'center';
+    [['上游','坡陡、水急',.15],['中游','坡緩、水變慢',.49],['下游','很平、水最慢',.80]].forEach(([t,sub,u]) => {
+      c.fillStyle = css('--fg'); c.font = `700 ${Math.max(13,H*.045)}px ${css('--font')}`; c.fillText(t, X(u), H*.08);
+      c.fillStyle = css('--muted'); c.font = `500 ${Math.max(11,H*.034)}px ${css('--font')}`; c.fillText(sub, X(u), H*.135);
+    });
+
+    // 颱風大水雨絲
+    if (flooding){
+      c.save(); c.strokeStyle = 'rgba(100,130,150,.35)'; c.lineWidth = 1.3;
+      const rRain = rng(71);
+      for (let i=0;i<55;i++){
+        const rx = (rRain()*W + animPhase*160) % W;
+        const ry = (rRain()*H*.8 + animPhase*280) % (H*.85);
+        c.beginPath(); c.moveTo(rx, ry); c.lineTo(rx-6, ry+16); c.stroke();
+      }
+      c.restore();
+    }
+
     // 山與地面
-    c.beginPath(); c.moveTo(0,H); c.lineTo(0, bedY(0)-H*.06);
+    c.beginPath(); c.moveTo(0,H); c.lineTo(0, bedY(0)-H*.05);
     for (let i=0;i<=120;i++){ const u=i/120; c.lineTo(X(u), bedY(u)); }
     c.lineTo(W,H); c.closePath(); c.fillStyle = css('--rock'); c.fill();
     c.beginPath(); for (let i=0;i<=120;i++){ const u=i/120; const y=bedY(u)+H*.05; i?c.lineTo(X(u),y):c.moveTo(X(u),y); }
     c.lineTo(W,H); c.lineTo(0,H); c.closePath(); c.fillStyle = css('--rock-dark'); c.fill();
     // 海
     const seaU = .9; c.fillStyle = css('--sea'); c.fillRect(X(seaU), bedY(seaU)-H*.035, W-X(seaU), H);
-    // 河床上的石頭：上游大而有稜角、中游鵝卵石、下游細沙泥
+    // 河床石頭
     const r = rng(3);
     for (let i=0;i<150;i++){ const u = r(); const y = bedY(u);
       if (u < .3){ c.fillStyle = css('--rock-dark'); const s = H*(.018+.022*r()); c.beginPath(); c.moveTo(X(u)-s,y); c.lineTo(X(u)-s*.3,y-s*1.1); c.lineTo(X(u)+s*.9,y-s*.5); c.lineTo(X(u)+s,y); c.fill(); }
@@ -192,61 +226,74 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
     c.fillStyle = css('--sand'); c.beginPath(); c.moveTo(X(.68), bedY(.68));
     for (let i=0;i<=30;i++){ const u=lerp(.68,.93,i/30); c.lineTo(X(u), bedY(u) - H*.012*Math.sin(Math.PI*i/30)); }
     c.lineTo(X(.93), bedY(.93)+3); c.lineTo(X(.68), bedY(.68)+3); c.closePath(); c.fill();
-    // 碎屑沉積在下游（愈來愈多）
+    // 碎屑沉積在下游
     const landed = chips.filter(ch => { const u = chipU(ch,T); return u!==null && u >= ch.stop - .001; }).length;
-    if (landed){ c.fillStyle = css('--mud'); const h = H*.045*Math.min(1, landed/chips.length); c.beginPath(); c.moveTo(X(.8), bedY(.8)); c.quadraticCurveTo(X(.88), bedY(.88)-h, X(.97), bedY(.95)); c.lineTo(X(.97), bedY(.95)+2); c.lineTo(X(.8), bedY(.8)+2); c.fill(); }
+    if (landed){ c.fillStyle = css('--mud'); const h = H*.05*Math.min(1, landed/chips.length); c.beginPath(); c.moveTo(X(.79), bedY(.79)); c.quadraticCurveTo(X(.88), bedY(.88)-h, X(.97), bedY(.95)); c.lineTo(X(.97), bedY(.95)+2); c.lineTo(X(.79), bedY(.79)+2); c.fill(); }
     // 河水
-    const depth = u => H*(flooding ? .045 + .035*u : .018 + .02*u);
+    const depth = u => H*(flooding ? .052 + .038*u : .02 + .02*u);
     c.beginPath(); for (let i=0;i<=120;i++){ const u=i/120*seaU; const y=bedY(u)-depth(u); i?c.lineTo(X(u),y):c.moveTo(X(u),y); }
     for (let i=120;i>=0;i--){ const u=i/120*seaU; c.lineTo(X(u), bedY(u)); }
-    c.closePath(); c.globalAlpha = .85; c.fillStyle = flooding ? css('--flood') : css('--water'); c.fill(); c.globalAlpha = 1;
+    c.closePath(); c.globalAlpha = .86; c.fillStyle = flooding ? css('--flood') : css('--water'); c.fill(); c.globalAlpha = 1;
+    // 動態水流白線（大水時加速）
+    c.save(); c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 1.6;
+    for (let i=0;i<18;i++){
+      const baseU = ((i/18) + animPhase * (flooding ? .24 : .08)) % seaU;
+      const u2 = Math.min(seaU, baseU + .018 * speed(baseU));
+      c.beginPath(); c.moveTo(X(baseU), bedY(baseU)-depth(baseU)*.55); c.lineTo(X(u2), bedY(u2)-depth(u2)*.55); c.stroke();
+    }
+    c.restore();
     // 流速箭頭
     c.strokeStyle = css('--fg'); c.lineWidth = 1.6;
     for (const u of [.08,.2,.34,.48,.62,.76,.86]){
-      const L = W*.025*speed(u)*(flooding?1.4:1), y = bedY(u) - depth(u) - H*.035;
+      const L = W*.024*speed(u)*(flooding?1.35:1), y = bedY(u) - depth(u) - H*.032;
       const ang = Math.atan2(bedY(u+.01)-bedY(u), X(u+.01)-X(u));
       c.save(); c.translate(X(u), y); c.rotate(ang);
       c.beginPath(); c.moveTo(-L/2,0); c.lineTo(L/2,0); c.moveTo(L/2-6,-4); c.lineTo(L/2,0); c.lineTo(L/2-6,4); c.stroke(); c.restore();
     }
-    // 河段名稱
-    c.fillStyle = css('--fg'); c.font = `700 ${Math.max(13,H*.045)}px ${css('--font')}`; c.textAlign='center';
-    const lab = [['上游','坡陡、水急',.2],['中游','坡緩、水變慢',.49],['下游','很平、水最慢',.79]];
-    lab.forEach(([t,sub,u]) => { const y = bedY(u) - H*.2;
-      c.fillStyle = css('--fg'); c.font = `700 ${Math.max(13,H*.045)}px ${css('--font')}`; c.fillText(t, X(u), y);
-      c.fillStyle = css('--muted'); c.font = `500 ${Math.max(11,H*.034)}px ${css('--font')}`; c.fillText(sub, X(u), y + H*.05); });
     c.fillStyle = css('--panel'); c.font = `700 ${Math.max(12,H*.04)}px ${css('--font')}`; c.fillText('海', X(.95), bedY(.95)+H*.09);
     // 碎屑
     chips.forEach(ch => { const u = chipU(ch,T); if (u===null) return;
       const moving = flooding && u < ch.stop; const y = bedY(u) - (moving ? depth(u)*ch.lift*.8 : 2);
-      c.fillStyle = css('--chip'); c.beginPath(); c.arc(X(u), y, Math.max(1.5, H*.006*ch.sz), 0, Math.PI*2); c.fill(); });
-    // 石頭
-    const R = H*.05*st.size, rot = st.u*40;
-    const sy = bedY(st.u) - R*.75 - (st.moving ? Math.abs(Math.sin(st.f*Math.PI*6))*R*.5 : 0);
+      c.fillStyle = css('--chip'); c.beginPath(); c.arc(X(u), y, Math.max(1.6, H*.0065*ch.sz), 0, Math.PI*2); c.fill(); });
+    // 主角石頭
+    const R = H*.048*st.size, rot = st.u*40;
+    const sy = bedY(st.u) - R*.75 - (st.moving ? Math.abs(Math.sin(st.f*Math.PI*6))*R*.55 : 0);
     c.fillStyle = css('--stone'); c.strokeStyle = css('--stone-edge'); c.lineWidth = 2;
     stonePath(c, X(st.u), sy, R, st.round, rot); c.fill(); c.stroke();
-    // 指示標記
-    c.strokeStyle = css('--accent'); c.lineWidth = 2; c.beginPath(); c.arc(X(st.u), sy, R*1.9, 0, Math.PI*2); c.stroke();
-    c.fillStyle = css('--accent'); c.font = `700 ${Math.max(12,H*.038)}px ${css('--font')}`;
+    c.strokeStyle = css('--accent'); c.lineWidth = 2.2; c.beginPath(); c.arc(X(st.u), sy, R*1.9, 0, Math.PI*2); c.stroke();
+    c.fillStyle = css('--accent'); c.font = `700 ${Math.max(12,H*.04)}px ${css('--font')}`;
     c.fillText('這顆', X(st.u), sy - R*2.3);
   }
 
   function drawStone(T){
-    const c = sc, SW = sv.clientWidth, SH = Math.round(SW*.62); c.clearRect(0,0,SW,SH);
-    c.fillStyle = css('--sky'); c.fillRect(0,0,SW,SH);
-    const st = stoneAt(T), cx = SW/2, cy = SH*.52, R0 = Math.min(SW,SH)*.36;
+    const c = sc, SW = sv.clientWidth, SH = Math.round(SW*.58); c.clearRect(0,0,SW,SH);
+    const st = stoneAt(T);
+    c.fillStyle = st.f !== null ? css('--sky-storm') : css('--sky'); c.fillRect(0,0,SW,SH);
+    const cx = SW/2, cy = SH*.52, R0 = Math.min(SW,SH)*.36;
     c.setLineDash([6,5]); c.strokeStyle = css('--muted'); c.lineWidth = 1.6;
     stonePath(c, cx, cy, R0, 0, 0); c.stroke(); c.setLineDash([]);
+    // 大水移動時放大圖裡的石頭真的跟著翻滾與彈跳！
+    const rot = st.moving ? (st.u * 40) : 0;
+    const bounce = st.moving ? -Math.abs(Math.sin(st.f*Math.PI*6))*7 : 0;
     c.fillStyle = css('--stone'); c.strokeStyle = css('--stone-edge'); c.lineWidth = 2.4;
-    stonePath(c, cx, cy, R0*st.size, st.round, 0); c.fill(); c.stroke();
-    // 正在撞：飛出小碎屑
-    if (st.moving){ const r = rng(Math.floor(T*10)+1); c.fillStyle = css('--chip');
-      for (let i=0;i<10;i++){ const a = r()*Math.PI*2, d = R0*st.size*(1.05 + r()*.5); c.beginPath(); c.arc(cx+Math.cos(a)*d, cy+Math.sin(a)*d, 2+r()*3, 0, Math.PI*2); c.fill(); } }
-    c.fillStyle = css('--muted'); c.font = `${Math.max(11,SW*.035)}px ${css('--font')}`; c.textAlign='left';
-    c.fillText('虛線：出發時', 8, SH-10);
-    c.textAlign='right'; c.fillText(st.moving ? '翻滾、互撞中……' : '靜止', SW-8, SH-10);
+    stonePath(c, cx, cy + bounce, R0*st.size, st.round, rot); c.fill(); c.stroke();
+    if (st.moving){
+      const r = rng(Math.floor(T*10)+1); c.fillStyle = css('--chip');
+      for (let i=0;i<14;i++){
+        const a = r()*Math.PI*2, d = R0*st.size*(1.05 + r()*.55);
+        c.beginPath(); c.arc(cx+Math.cos(a)*d, cy+bounce+Math.sin(a)*d, 2+r()*3.2, 0, Math.PI*2); c.fill();
+      }
+    }
+    c.fillStyle = css('--muted'); c.font = `${Math.max(12,SW*.034)}px ${css('--font')}`; c.textAlign='left';
+    c.fillText('虛線：出發時的稜角與大小', 10, SH-10);
+    c.textAlign='right'; c.fillText(st.moving ? '大水翻滾、互撞磨圓中！' : '平常水流推不動（靜止）', SW-10, SH-10);
+
     document.getElementById('s-size').textContent = `${Math.round(60*st.size)} 公分`;
     document.getElementById('s-round').textContent = st.round < .15 ? '很多' : st.round < .45 ? '少了一些' : st.round < .75 ? '少很多' : '幾乎沒有';
     document.getElementById('s-where').textContent = st.u < .3 ? '上游' : st.u < .68 ? '中游' : '下游';
+    // 體積與直徑立方成正比（示意磨成細沙的比例）
+    const lostPct = Math.round((1 - Math.pow(st.size, 3)) * 100);
+    document.getElementById('s-lost').textContent = `${lostPct}%`;
   }
 
   function prompt(T){
@@ -259,36 +306,47 @@ footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
     else if (k < 4) s = '每來一次大水，它就往下游走一段，稜角一點一點被撞掉。撞下來的碎屑跑到哪裡去了？';
     else if (k < 7) s = '看箭頭：愈往下游，水流愈慢。石頭也愈來愈小、愈來愈圓。猜猜看，它最後會停在哪裡？';
     else if (k < 8) s = '到了中游，坡變緩、水變慢，快要推不動這顆石頭了。';
-    else if (k < FLOODS) s = '第 9 次大水來了，水推不動它：它停在中游，變成一顆鵝卵石。可是碎屑還在往下游跑。';
-    else s = '比一比虛線和現在：它變小了，也變圓了。被撞掉的部分變成細沙和泥，一路被搬到下游和河口。就像寶特瓶裡的粉筆，撞掉的角變成瓶底的白泥。';
+    else if (k < FLOODS) s = '第 9 次大水來了，水推不動它：它停在中游，變成一顆鵝卵石。可是細小的碎屑還在往下游跑！';
+    else s = '比一比虛線和現在：它變小、變圓了，磨掉的部分變成細沙和泥，一路被搬到下游和河口——就像寶特瓶裡的粉筆，撞掉的角變成瓶底的白泥。';
     el.textContent = s;
   }
 
   function render(){ const T = +slider.value; drawRiver(T); drawStone(T); prompt(T); }
   function fit(){
     const d = devicePixelRatio||1;
-    W = rv.clientWidth; H = Math.round(W*.4); rv.width = W*d; rv.height = H*d; rv.style.height = H+'px'; rc.setTransform(d,0,0,d,0,0);
-    const SW = sv.clientWidth, SH = Math.round(SW*.62); sv.width = SW*d; sv.height = SH*d; sv.style.height = SH+'px'; sc.setTransform(d,0,0,d,0,0);
+    W = rv.clientWidth; H = Math.round(W*.42); rv.width = W*d; rv.height = H*d; rv.style.height = H+'px'; rc.setTransform(d,0,0,d,0,0);
+    const SW = sv.clientWidth, SH = Math.round(SW*.58); sv.width = SW*d; sv.height = SH*d; sv.style.height = SH+'px'; sc.setTransform(d,0,0,d,0,0);
     render();
   }
-  let playing = null; const playBtn = document.getElementById('play');
-  function stop(){ if (playing) cancelAnimationFrame(playing); playing = null; playBtn.textContent = '播放'; }
-  function play(){
-    if (playing){ stop(); return; }
+
+  let playing = false, lastNow = performance.now();
+  const playBtn = document.getElementById('play');
+  function setPlaying(v){ playing = v; playBtn.textContent = v ? '暫停' : '播放'; }
+  function loop(now){
+    const dt = Math.min(.05, (now - lastNow)/1000); lastNow = now;
+    if (!reduce){ animPhase += dt; }
+    if (playing){
+      const next = Math.min(100, +slider.value + dt * 4.8);
+      slider.value = next;
+      if (next >= 100) setPlaying(false);
+    }
+    if (!reduce || playing) render();
+    requestAnimationFrame(loop);
+  }
+  playBtn.onclick = () => {
+    if (playing){ setPlaying(false); return; }
     if (+slider.value >= 100) slider.value = 0;
     if (reduce){ slider.value = 100; render(); return; }
-    playBtn.textContent = '暫停'; let last = performance.now();
-    const tick = now => { const dt = (now-last)/1000; last = now;
-      slider.value = Math.min(100, +slider.value + dt*4.5); render();
-      if (+slider.value < 100) playing = requestAnimationFrame(tick); else stop(); };
-    playing = requestAnimationFrame(tick);
-  }
-  playBtn.onclick = play;
-  document.getElementById('reset').onclick = () => { stop(); slider.value = 0; render(); };
-  slider.oninput = () => { stop(); render(); };
+    setPlaying(true);
+  };
+  slider.oninput = () => { setPlaying(false); render(); };
+  document.querySelectorAll('.ticks button').forEach(b => b.onclick = () => { setPlaying(false); slider.value = b.dataset.t; render(); });
   new ResizeObserver(fit).observe(rv); new ResizeObserver(fit).observe(sv);
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
   new MutationObserver(render).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
   if (document.fonts) document.fonts.ready.then(render);
+  requestAnimationFrame(loop);
 })();
 </script>
+</body>
+</html>
