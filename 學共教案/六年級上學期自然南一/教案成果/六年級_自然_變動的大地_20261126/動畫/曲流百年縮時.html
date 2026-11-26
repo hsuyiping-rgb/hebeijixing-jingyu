@@ -1,0 +1,396 @@
+<title>曲流百年縮時</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* 版面：左邊是大張的俯視地圖，右邊是同一時間的彎道橫切面；底下一條時間軸，像翻一本三百年的空照圖冊 */
+:root{
+  --bg:#f2f4f1; --panel:#ffffff; --fg:#1c2420; --muted:#5a6762; --line:#d3dad5;
+  --accent:#2d6c66; --accent-soft:#e1eeeb;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  /* 地圖色 */
+  --land:#cfdcb4; --land-dot:#bccd9c; --water:#7fb2d6; --water-deep:#4f8dbd; --bank:#4d5a3c;
+  --sand:#e6d39d; --sand-line:#cdb877; --levee:#6b6f75; --house:#f6f1e7; --roof:#b85a3c;
+  --danger:#c0392b; --cut:#d2423a; --mud:#9a7b55; --old:#3d4a36;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
+  --accent:#7cc2b8; --accent-soft:#20302d;
+  --land:#3d4a32; --land-dot:#475639; --water:#2f6f9c; --water-deep:#215a85; --bank:#c9d6b4;
+  --sand:#8a7a4c; --sand-line:#a8955f; --levee:#a8adb4; --house:#e9e2d2; --roof:#c96a4a;
+  --danger:#ff6b5c; --cut:#ff6f66; --mud:#7d6243; --old:#dfe8d2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
+  --accent:#7cc2b8; --accent-soft:#20302d;
+  --land:#3d4a32; --land-dot:#475639; --water:#2f6f9c; --water-deep:#215a85; --bank:#c9d6b4;
+  --sand:#8a7a4c; --sand-line:#a8955f; --levee:#a8adb4; --house:#e9e2d2; --roof:#c96a4a;
+  --danger:#ff6b5c; --cut:#ff6f66; --mud:#7d6243; --old:#dfe8d2; color-scheme:dark}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6}
+.wrap{max-width:1240px;margin:0 auto;padding-block:20px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;gap:16px}
+header{display:grid;gap:6px}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;color:var(--muted)}
+h1{margin:0;font-size:clamp(1.6rem,3.2vw,2.3rem);text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:64ch}
+.stage{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px}
+@media (max-width:860px){.stage{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0;align-content:start}
+.card h2{margin:0;font-size:1rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.card h2 span{font-size:.85rem;color:var(--muted);font-weight:400}
+canvas{width:100%;display:block;border-radius:8px}
+.controls{display:grid;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.timeline{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.year{font-size:1.6rem;font-weight:700;font-variant-numeric:tabular-nums;min-width:5.5em}
+.year small{font-size:.9rem;color:var(--muted);font-weight:400}
+input[type=range]{flex:1 1 260px;accent-color:var(--accent);min-width:0}
+.row{display:flex;gap:10px 18px;flex-wrap:wrap;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:8px;padding:7px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--panel)}
+button.ghost{background:transparent;color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.toggle{display:flex;gap:8px;align-items:center;font-weight:500}
+.toggle input{width:20px;height:20px;accent-color:var(--accent)}
+.ticks{display:flex;gap:6px;flex-wrap:wrap}
+.ticks button{padding:4px 10px;font-size:.9rem}
+.prompt{margin:0;padding:10px 12px;border-radius:8px;background:var(--accent-soft);min-height:3.2em}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.88rem;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.legend i{width:16px;height:10px;border-radius:2px;display:inline-block;border:1px solid var(--line)}
+footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:84ch}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">六上自然・變動的大地・2-2 河川曲流</div>
+    <h1>曲流百年縮時</h1>
+    <p class="lead">砂盤只放了兩分鐘的水。把時間拉長到三百年，這個彎會變成什麼樣子？甲社區在彎道外側，乙社區在內側。</p>
+  </header>
+
+  <div class="stage">
+    <section class="card">
+      <h2>從空中往下看 <span id="map-note">紅線是右邊橫切面切開的位置</span></h2>
+      <canvas id="map" aria-label="曲流俯視地圖，隨時間改變"></canvas>
+      <div class="legend">
+        <span><i style="background:var(--water)"></i>河水</span>
+        <span><i style="background:var(--sand)"></i>堆積出來的沙地</span>
+        <span><i style="border:1px dashed var(--old);background:transparent"></i>第 0 年的河岸</span>
+        <span><i style="background:var(--levee)"></i>堤防</span>
+      </div>
+    </section>
+    <section class="card">
+      <h2>彎道橫切面 <span>從內側（乙）切到外側（甲）</span></h2>
+      <canvas id="sec" aria-label="彎道最外側的橫切面"></canvas>
+      <div class="legend">
+        <span>圓圈愈大＝水流愈快（水流方向朝向你）</span>
+      </div>
+    </section>
+  </div>
+
+  <div class="controls">
+    <div class="timeline">
+      <button id="play">播放</button>
+      <div class="year" id="year">第 0 年</div>
+      <input type="range" id="t" min="0" max="300" step="1" value="0" aria-label="經過的年數">
+    </div>
+    <div class="row">
+      <label class="toggle"><input type="checkbox" id="levee"> 第 0 年就在甲社區這一岸蓋堤防</label>
+      <div class="ticks" role="group" aria-label="跳到某一年">
+        <button class="ghost" data-y="0">第 0 年</button>
+        <button class="ghost" data-y="100">一百年後</button>
+        <button class="ghost" data-y="230">第 230 年</button>
+        <button class="ghost" data-y="300">三百年後</button>
+      </div>
+    </div>
+    <p class="prompt" id="prompt" aria-live="polite"></p>
+  </div>
+
+  <footer>
+    <span>示意動畫：時間與距離都不是實際比例。真實的曲流要變多快，要看河水多寡、岩石軟硬、坡度，從幾十年到幾千年都有。</span>
+    <span>課堂用法：接在砂盤驗證與全班串連之後（教案第 7(c) 步「都不蓋，一百年後會怎樣？」）。先停在第 0 年讓學生預測，再播放；最後打開堤防開關，比較下游的彎。課本 p.79 小知識有臺北景美的牛軛湖照片可以對照。</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const TCUT = 230, TMAX = 300;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const map = document.getElementById('map'), mctx = map.getContext('2d');
+  const sec = document.getElementById('sec'), sctx = sec.getContext('2d');
+  const slider = document.getElementById('t'), leveeBox = document.getElementById('levee');
+  let W=800, H=496, U=80;
+
+  const lerp = (a,b,k) => a+(b-a)*k;
+  const ease = k => k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+
+  // ---------- 河道幾何（以 U 為單位，W = 10U） ----------
+  function geo(){ return {y0:3.85*U, xc:4.2*U, w:.34*U}; }
+  function lobe(s){ // s：0～1，彎的發展程度
+    const n = lerp(1.7, .17, s)*U, c = lerp(.9, -1.2, ease(s))*U;
+    return {n, c};
+  }
+  function arcPts(s){
+    const {y0,xc} = geo(), {n,c} = lobe(s);
+    const cy = y0 + c, r = Math.hypot(n, c);
+    const p1 = Math.atan2(y0-cy, -n); let p2 = Math.atan2(y0-cy, n); if (p2 < p1) p2 += Math.PI*2;
+    const pts = []; for (let i=0;i<=70;i++){ const p = lerp(p1,p2,i/70); pts.push([xc + r*Math.cos(p), cy + r*Math.sin(p)]); }
+    return pts;
+  }
+  function second(t, levee){ // 下游的第二個彎（往南凸）
+    const {y0,xc} = geo();
+    const a = (.35 + (levee ? 1.0 : .42)*(t/TMAX))*U;
+    const xs = xc + 1.95*U, xe = xs + 2.5*U, pts = [];
+    for (let i=0;i<=30;i++){ const x = lerp(xs,xe,i/30); pts.push([x, y0 + a*Math.sin(Math.PI*i/30)]); }
+    return pts;
+  }
+  function chaikin(pts, it){
+    for (let k=0;k<it;k++){
+      const o=[pts[0]];
+      for (let i=0;i<pts.length-1;i++){ const [a,b]=[pts[i],pts[i+1]];
+        o.push([.75*a[0]+.25*b[0], .75*a[1]+.25*b[1]], [.25*a[0]+.75*b[0], .25*a[1]+.75*b[1]]); }
+      o.push(pts[pts.length-1]); pts=o;
+    }
+    return pts;
+  }
+  function line(a,b,n){ const o=[]; for(let i=0;i<=n;i++) o.push([lerp(a[0],b[0],i/n), lerp(a[1],b[1],i/n)]); return o; }
+  function state(t, levee){
+    const {y0,xc} = geo();
+    const s = levee ? 0 : Math.min(t/TCUT, 1);
+    const cut = !levee && t >= TCUT;
+    const arc = arcPts(cut ? 1 : s);
+    const sec2 = second(t, levee);
+    const A = [-.6*U, y0], B = [W+.6*U, y0];
+    let pts = [...line(A, arc[0], 6).slice(0,-1)];
+    if (cut){ pts.push(...line(arc[0], arc[arc.length-1], 4).slice(0,-1)); }
+    else pts.push(...arc.slice(0,-1));
+    pts.push(...line(arc[arc.length-1], sec2[0], 4).slice(0,-1), ...sec2.slice(0,-1), ...line(sec2[sec2.length-1], B, 6));
+    const main = chaikin(pts, 3);
+    const ox = cut ? chaikin(arc, 2) : null;
+    return {main, ox, s, cut, after: cut ? (t-TCUT)/(TMAX-TCUT) : 0};
+  }
+  function offsets(pts, d){
+    const L=[], R=[];
+    for (let i=0;i<pts.length;i++){
+      const a = pts[Math.max(0,i-1)], b = pts[Math.min(pts.length-1,i+1)];
+      let dx=b[0]-a[0], dy=b[1]-a[1]; const m=Math.hypot(dx,dy)||1; dx/=m; dy/=m;
+      L.push([pts[i][0]-dy*d, pts[i][1]+dx*d]); R.push([pts[i][0]+dy*d, pts[i][1]-dx*d]);
+    }
+    return [L,R];
+  }
+  const path = (ctx, pts) => { ctx.beginPath(); pts.forEach((p,i)=> i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); };
+  function minDist(p, pts){ let m=1e9; for (const q of pts){ const d=Math.hypot(p[0]-q[0],p[1]-q[1]); if(d<m)m=d; } return m; }
+
+  // ---------- 房屋與堤防（隨畫布尺寸重算） ----------
+  let housesA=[], housesB=[], fallYear={false:[],true:[]}, leveePts=[];
+  function layout(){
+    const {y0,xc,w} = geo();
+    const apex0 = Math.min(...arcPts(0).map(p=>p[1]));
+    housesA = [[xc-.55*U, apex0-w/2-.55*U], [xc+.05*U, apex0-w/2-.85*U], [xc+.6*U, apex0-w/2-.5*U]];
+    housesB = [[xc-.25*U, y0-.45*U], [xc+.25*U, y0-.42*U]];
+    for (const lv of [false,true]){
+      fallYear[lv] = housesA.map(h => { for (let t=0;t<=TMAX;t++){ const st=state(t,lv);
+        if (minDist(h, st.main) < w/2 + .12*U) return t; } return null; });
+    }
+    // 堤防：第 0 年外岸、靠近彎頂的那一段
+    const s0 = state(0,true).main; const [L,R] = offsets(s0, w/2 + .07*U);
+    const pick = arr => arr.filter(p => Math.abs(p[0]-xc) < .95*U && p[1] < y0-.3*U);
+    const l = pick(L), r = pick(R);
+    leveePts = (l.length && r.length && Math.min(...l.map(p=>p[1])) < Math.min(...r.map(p=>p[1]))) ? l : r;
+  }
+
+  // ---------- 俯視地圖 ----------
+  function drawMap(t, levee){
+    const c = mctx, st = state(t, levee), {y0,xc,w} = geo();
+    c.fillStyle = css('--land'); c.fillRect(0,0,W,H);
+    c.fillStyle = css('--land-dot');
+    for (let i=0;i<140;i++){ const x=(i*97.3)%W, y=(i*53.7+((i*17)%29)*7)%H; c.fillRect(x,y,2,2); }
+    // 堆積出來的沙地：過去每一段時間的河道位置
+    if (!levee){
+      c.lineCap='round'; c.lineJoin='round';
+      for (let k=0;k<=Math.min(t,TCUT);k+=12){ const p = state(k,false).main;
+        c.strokeStyle = css('--sand'); c.lineWidth = w*1.05; path(c,p); c.stroke(); }
+      c.strokeStyle = css('--sand-line'); c.lineWidth = 1;
+      for (let k=0;k<=Math.min(t,TCUT);k+=24){ path(c, state(k,false).main); c.stroke(); }
+    }
+    // 下游第二個彎的沙地（往北堆）
+    for (let k=0;k<=t;k+=15){ c.strokeStyle = css('--sand'); c.lineWidth = w*1.05; path(c, state(k,levee).main.filter(p=>p[0]>xc+1.9*U)); c.stroke(); }
+    // 牛軛湖
+    if (st.ox){
+      const trim = Math.floor(st.ox.length * (.06 + .16*st.after));
+      const lake = st.ox.slice(trim, st.ox.length-trim);
+      c.strokeStyle = css('--sand'); c.lineWidth = w*1.05; path(c, st.ox); c.stroke();
+      c.strokeStyle = css('--water-deep'); c.lineWidth = w*(1-.35*st.after); path(c, lake); c.stroke();
+      c.strokeStyle = css('--water'); c.lineWidth = w*(1-.35*st.after)-3; path(c, lake); c.stroke();
+    }
+    // 河道
+    c.strokeStyle = css('--bank'); c.lineWidth = w+3; path(c, st.main); c.stroke();
+    c.strokeStyle = css('--water'); c.lineWidth = w; path(c, st.main); c.stroke();
+    // 水流方向小箭頭
+    c.strokeStyle = 'rgba(255,255,255,.75)'; c.lineWidth = 1.6;
+    for (let i=20;i<st.main.length-20;i+=Math.round(st.main.length/16)){
+      const a=st.main[i-4], b=st.main[i+4], p=st.main[i]; const ang=Math.atan2(b[1]-a[1], b[0]-a[0]), L=.12*U;
+      c.beginPath(); c.moveTo(p[0]-Math.cos(ang-.5)*L, p[1]-Math.sin(ang-.5)*L); c.lineTo(p[0],p[1]); c.lineTo(p[0]-Math.cos(ang+.5)*L, p[1]-Math.sin(ang+.5)*L); c.stroke();
+    }
+    // 第 0 年的河岸（虛線）
+    const [L0,R0] = offsets(state(0,levee).main, w/2);
+    c.setLineDash([6,5]); c.strokeStyle = css('--old'); c.lineWidth = 1.4;
+    path(c,L0); c.stroke(); path(c,R0); c.stroke(); c.setLineDash([]);
+    // 堤防
+    if (levee && leveePts.length){
+      c.strokeStyle = css('--levee'); c.lineWidth = .12*U; c.lineCap='round'; path(c, leveePts); c.stroke();
+    }
+    // 橫切面位置
+    const top = st.ox ? Math.min(...st.ox.map(p=>p[1])) : Math.min(...st.main.filter(p=>Math.abs(p[0]-xc)<1.6*U).map(p=>p[1]));
+    c.strokeStyle = css('--cut'); c.lineWidth = 2.2; c.beginPath(); c.moveTo(xc, top-.55*U); c.lineTo(xc, top+.55*U); c.stroke();
+    // 房屋
+    const fy = fallYear[levee];
+    let gone = 0;
+    housesA.forEach((h,i) => {
+      const f = fy[i];
+      if (f !== null && t >= f + 12){ gone++; // 被沖走：只留原址記號
+        c.strokeStyle = css('--danger'); c.lineWidth = 2.4; const k = .09*U;
+        c.beginPath(); c.moveTo(h[0]-k,h[1]-k); c.lineTo(h[0]+k,h[1]+k); c.moveTo(h[0]+k,h[1]-k); c.lineTo(h[0]-k,h[1]+k); c.stroke();
+      } else house(c, h, f!==null && t>=f);
+    });
+    housesB.forEach(h => house(c, h, false));
+    c.font = `700 ${Math.max(13,.2*U)}px ${css('--font')}`; c.textAlign='center'; c.fillStyle = css('--fg');
+    label(c, gone === housesA.length ? '甲社區原址（房子被沖走了）' : '甲社區', housesA[1][0], housesA[1][1]-.32*U);
+    label(c, '乙社區', (housesB[0][0]+housesB[1][0])/2, housesB[1][1] + (st.cut ? -.33 : .4)*U);
+    c.font = `500 ${Math.max(12,.17*U)}px ${css('--font')}`;
+    label(c, '上游 →', .55*U, y0-.4*U);
+    label(c, '→ 下游', W-.6*U, y0-.4*U);
+    label(c, '下游的彎', xc+3.2*U, y0+ .35*U + (state(t,levee).main.reduce((m,p)=>p[0]>xc+2*U&&p[1]>m?p[1]:m, y0)-y0) + .45*U);
+    if (st.ox && st.after > .3) label(c, '牛軛湖', xc, Math.min(...st.ox.map(p=>p[1])) + .55*U);
+  }
+  function label(c, txt, x, y){
+    c.save(); c.lineWidth = 4; c.strokeStyle = css('--land'); c.strokeText(txt,x,y); c.fillText(txt,x,y); c.restore();
+  }
+  function house(c, [x,y], fallen){
+    const s = .2*U;
+    c.save(); c.translate(x,y); if (fallen){ c.rotate(.7); c.globalAlpha=.9; }
+    c.fillStyle = fallen ? css('--danger') : css('--house'); c.strokeStyle = css('--bank'); c.lineWidth=1.2;
+    c.fillRect(-s/2,-s/2,s,s*.8); c.strokeRect(-s/2,-s/2,s,s*.8);
+    c.fillStyle = css('--roof'); c.beginPath(); c.moveTo(-s*.62,-s/2); c.lineTo(0,-s*1.05); c.lineTo(s*.62,-s/2); c.closePath(); c.fill(); c.stroke();
+    c.restore();
+  }
+
+  // ---------- 橫切面 ----------
+  function drawSec(t, levee){
+    const c = sctx, SW = sec.clientWidth, SH = Math.round(SW*.78);
+    const st = state(t, levee), g = levee ? 0 : st.s;
+    c.clearRect(0,0,SW,SH);
+    c.fillStyle = css('--panel'); c.fillRect(0,0,SW,SH);
+    const X = x => SW*(.04 + .92*x), surf = SH*.36, Y = d => surf + d*SH*.5;
+    const D = .5 + .16*g;
+    // 地面與河床
+    const bed = [[0,-.2],[.08,-.2],[.12,-.02]];
+    const barTop = .02 + .18*g; // 內側沙洲長高
+    bed.push([.2, barTop*.4], [.45, .12 + barTop*.5], [.68, D*.85], [.8, D]);
+    const outerX = .86;
+    const undercut = levee ? 0 : .05 + .05*g;
+    bed.push([outerX, D*.75], [outerX + undercut, .18], [outerX, -.02], [outerX, -.2], [1,-.2]);
+    // 水
+    const fillTo = st.cut ? .7*st.after : 0;
+    c.fillStyle = st.cut ? css('--water-deep') : css('--water');
+    c.fillRect(X(.12), surf, X(outerX + undercut) - X(.12), SH*.5*D);
+    // 泥沙填積（牛軛湖）
+    if (st.cut){
+      c.fillStyle = css('--mud'); c.fillRect(X(.12), Y(D*(1-fillTo)), X(outerX)-X(.12), Y(D)-Y(D*(1-fillTo)));
+    }
+    // 河床剖面（土地）
+    c.beginPath(); c.moveTo(X(0), SH); bed.forEach(([x,d]) => c.lineTo(X(x), Y(d))); c.lineTo(X(1), SH); c.closePath();
+    c.fillStyle = css('--land'); c.fill(); c.strokeStyle = css('--bank'); c.lineWidth = 2; c.stroke();
+    // 內側沙洲（堆積的沙）
+    if (g > .02){
+      c.beginPath(); c.moveTo(X(.12), Y(-.02)); c.lineTo(X(.2), Y(barTop*.4)); c.lineTo(X(.45), Y(.12+barTop*.5)); c.lineTo(X(.62), Y(.5));
+      c.lineTo(X(.45), Y(.28+barTop*.5)); c.lineTo(X(.2), Y(.2)); c.closePath();
+      c.fillStyle = css('--sand'); c.fill();
+      c.strokeStyle = css('--sand-line'); c.lineWidth=1; for(let i=1;i<4;i++){ c.beginPath(); c.moveTo(X(.14+i*.04), Y(.02+i*.05)); c.lineTo(X(.3+i*.06), Y(.1+i*.07)); c.stroke(); }
+    }
+    // 堤防
+    if (levee){
+      c.fillStyle = css('--levee'); c.beginPath();
+      c.moveTo(X(outerX), Y(D*.75)); c.lineTo(X(outerX), Y(-.38)); c.lineTo(X(outerX+.06), Y(-.38)); c.lineTo(X(outerX+.1), Y(-.2)); c.lineTo(X(outerX+.03), Y(D*.75)); c.closePath(); c.fill();
+    }
+    // 第 0 年的外岸位置
+    if (!levee && g > .02){
+      c.setLineDash([5,4]); c.strokeStyle = css('--old'); c.lineWidth = 1.4;
+      const x0 = outerX - .22*g;
+      c.beginPath(); c.moveTo(X(x0), Y(-.2)); c.lineTo(X(x0), Y(D*.8)); c.stroke(); c.setLineDash([]);
+      c.fillStyle = css('--muted'); c.font = `${Math.max(11,SW*.032)}px ${css('--font')}`; c.textAlign='center';
+      c.fillText('第 0 年的岸', X(x0), Y(-.26));
+    }
+    // 水面線
+    c.strokeStyle = css('--water-deep'); c.lineWidth = 2; c.beginPath(); c.moveTo(X(.12), surf); c.lineTo(X(outerX+undercut), surf); c.stroke();
+    // 流速圓圈
+    if (!st.cut){
+      const xs = [.22,.36,.5,.63,.76];
+      xs.forEach((x,i) => { const v = .25 + .75*Math.pow((i+1)/xs.length, 1.6); const r = SW*.012 + SW*.03*v;
+        const y = Y(Math.min(.12 + i*.06, D*.6));
+        c.strokeStyle = '#ffffff'; c.lineWidth = 2; c.beginPath(); c.arc(X(x), y, r, 0, Math.PI*2); c.stroke();
+        c.fillStyle = '#ffffff'; c.beginPath(); c.arc(X(x), y, Math.max(2, r*.22), 0, Math.PI*2); c.fill(); });
+    }
+    // 標籤
+    c.fillStyle = css('--fg'); c.font = `500 ${Math.max(12,SW*.038)}px ${css('--font')}`;
+    c.textAlign='left'; c.fillText('乙側（內側）', X(0), Y(-.32));
+    c.textAlign='right'; c.fillText('甲側（外側）', X(1), Y(-.32));
+    c.textAlign='center';
+    const note = st.cut ? (st.after>.15 ? '牛軛湖：水不流了，泥沙慢慢填進來' : '河道被切斷，這裡的水不再流動')
+      : levee ? '堤防擋住外岸，岸不再後退' : '外側深、被掏空；內側淺、堆積沙';
+    c.fillStyle = css('--muted'); c.fillText(note, SW/2, SH - SH*.04);
+  }
+
+  // ---------- 提示 ----------
+  function prompt(t, levee){
+    const el = document.getElementById('prompt'), fy = fallYear[levee].filter(v=>v!==null), first = fy.length ? Math.min(...fy) : null;
+    let s;
+    if (levee){
+      s = t < 40 ? '蓋了堤防。按播放，看甲社區這一段、和下游的彎，各發生什麼事？'
+        : t < 150 ? '甲社區這一段的岸沒有動。下游的彎呢？看它的岸和虛線差多少。'
+        : '三百年過去，甲社區還在。可是下游的彎被沖得更凸了。關掉堤防開關，比一比下游的彎。';
+    } else if (t < 25) s = '先停在這裡猜一猜：一百年後，甲社區和乙社區，誰會先遇到麻煩？按播放看看。';
+    else if (first !== null && t >= first && t < TCUT-40) s = `第 ${first} 年，外側的河岸退到了甲社區。乙社區那一邊多了什麼？`;
+    else if (t < TCUT-40) s = '外側（甲）的岸一直往外退，虛線是第 0 年的岸。內側（乙）多出一片沙地。';
+    else if (t < TCUT) s = '彎的兩端愈靠愈近，中間只剩一條窄窄的「曲流頸」。';
+    else if (t < TCUT+25) s = `第 ${TCUT} 年，一場大水從曲流頸切過去，河道變直，舊的彎被留在旁邊。`;
+    else s = '舊河道的兩端被泥沙堵住，留下一個彎月形的湖：牛軛湖。再過很久，它會變成什麼？';
+    el.textContent = s;
+    document.getElementById('year').innerHTML = `第 ${t} 年 <small>${levee ? '有堤防' : '沒有堤防'}</small>`;
+  }
+
+  // ---------- 主流程 ----------
+  function render(){ const t = +slider.value, lv = leveeBox.checked; drawMap(t, lv); drawSec(t, lv); prompt(t, lv); }
+  function fit(){
+    const d = devicePixelRatio||1;
+    W = map.clientWidth; H = Math.round(W*.62); U = W/10;
+    map.width = W*d; map.height = H*d; map.style.height = H+'px'; mctx.setTransform(d,0,0,d,0,0);
+    const SW = sec.clientWidth, SH = Math.round(SW*.78);
+    sec.width = SW*d; sec.height = SH*d; sec.style.height = SH+'px'; sctx.setTransform(d,0,0,d,0,0);
+    layout(); render();
+  }
+  let playing = null;
+  const playBtn = document.getElementById('play');
+  function stop(){ if (playing) cancelAnimationFrame(playing); playing = null; playBtn.textContent = '播放'; }
+  function play(){
+    if (playing){ stop(); return; }
+    if (+slider.value >= TMAX) slider.value = 0;
+    if (reduce){ slider.value = TMAX; render(); return; }
+    playBtn.textContent = '暫停';
+    let last = performance.now();
+    const tick = now => { const dt = (now-last)/1000; last = now;
+      slider.value = Math.min(TMAX, +slider.value + dt*20); render();
+      if (+slider.value < TMAX) playing = requestAnimationFrame(tick); else stop(); };
+    playing = requestAnimationFrame(tick);
+  }
+  playBtn.onclick = play;
+  slider.oninput = () => { stop(); render(); };
+  leveeBox.onchange = render;
+  document.querySelectorAll('.ticks button').forEach(b => b.onclick = () => { stop(); slider.value = b.dataset.y; render(); });
+  new ResizeObserver(fit).observe(map);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+  new MutationObserver(render).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+  if (document.fonts) document.fonts.ready.then(render);
+})();
+</script>
