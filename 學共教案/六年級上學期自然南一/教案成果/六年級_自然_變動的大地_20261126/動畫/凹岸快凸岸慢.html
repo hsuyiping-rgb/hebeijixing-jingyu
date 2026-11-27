@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>凹岸快凸岸慢</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* 版面：上方步驟列；左俯視、右橫切面並排；下方是這一步的說明與提問 */
+:root{
+  --bg:#f2f4f1; --panel:#ffffff; --fg:#1c2420; --muted:#5a6762; --line:#d3dad5;
+  --accent:#2d6c66; --accent-soft:#e1eeeb;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --land:#cfdcb4; --land-dot:#bccd9c; --water:#7fb2d6; --bank:#4d5a3c;
+  --sand:#e6d39d; --sand-line:#b89f5c; --slow:#a9cfe0; --fast:#e0702f;
+  --earth:#b89a74; --earth-line:#6e5536; --cut:#c0392b; --wood:#6b4220; --grain:#8a6d2f; --arrow:#1c2420;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
+  --accent:#7cc2b8; --accent-soft:#20302d;
+  --land:#3d4a32; --land-dot:#475639; --water:#2f6f9c; --bank:#c9d6b4;
+  --sand:#8a7a4c; --sand-line:#c2ad72; --slow:#2f5f7c; --fast:#ff8a3d;
+  --earth:#5e4a36; --earth-line:#c9a77a; --cut:#ff6f66; --wood:#f3c68a; --grain:#f0d690; --arrow:#f1f5f3; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111514; --panel:#1a201e; --fg:#e4eae7; --muted:#9aa7a1; --line:#2c3532;
+  --accent:#7cc2b8; --accent-soft:#20302d;
+  --land:#3d4a32; --land-dot:#475639; --water:#2f6f9c; --bank:#c9d6b4;
+  --sand:#8a7a4c; --sand-line:#c2ad72; --slow:#2f5f7c; --fast:#ff8a3d;
+  --earth:#5e4a36; --earth-line:#c9a77a; --cut:#ff6f66; --wood:#f3c68a; --grain:#f0d690; --arrow:#f1f5f3; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6}
+.wrap{max-width:1240px;margin:0 auto;padding-block:20px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;gap:16px}
+header{display:grid;gap:6px}
+.eyebrow{font-size:.82rem;letter-spacing:.08em;color:var(--muted)}
+h1{margin:0;font-size:clamp(1.6rem,3.2vw,2.3rem);text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:66ch}
+.steps{display:flex;flex-wrap:wrap;gap:8px}
+.steps button{font:inherit;cursor:pointer;border-radius:10px;padding:8px 14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);display:flex;gap:8px;align-items:center;text-align:left}
+.steps button b{display:inline-grid;place-items:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.9rem;flex:none}
+.steps button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--panel)}
+.steps button[aria-pressed="true"] b{background:var(--panel);color:var(--accent)}
+.stage{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+@media (max-width:860px){.stage{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0;align-content:start}
+.card h2{margin:0;font-size:1.05rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.card h2 span{font-size:.85rem;color:var(--muted);font-weight:400}
+canvas{width:100%;display:block;border-radius:8px}
+.row{display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center}
+button.b{font:inherit;cursor:pointer;border-radius:8px;padding:6px 14px;border:1px solid var(--accent);background:var(--accent);color:var(--panel)}
+button.b.ghost{background:transparent;color:var(--accent)}
+button.b[aria-pressed="true"].ghost{background:var(--accent);color:var(--panel)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+input[type=range]{flex:1 1 220px;accent-color:var(--accent);min-width:0}
+.yr{font-weight:700;font-variant-numeric:tabular-nums;min-width:7.5em}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.86rem;color:var(--muted);align-items:center}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.ramp{width:90px;height:10px;border-radius:3px;background:linear-gradient(90deg,var(--slow),var(--fast));border:1px solid var(--line)}
+.legend i{width:14px;height:8px;border-radius:2px;display:inline-block}
+.gauges{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;font-size:.9rem}
+.gauges .g{height:12px;border-radius:6px;background:var(--accent-soft);overflow:hidden;min-width:0}
+.gauges .g i{display:block;height:100%;width:0;border-radius:6px}
+.gauges .gd i{background:var(--water)}
+.gauges .gv i{background:var(--fast)}
+.gauges .t{color:var(--muted);font-variant-numeric:tabular-nums;min-width:4.5em;text-align:right}
+.gauges .h{font-weight:700;grid-column:1/-1;margin-top:4px}
+.explain{display:grid;gap:10px}
+.explain h3{margin:0;font-size:1.25rem}
+.explain p{margin:0;max-width:70ch}
+.ask{padding:10px 12px;border-radius:8px;background:var(--accent-soft)}
+.ask b{color:var(--accent)}
+.loops{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.loop{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.loop h4{margin:0 0 6px;font-size:1rem}
+.loop ol{margin:0;padding-left:1.4em;display:grid;gap:2px}
+.loop li{padding:1px 6px;border-radius:6px;transition:background .3s}
+.loop li.on{background:var(--accent-soft);font-weight:700}
+.loop .back{font-size:.85rem;color:var(--muted);margin-top:4px}
+footer{font-size:.85rem;color:var(--muted);display:grid;gap:4px;max-width:90ch}
+@media (prefers-reduced-motion: reduce){.loop li{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">六上自然・變動的大地・2-2 河川曲流</div>
+    <h1>為什麼凹岸流得快、凸岸流得慢？</h1>
+    <p class="lead">課本說「凹岸侵蝕、凸岸堆積」。這背後是彎道裡的水怎麼流。依序看四個步驟：左邊從空中往下看，右邊把河道切開來看。</p>
+  </header>
+
+  <nav class="steps" aria-label="說明步驟">
+    <button type="button" data-step="1" aria-pressed="true"><b>1</b>水想直直往前衝</button>
+    <button type="button" data-step="2" aria-pressed="false"><b>2</b>彎道裡的水在打轉</button>
+    <button type="button" data-step="3" aria-pressed="false"><b>3</b>越快越深、越慢越淺</button>
+    <button type="button" data-step="4" aria-pressed="false"><b>4</b>常見迷思：外側路比較長？</button>
+  </nav>
+
+  <div class="stage">
+    <section class="card">
+      <h2>從空中往下看 <span>水從左上流進來，繞一個彎，從左下流出去</span></h2>
+      <canvas id="plan" aria-label="彎道俯視圖：顏色表示流速，木屑隨水漂流"></canvas>
+      <div class="legend">
+        <span>流速</span><span>慢</span><span class="ramp"></span><span>快</span>
+        <span><i style="background:var(--wood)"></i>漂流木屑</span>
+        <span><i style="background:var(--sand)"></i>堆積的沙</span>
+      </div>
+      <div class="row">
+        <button type="button" class="b" id="play">暫停</button>
+        <button type="button" class="b ghost" id="spray">撒一排木屑</button>
+        <button type="button" class="b ghost" id="slowmo" aria-pressed="false">慢動作</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>把彎頂切開來看 <span>站在下游，面向上游看</span></h2>
+      <canvas id="sec" aria-label="彎頂橫切面：水流、河床形狀與沙的移動"></canvas>
+      <div class="row" id="timeRow" hidden>
+        <span class="yr" id="yr">剛開始</span>
+        <input type="range" id="time" min="0" max="100" value="0" aria-label="時間（示意）">
+        <button type="button" class="b ghost" id="grow">播放</button>
+      </div>
+      <div class="gauges" aria-live="off">
+        <div class="h">凹岸（外側）</div>
+        <span>水深</span><div class="g gd"><i id="dOut"></i></div><span class="t" id="tdOut"></span>
+        <span>流速</span><div class="g gv"><i id="vOut"></i></div><span class="t" id="tvOut"></span>
+        <div class="h">凸岸（內側）</div>
+        <span>水深</span><div class="g gd"><i id="dIn"></i></div><span class="t" id="tdIn"></span>
+        <span>流速</span><div class="g gv"><i id="vIn"></i></div><span class="t" id="tvIn"></span>
+      </div>
+    </section>
+  </div>
+
+  <section class="card">
+    <div class="explain" data-ex="1">
+      <h3>1　水想直直往前衝</h3>
+      <p>水本來沿著直的河道往前流。河道一轉彎，跑得最快、水量最多的那股主流還想照原來的方向前進，就被「甩」到彎道外側，貼著凹岸流。這跟坐車急轉彎時，身體被往外推是同一件事。</p>
+      <p>看左圖：紅色虛線是水想走的方向，黑色虛線是最快的那股水。按「撒一排木屑」，同時出發的木屑進了彎道後，外側的跑到前面去了。</p>
+      <div class="ask"><b>想一想：</b>坐車轉彎時，你的身體會被推向哪一邊？河裡的水呢？</div>
+    </div>
+    <div class="explain" data-ex="2" hidden>
+      <h3>2　彎道裡的水在打轉</h3>
+      <p>主流擠向外側，外側的水面會被擠高一點點。表層的水撞上凹岸後往下鑽，挖岸腳、掏河床，這是<b>侵蝕</b>。往下鑽的水再貼著河底流回內側，速度已經慢下來，帶著的沙就留在凸岸，這是<b>堆積</b>。</p>
+      <p>看右圖：小白點是水，繞著一個圈在轉；咖啡色顆粒是從凹岸挖下來的沙，被底層的水送到凸岸。整個彎道的水一邊往下游流、一邊打轉，像一條躺著的螺旋。</p>
+      <div class="ask"><b>想一想：</b>沙是從凹岸被挖走的，為什麼最後會堆在對面的凸岸，不是留在原地？</div>
+    </div>
+    <div class="explain" data-ex="3" hidden>
+      <h3>3　越快越深、越慢越淺</h3>
+      <p>水會被河床和河岸「拖住」，這叫摩擦。水越淺，被拖住的比例越大。凹岸被挖深，水流得更快；凸岸被沙墊高，水流得更慢。快的更快、慢的更慢，這個彎就越來越彎。拖動右圖的時間，看兩邊的水深和流速怎麼變。</p>
+      <div class="loops">
+        <div class="loop"><h4>凹岸（外側）</h4><ol data-loop="out"><li>水流得快</li><li>挖走岸腳和河床</li><li>水變深，被拖住的比例變小</li><li>水流得更快</li></ol><div class="back">↺ 回到第一格，一直循環</div></div>
+        <div class="loop"><h4>凸岸（內側）</h4><ol data-loop="in"><li>水流得慢</li><li>帶來的沙沉下來</li><li>水變淺，被拖住的比例變大</li><li>水流得更慢</li></ol><div class="back">↺ 回到第一格，一直循環</div></div>
+      </div>
+      <div class="ask"><b>想一想：</b>如果一直這樣下去，這個彎會變成什麼樣子？住在凹岸的人家會遇到什麼事？</div>
+    </div>
+    <div class="explain" data-ex="4" hidden>
+      <h3>4　常見迷思：「外側的路比較長，水要流快一點才跟得上」</h3>
+      <p>這個說法聽起來很合理，但水不需要排隊、也不需要跟上誰。看左圖入口的直河段：兩邊的路一樣長，可是中間的水還是最快、靠岸邊最慢。木屑一起出發，到了直的河段就排成一個弧形。</p>
+      <p>快慢的原因是第 1 步的<b>慣性</b>（主流被甩到外側）和第 3 步的<b>摩擦</b>（淺的地方被拖住），不是路的長短。</p>
+      <div class="ask"><b>想一想：</b>如果有同學說「因為外側路比較長」，你可以用左圖哪一段河道反駁他？</div>
+    </div>
+  </section>
+
+  <footer>
+    <div>這是示意動畫，不按比例。水面高低差畫得誇張很多，真實河流只差幾公分到幾十公分。流速顏色由簡化模型算出，不是實測數據。</div>
+    <div>真實河流中，剛進彎道時內側的水有時反而稍快，最快的水要過了彎頂才最貼近凹岸。國小階段掌握「凹岸快、侵蝕；凸岸慢、堆積」即可。</div>
+    <div>搭配：候選二〈堤防蓋哪一邊〉砂盤兩岸插牙籤的實驗，以及〈曲流百年縮時〉看彎道幾百年後的樣子。</div>
+  </footer>
+</div>
+
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TK=['bg','panel','fg','muted','line','accent','land','land-dot','water','bank','sand','sand-line','slow','fast','earth','earth-line','cut','wood','grain','arrow'];
+let T={}, HC={}, heat=null, heatDirty=true;
+let step=1, playing=!reduce, slowmo=false, year=60, m=0.6, growPlaying=false, rowTimer=0;
+function readT(){const cs=getComputedStyle(document.documentElement);TK.forEach(k=>T[k]=cs.getPropertyValue('--'+k).trim());HC={};heatDirty=true;}
+function rgb(c){if(HC[c])return HC[c];let h=c.replace('#','');if(h.length===3)h=[...h].map(x=>x+x).join('');return HC[c]=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));}
+function mix(a,b,t){const A=rgb(a),B=rgb(b);t=Math.max(0,Math.min(1,t));return 'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(',')+')';}
+function rgba(c,a){const A=rgb(c);return `rgba(${A[0]},${A[1]},${A[2]},${a})`;}
+const rand=(a,b)=>a+Math.random()*(b-a);
+
+const plan=$('plan'), sec=$('sec');
+let P={}, S={};
+function fit(cv,ratio){const w=cv.clientWidth;const h=Math.round(w*ratio);cv.style.height=h+'px';const d=Math.min(2,window.devicePixelRatio||1);cv.width=Math.max(1,Math.round(w*d));cv.height=Math.max(1,Math.round(h*d));const ctx=cv.getContext('2d');ctx.setTransform(d,0,0,d,0,0);return {ctx,W:w,H:h,d};}
+function resize(){
+  const a=fit(plan,0.74);P=a;const W=a.W,H=a.H;
+  P.R=0.24*H;P.hw=0.1*H;P.cy=0.52*H;P.cx=W-(P.R+P.hw)-0.05*W;P.L1=P.cx;P.LA=Math.PI*P.R;P.L=P.L1*2+P.LA;
+  P.fs=Math.max(12,Math.min(17,W*0.027));
+  const b=fit(sec,0.74);S=b;S.fs=Math.max(12,Math.min(17,b.W*0.03));
+  heatDirty=true;
+}
+
+/* ---------- 俯視幾何：s 沿河道中線，n=-1 內側(凸岸) … +1 外側(凹岸) ---------- */
+function pos(s,n){const {R,hw,cx,cy,L1,LA}=P;
+  if(s<L1)return [s,cy-(R+n*hw),1,0];
+  if(s<L1+LA){const th=-Math.PI/2+(s-L1)/R,r=R+n*hw;return [cx+r*Math.cos(th),cy+r*Math.sin(th),-Math.sin(th),Math.cos(th)];}
+  const t=s-L1-LA;return [cx-t,cy+(R+n*hw),-1,0];}
+function cOf(s){const {R,L1,LA}=P;if(s<L1)return 0;
+  if(s<L1+LA){const k=Math.min(1,(s-L1)/LA/0.55);return 0.62*k*k*(3-2*k);}
+  return 0.62*Math.exp(-(s-L1-LA)/(1.3*R));}
+function F(n,c){const z=(n-c)/(1+Math.abs(c)*0.6);return Math.max(0.12,1-0.9*z*z);}
+function barW(s){if(s<P.L1||s>P.L1+P.LA)return 0;const p=(s-P.L1)/P.LA;return 0.6*m*Math.pow(Math.sin(Math.PI*p),0.8);}
+
+function buildHeat(){
+  heat=document.createElement('canvas');heat.width=plan.width;heat.height=plan.height;
+  const g=heat.getContext('2d');g.setTransform(P.d,0,0,P.d,0,0);const ds=4;
+  for(let s=0;s<P.L;s+=ds){const c=cOf(s+ds/2),s2=Math.min(P.L,s+ds+0.6);
+    for(let k=0;k<10;k++){const n0=-1+k*0.2,n1=n0+0.2,f=F(n0+0.1,c),col=mix(T.slow,T.fast,(f-0.12)/0.88);
+      const a=pos(s,n0),b=pos(s2,n0),cc=pos(s2,n1),d=pos(s,n1);
+      g.fillStyle=col;g.strokeStyle=col;g.lineWidth=0.8;g.beginPath();g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);g.lineTo(cc[0],cc[1]);g.lineTo(d[0],d[1]);g.closePath();g.fill();g.stroke();}}
+  heatDirty=false;}
+
+function label(ctx,text,x,y,o={}){
+  const fs=o.fs||12;ctx.font=`${o.bold?700:500} ${fs}px ${getComputedStyle(document.body).fontFamily}`;
+  const w=ctx.measureText(text).width,pad=4,cw=ctx.canvas.width/ctx.getTransform().a;
+  let left=o.align==='right'?x-w:o.align==='center'?x-w/2:x;left=Math.max(3,Math.min(cw-w-3,left));
+  if(o.halo!==false){ctx.fillStyle=rgba(T.panel,0.86);ctx.beginPath();ctx.roundRect(left-pad,y-fs+1-pad/2,w+pad*2,fs+pad+2,4);ctx.fill();}
+  ctx.fillStyle=o.color||T.fg;ctx.textBaseline='alphabetic';ctx.textAlign='left';ctx.fillText(text,left,y);}
+function arrow(ctx,x0,y0,x1,y1,col,lw,head){
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
+  const a=Math.atan2(y1-y0,x1-x0),h=head||lw*3.2;ctx.setLineDash([]);ctx.beginPath();ctx.moveTo(x1,y1);
+  ctx.lineTo(x1-h*Math.cos(a-0.45),y1-h*Math.sin(a-0.45));ctx.lineTo(x1-h*Math.cos(a+0.45),y1-h*Math.sin(a+0.45));ctx.closePath();ctx.fill();}
+
+/* ---------- 木屑 ---------- */
+let chips=[];
+function seed(){chips=[];for(let i=0;i<140;i++)chips.push({q:Math.random(),n:rand(-0.92,0.92),hl:false});}
+function sprayRow(){chips=chips.filter(c=>!c.hl);for(let i=0;i<9;i++)chips.push({q:0.012,n:-0.85+i*0.2125,hl:true});rowTimer=0;}
+function updChips(dt){const V=0.3*P.W,{R,hw,L1,LA,L}=P;
+  for(const c of chips){const s=c.q*L,n=Math.max(c.n,-1+barW(s)+0.08),f=F(n,cOf(s));let ds=V*f*dt;
+    if(s>=L1&&s<L1+LA)ds*=R/(R+n*hw);c.q+=ds/L;
+    if(c.q>=1){if(c.hl)c.dead=true;else{c.q-=1;c.n=rand(-0.92,0.92);}}}
+  chips=chips.filter(c=>!c.dead);
+  if((step===1||step===4)&&!chips.some(c=>c.hl)){rowTimer+=dt;if(rowTimer>1.2)sprayRow();}}
+
+function drawPlan(){
+  const {ctx,W,H,R,hw,cx,cy,L1,LA,L,fs}=P;if(heatDirty)buildHeat();
+  ctx.fillStyle=T.land;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=T['land-dot'];for(let i=6,r=0;i<W;i+=20,r++)for(let j=6+(r%2)*10;j<H;j+=20)ctx.fillRect(i,j,2,2);
+  ctx.drawImage(heat,0,0,W,H);
+  // 凸岸沙洲
+  if(m>0.02){ctx.beginPath();for(let s=L1;s<=L1+LA;s+=3){const p=pos(s,-1);s===L1?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1]);}
+    for(let s=L1+LA;s>=L1;s-=3){const p=pos(s,-1+barW(s));ctx.lineTo(p[0],p[1]);}
+    ctx.closePath();ctx.fillStyle=T.sand;ctx.fill();ctx.strokeStyle=T['sand-line'];ctx.lineWidth=1;ctx.stroke();}
+  // 河岸線
+  for(const n of [-1,1]){ctx.beginPath();for(let s=0;s<=L;s+=4){const p=pos(s,n);s?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);}
+    ctx.strokeStyle=T.bank;ctx.lineWidth=2;ctx.stroke();}
+  // 凹岸崩落痕
+  const nk=Math.round(16*m);ctx.strokeStyle=T['earth-line'];ctx.lineWidth=1.5;
+  for(let i=0;i<nk;i++){const s=L1+LA*(0.25+0.65*i/Math.max(1,nk-1)),a=pos(s,1.02),b=pos(s,1.22);
+    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0]+(i%2?3:-3),b[1]);ctx.stroke();}
+  // 最快的水
+  if(step!==4){ctx.save();ctx.setLineDash([7,6]);ctx.beginPath();for(let s=0;s<=L;s+=5){const p=pos(s,cOf(s));s?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);}
+    ctx.strokeStyle=T.arrow;ctx.globalAlpha=0.6;ctx.lineWidth=2;ctx.stroke();ctx.restore();
+    const p=pos(L1+LA*0.3,cOf(L1+LA*0.3));label(ctx,'最快的水',p[0]-hw*0.2,p[1]+fs*0.4,{fs:fs*0.9,align:'right',bold:true,d:1});}
+  // 木屑
+  const hl=[];
+  for(const c of chips){const s=c.q*L,n=Math.max(c.n,-1+barW(s)+0.08),p=pos(s,n);
+    ctx.save();ctx.translate(p[0],p[1]);ctx.rotate(Math.atan2(p[3],p[2]));
+    if(c.hl){hl.push({n:c.n,x:p[0],y:p[1]});ctx.fillStyle=T.wood;ctx.strokeStyle=T.panel;ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(-7,-3.5,14,7,2);ctx.fill();ctx.stroke();}
+    else{ctx.globalAlpha=0.75;ctx.fillStyle=T.wood;ctx.fillRect(-4.5,-1.6,9,3.2);}
+    ctx.restore();}
+  if(hl.length>1){hl.sort((a,b)=>a.n-b.n);ctx.beginPath();hl.forEach((h,i)=>i?ctx.lineTo(h.x,h.y):ctx.moveTo(h.x,h.y));
+    ctx.strokeStyle=T.cut;ctx.lineWidth=2;ctx.stroke();
+    const top=hl[hl.length-1];label(ctx,'一起出發的木屑',top.x,top.y-hw*0.55,{fs:fs*0.85,align:'center',color:T.cut,bold:true,d:1});}
+  // 流速剖面箭頭
+  const prof=(s,emph)=>{const c=cOf(s),a=pos(s,-1),b=pos(s,1);ctx.save();ctx.setLineDash([3,4]);ctx.strokeStyle=T.arrow;ctx.globalAlpha=0.5;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();ctx.restore();
+      for(const n of [-0.8,-0.4,0,0.4,0.8]){const p=pos(s,n),f=F(n,c),len=f*R*(emph?0.75:0.55);
+        arrow(ctx,p[0],p[1],p[0]+p[2]*len,p[1]+p[3]*len,T.arrow,emph?2.6:2,emph?9:7);}};
+  if(step===1){prof(L1*0.45);prof(L1+LA*0.62);prof(L1+LA+R*0.9);}
+  if(step===4){prof(L1*0.5,true);const p=pos(L1*0.5,-1);label(ctx,'直的河段：兩邊路一樣長，還是中間最快',p[0],p[1]+fs*1.6,{fs:fs*0.95,align:'center',bold:true,d:1});}
+  // 慣性箭頭
+  if(step===1){const y=cy-R,x0=cx-0.7*R,x1=cx+Math.sqrt((R+hw)**2-R*R);ctx.save();ctx.setLineDash([9,6]);arrow(ctx,x0,y,x1-4,y,T.cut,3.2,13);ctx.restore();
+    ctx.strokeStyle=T.cut;ctx.lineWidth=2.4;for(const a of [-0.9,-0.3,0.3,0.9]){ctx.beginPath();ctx.moveTo(x1+4*Math.cos(a),y+4*Math.sin(a));ctx.lineTo(x1+13*Math.cos(a),y+13*Math.sin(a));ctx.stroke();}
+    label(ctx,'水想照原方向直直衝，撞上外側河岸',(x0+x1)/2,y-hw-fs*0.7,{fs,align:'center',color:T.cut,bold:true,d:1});}
+  // 橫切線
+  const sa=L1+LA/2,a=pos(sa,-1.3),b=pos(sa,1.3);ctx.strokeStyle=T.cut;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();
+  label(ctx,'右圖切這條紅線',a[0]-6,a[1]-8,{fs:fs*0.85,align:'right',color:T.cut,d:1});
+  // 岸名、進出
+  label(ctx,'凸岸（內側）',cx-R+hw-8,cy+fs*1.5,{fs,align:'right',bold:true,d:1});
+  {const s=L1+LA*0.2,p=pos(s,1);const th=-Math.PI/2+(s-L1)/R;label(ctx,'凹岸（外側）',p[0]+Math.cos(th)*fs*1.6,p[1]+Math.sin(th)*fs*1.6,{fs,align:'center',bold:true,d:1});}
+  label(ctx,'水流進來 →',6,cy-R-hw-8,{fs:fs*0.85,d:1});
+  label(ctx,'← 水流出去',6,cy+R+hw+fs+6,{fs:fs*0.85,d:1});
+}
+
+/* ---------- 橫切面 ---------- */
+const X=x=>S.W*(0.1+0.8*x), gy=()=>S.H*0.26;
+const Dsym=x=>0.44*(1-Math.pow(2*x-1,4)), Dasym=x=>0.86*Math.pow(x,1.4)*(1-Math.pow(x,10));
+const bedAt=(x,mm)=>gy()+S.H*((1-mm)*Dsym(x)+mm*Dasym(x));
+const bed=x=>bedAt(x,m), surf=x=>gy()+S.H*(0.1-0.035*(2*x-1)), wd=x=>Math.max(0,bed(x)-surf(x));
+let xw0=0,xw1=1,maxWd=1;
+function wet(){xw0=-1;xw1=1;maxWd=1;for(let i=0;i<=400;i++){const x=i/400,d=wd(x);if(d>0.5){if(xw0<0)xw0=x;xw1=x;}if(d>maxWd)maxWd=d;}if(xw0<0)xw0=0;}
+function U(x,zf){const f=F(2*x-1,0.62),dd=Math.pow(wd(x)/maxWd,0.5);return f*(0.3+0.7*dd)*(1-0.55*Math.pow(zf,2.5));}
+const psi=(xt,z)=>Math.sin(Math.PI*xt)*Math.sin(Math.PI*z);
+function toScr(xt,z){const x=xw0+xt*(xw1-xw0),t=surf(x);return [X(x),t+z*wd(x)];}
+
+let tracers=[],grains=[],grainT=0;
+function seedTracers(){tracers=[];for(let i=0;i<55;i++){let xt,z;do{xt=Math.random();z=Math.random();}while(psi(xt,z)<0.12||psi(xt,z)>0.85);tracers.push({xt,z,tr:[]});}}
+function updSec(dt){
+  const A=0.32;
+  for(const p of tracers){const dx=A*Math.sin(Math.PI*p.xt)*Math.cos(Math.PI*p.z),dz=-A*Math.cos(Math.PI*p.xt)*Math.sin(Math.PI*p.z)*1.3;
+    p.xt=Math.min(0.985,Math.max(0.015,p.xt+dx*dt));p.z=Math.min(0.985,Math.max(0.015,p.z+dz*dt));
+    p.tr.push(toScr(p.xt,p.z));if(p.tr.length>9)p.tr.shift();}
+  if(step===2||step===3){grainT+=dt;if(grainT>0.45){grainT=0;const x=0.965,top=surf(x),b=bed(x);grains.push({x,y:rand(top+(b-top)*0.25,b-(b-top)*0.1),ph:0,life:2.2});}}
+  for(const g of grains){
+    if(g.ph===0){g.y+=S.H*0.12*dt;g.x-=0.01*dt;const b=bed(g.x)-2.5;if(g.y>=b){g.y=b;g.ph=1;}}
+    else if(g.ph===1){const v=0.11*Math.pow(wd(g.x)/maxWd,0.6)+0.012;g.x-=v*dt;g.y=bed(g.x)-2.5;if(wd(g.x)<0.32*maxWd||g.x<=xw0+0.01)g.ph=2;}
+    else{g.life-=dt;g.y=bed(g.x)-2.5;}}
+  grains=grains.filter(g=>g.life>0);}
+
+function drawSec(){
+  const {ctx,W,H,fs}=S;wet();const G=gy();
+  ctx.fillStyle=T.panel;ctx.fillRect(0,0,W,H);
+  // 地面
+  ctx.beginPath();ctx.moveTo(0,G);ctx.lineTo(X(0),G);for(let i=0;i<=200;i++){const x=i/200;ctx.lineTo(X(x),bed(x));}
+  ctx.lineTo(X(1),G);ctx.lineTo(W,G);ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fillStyle=T.earth;ctx.fill();
+  // 堆積的沙（比原本河床高出來的部分）
+  ctx.beginPath();let started=false;const pts=[];
+  for(let i=0;i<=200;i++){const x=i/200,b=bed(x),o=bedAt(x,0);if(b<o-0.5)pts.push([x,b,o]);}
+  if(pts.length>2){pts.forEach((p,i)=>i?ctx.lineTo(X(p[0]),p[1]):ctx.moveTo(X(p[0]),p[1]));for(let i=pts.length-1;i>=0;i--)ctx.lineTo(X(pts[i][0]),pts[i][2]);
+    ctx.closePath();ctx.fillStyle=T.sand;ctx.fill();started=true;}
+  // 水（流速顏色）
+  const c=5;for(let px=X(xw0);px<X(xw1);px+=c){const x=((px+c/2)/W-0.1)/0.8,top=surf(x),bt=bed(x);if(bt<=top)continue;
+    for(let py=top;py<bt;py+=c){const zf=(py+c/2-top)/(bt-top);ctx.fillStyle=mix(T.slow,T.fast,U(x,zf));ctx.fillRect(px,py,c+0.6,Math.min(c+0.6,bt-py));}}
+  // 河床線、水面線
+  ctx.beginPath();ctx.moveTo(0,G);ctx.lineTo(X(0),G);for(let i=0;i<=200;i++){const x=i/200;ctx.lineTo(X(x),bed(x));}ctx.lineTo(X(1),G);ctx.lineTo(W,G);
+  ctx.strokeStyle=T['earth-line'];ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(X(xw0),surf(xw0));ctx.lineTo(X(xw1),surf(xw1));ctx.strokeStyle=T.water;ctx.lineWidth=2.5;ctx.stroke();
+  // 原本的河床
+  if(step===3){ctx.save();ctx.setLineDash([6,5]);ctx.beginPath();for(let i=0;i<=200;i++){const x=i/200;i?ctx.lineTo(X(x),bedAt(x,0)):ctx.moveTo(X(x),bedAt(x,0));}
+    ctx.strokeStyle=T.arrow;ctx.globalAlpha=0.55;ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
+    if(m>0.15)label(ctx,'虛線＝原本的河床',X(0.5),bedAt(0.5,0)+fs*1.5,{fs:fs*0.85,align:'center',d:1});}
+  // 打轉的水
+  if(step===2||step===3){
+    const ring=[];for(let k=0;k<=72;k++){const a=-Math.PI/2+k/72*2*Math.PI;let lo=0,hi=0.5;for(let j=0;j<18;j++){const r=(lo+hi)/2;psi(0.5+r*Math.cos(a),0.5+r*Math.sin(a))>0.35?lo=r:hi=r;}
+      ring.push(toScr(0.5+lo*Math.cos(a),0.5+lo*Math.sin(a)));}
+    ctx.save();ctx.globalAlpha=step===2?0.9:0.45;ctx.beginPath();ring.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle=T.arrow;ctx.lineWidth=2.5;ctx.stroke();
+    for(const k of [4,22,40,58]){const p=ring[k],q=ring[k+2];arrow(ctx,p[0],p[1],q[0],q[1],T.arrow,2.5,11);}ctx.restore();
+    ctx.fillStyle=T.panel;for(const p of tracers){if(p.tr.length<2)continue;ctx.globalAlpha=step===2?0.95:0.5;ctx.beginPath();p.tr.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));
+      ctx.strokeStyle=rgba(T.panel,0.7);ctx.lineWidth=1.5;ctx.stroke();const h=p.tr[p.tr.length-1];ctx.beginPath();ctx.arc(h[0],h[1],2.4,0,7);ctx.fill();}
+    ctx.globalAlpha=1;}
+  // 沙粒
+  for(const g of grains){ctx.globalAlpha=g.ph===2?Math.max(0,g.life/2.2):1;ctx.fillStyle=T.grain;ctx.beginPath();ctx.arc(X(g.x),g.y,3,0,7);ctx.fill();}ctx.globalAlpha=1;
+  // 標籤
+  label(ctx,'凸岸（內側）',X(0)-S.W*0.06,G-10,{fs,bold:true,d:1});
+  label(ctx,'凹岸（外側）',X(1)+S.W*0.06,G-10,{fs,align:'right',bold:true,d:1});
+  if(step===2){
+    label(ctx,'外側水面被擠高一點（畫得誇張）',X(0.97),surf(0.97)-6,{fs:fs*0.8,align:'right',d:1});
+    let p=toScr(0.5,0.13);label(ctx,'表層水流向凹岸 →',p[0],p[1]+fs*0.35,{fs:fs*0.85,align:'center',bold:true,d:1});
+    p=toScr(0.93,0.62);label(ctx,'往下鑽、掏挖 ↓',p[0],p[1],{fs:fs*0.85,align:'right',bold:true,d:1});
+    p=toScr(0.5,0.9);label(ctx,'← 底層水流回凸岸，帶著沙',p[0],p[1]+fs*1.9,{fs:fs*0.85,align:'center',bold:true,color:T.fg,d:1});}
+  if(step===1){const p=toScr(0.72,0.45);label(ctx,'最快的水貼著凹岸',p[0],p[1],{fs:fs*0.9,align:'center',bold:true,d:1});}
+}
+
+/* ---------- 量表 ---------- */
+function gauges(){const xo=0.82,xi=0.22,mx=S.H*0.5;
+  const dO=wd(xo)/mx,dI=wd(xi)/mx,vO=wd(xo)>0?U(xo,0.3):0,vI=wd(xi)>0?U(xi,0.3):0;
+  $('dOut').style.width=Math.min(100,dO*100)+'%';$('dIn').style.width=Math.min(100,dI*100)+'%';
+  $('vOut').style.width=Math.min(100,vO*100)+'%';$('vIn').style.width=Math.min(100,vI*100)+'%';
+  const dw=v=>v<0.02?'露出水面':v<0.25?'淺':v<0.55?'中等':'深',vw=v=>v<0.02?'沒有水':v<0.35?'慢':v<0.65?'中等':'快';
+  $('tdOut').textContent=dw(dO);$('tdIn').textContent=dw(dI);$('tvOut').textContent=vw(vO);$('tvIn').textContent=vw(vI);}
+
+/* ---------- 迴圈圖 ---------- */
+let loopI=0,loopT=0;
+function loops(dt){loopT+=dt;if(loopT>1.4){loopT=0;loopI=(loopI+1)%4;}
+  document.querySelectorAll('[data-loop] li').forEach((li,i)=>li.classList.toggle('on',(i%4)===loopI));}
+
+/* ---------- 控制 ---------- */
+function setYear(y){year=Math.max(0,Math.min(100,y));m=year/100;$('time').value=Math.round(year);
+  $('yr').textContent=year<1?'剛開始':year>=100?'很多年後':'經過一段時間';}
+function setStep(n){step=n;document.querySelectorAll('.steps button').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.step===n)));
+  document.querySelectorAll('[data-ex]').forEach(e=>e.hidden=+e.dataset.ex!==n);
+  $('timeRow').hidden=n!==3;grains=[];
+  if(n===3){setYear(0);growPlaying=!reduce;$('grow').textContent=growPlaying?'暫停':'播放';}
+  if(n===1||n===4)sprayRow();}
+document.querySelectorAll('.steps button').forEach(b=>b.addEventListener('click',()=>setStep(+b.dataset.step)));
+$('play').addEventListener('click',()=>{playing=!playing;$('play').textContent=playing?'暫停':'播放';});
+$('spray').addEventListener('click',()=>{sprayRow();if(!playing){playing=true;$('play').textContent='暫停';}});
+$('slowmo').addEventListener('click',()=>{slowmo=!slowmo;$('slowmo').setAttribute('aria-pressed',String(slowmo));});
+$('time').addEventListener('input',e=>{growPlaying=false;$('grow').textContent='播放';setYear(+e.target.value);});
+$('grow').addEventListener('click',()=>{if(year>=100)setYear(0);growPlaying=!growPlaying;$('grow').textContent=growPlaying?'暫停':'播放';});
+
+readT();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readT);
+new MutationObserver(readT).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+resize();new ResizeObserver(()=>resize()).observe(document.querySelector('.stage'));
+seed();seedTracers();sprayRow();
+// 靜態第一格：讓木屑排先走進彎道
+for(let i=0;i<40;i++)updChips(0.05);
+for(let i=0;i<20;i++)updSec(0.05);
+$('play').textContent=playing?'暫停':'播放';
+let last=performance.now();
+function frame(t){const dt=Math.min(0.05,(t-last)/1000);last=t;const k=slowmo?0.35:1;
+  if(playing){updChips(dt*k);updSec(dt*k);}
+  if(step===3&&growPlaying){setYear(year+dt*k*12);if(year>=100){growPlaying=false;$('grow').textContent='重播';}}
+  if(step===3&&!reduce)loops(dt);
+  drawPlan();drawSec();gauges();requestAnimationFrame(frame);}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
